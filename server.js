@@ -52,6 +52,62 @@ app.get('/userinfo', (req, res) => {
     }
 });
 
+app.get('/stages', (req, res) => {
+    if (req.session.is_logined) {
+        const language = req.query.language;
+        const quizTable = `${language}quiz`;  // 동적으로 테이블 이름을 설정
+        const progressField = `${language}st`;
+        
+        db.query(`SELECT ${progressField} FROM users WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
+            if (error) throw error;
+            const userProgress = results[0][progressField];
+            db.query(`SELECT id FROM ${quizTable}`, function(error, results, fields) {
+                if (error) throw error;
+                res.json({ stages: results, userProgress });
+            });
+        });
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
+});
+
+app.get('/quiz/:stageId', (req, res) => {
+    const stageId = req.params.stageId;
+    const language = req.query.language;
+    const quizTable = `${language}quiz`;  // 동적으로 테이블 이름을 설정
+    
+    db.query(`SELECT * FROM ${quizTable} WHERE id = ?`, [stageId], function(error, results, fields) {
+        if (error) throw error;
+        if (results.length > 0) {
+            res.json(results[0]);
+        } else {
+            res.status(404).json({ error: 'Quiz not found' });
+        }
+    });
+});
+
+app.post('/submit', (req, res) => {
+    const { stageId, answer, language } = req.body;
+    const quizTable = `${language}quiz`;
+    const progressField = `${language}st`;
+    
+    if (req.session.is_logined) {
+        db.query(`SELECT answer FROM ${quizTable} WHERE id = ?`, [stageId], function(error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0 && results[0].answer === answer) {
+                db.query(`UPDATE users SET ${progressField} = ${progressField} + 1 WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
+                    if (error) throw error;
+                    res.json({ correct: true });
+                });
+            } else {
+                res.json({ correct: false });
+            }
+        });
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
+});
+
 app.get('/logout', function (req, res) {
     req.session.destroy(function (err) {
         res.redirect('/');
