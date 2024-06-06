@@ -95,9 +95,18 @@ app.post('/submit', (req, res) => {
         db.query(`SELECT answer FROM ${quizTable} WHERE id = ?`, [stageId], function(error, results, fields) {
             if (error) throw error;
             if (results.length > 0 && results[0].answer === answer) {
-                db.query(`UPDATE users SET ${progressField} = ${progressField} + 1 WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
+                db.query(`SELECT ${progressField} FROM users WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
                     if (error) throw error;
-                    res.json({ correct: true });
+                    const userProgress = results[0][progressField];
+                    let updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1 WHERE username = ?`;
+                    if (userProgress < stageId) {
+                        // 최초 성공 시 코인과 경험치 지급
+                        updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = experience + 50 WHERE username = ?`;
+                    }
+                    db.query(updateQuery, [req.session.nickname], function(error, results, fields) {
+                        if (error) throw error;
+                        res.json({ correct: true, firstTime: userProgress < stageId });
+                    });
                 });
             } else {
                 res.json({ correct: false });
@@ -107,6 +116,7 @@ app.post('/submit', (req, res) => {
         res.status(401).json({ error: 'Unauthorized' });
     }
 });
+
 
 app.get('/logout', function (req, res) {
     req.session.destroy(function (err) {

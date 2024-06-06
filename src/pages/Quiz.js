@@ -25,7 +25,11 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.correct) {
-          alert("정답입니다!");
+          if (data.firstTime) {
+            alert("정답입니다! 코인 500을 획득 하셨고 경험치가 50 증가하였습니다.");
+          } else {
+            alert("정답입니다! 이미 클리어한 스테이지입니다, 보상은 지급되지 않습니다.");
+          }
           setNextStageId(nextStageId + 1);
         } else {
           alert("틀렸습니다. 다시 시도하세요.");
