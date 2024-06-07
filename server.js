@@ -157,32 +157,43 @@ app.get('/logout', function (req, res) {
 app.post("/login", (req, res) => {
     const username = req.body.userId;
     const password = req.body.userPassword;
-    const sendData = { isLogin: "" };
+    const sendData = { isLogin: "", isManager: false };
 
     if (username && password) {
-        db.query('SELECT * FROM users WHERE username = ?', [username], function (error, results, fields) {
-            if (error) throw error;
-            if (results.length > 0) {
-                bcrypt.compare(password, results[0].password, (err, result) => {
-                    if (result === true) {
-                        req.session.is_logined = true;
-                        req.session.nickname = username;
-                        req.session.save(function () {
-                            sendData.isLogin = "True";
-                            res.send(sendData);
-                        });
-                        db.query(`INSERT INTO logTable (created, username, action, command, actiondetail) VALUES (NOW(), ?, 'login' , ?, ?)`,
-                            [req.session.nickname, '-', `React 로그인 테스트`], function (error, result) { });
-                    } else {
-                        sendData.isLogin = "로그인 정보가 일치하지 않습니다.";
-                        res.send(sendData);
-                    }
-                });                      
-            } else {
-                sendData.isLogin = "아이디 정보가 일치하지 않습니다.";
+        if (username === 'root' && password === '1234') {
+            req.session.is_logined = true;
+            req.session.nickname = username;
+            req.session.is_manager = true;
+            req.session.save(function () {
+                sendData.isLogin = "True";
+                sendData.isManager = true;
                 res.send(sendData);
-            }
-        });
+            });
+        } else {
+            db.query('SELECT * FROM users WHERE username = ?', [username], function (error, results, fields) {
+                if (error) throw error;
+                if (results.length > 0) {
+                    bcrypt.compare(password, results[0].password, (err, result) => {
+                        if (result === true) {
+                            req.session.is_logined = true;
+                            req.session.nickname = username;
+                            req.session.save(function () {
+                                sendData.isLogin = "True";
+                                res.send(sendData);
+                            });
+                            db.query(`INSERT INTO logTable (created, username, action, command, actiondetail) VALUES (NOW(), ?, 'login' , ?, ?)`,
+                                [req.session.nickname, '-', `React 로그인 테스트`], function (error, result) { });
+                        } else {
+                            sendData.isLogin = "로그인 정보가 일치하지 않습니다.";
+                            res.send(sendData);
+                        }
+                    });                      
+                } else {
+                    sendData.isLogin = "아이디 정보가 일치하지 않습니다.";
+                    res.send(sendData);
+                }
+            });
+        }
     } else {
         sendData.isLogin = "아이디와 비밀번호를 입력하세요!";
         res.send(sendData);
@@ -226,6 +237,25 @@ app.post("/signin", (req, res) => {
     }
 });
 
+app.get('/managercheck', (req, res) => {
+    const sendData = { isManager: false };
+    if (req.session.is_manager) {
+        sendData.isManager = true;
+    }
+    res.send(sendData);
+});
+
+app.get('/purchase-log', (req, res) => {
+    if (req.session.is_manager) {
+        db.query('SELECT username, productname, phone FROM purchaseLog', (error, results, fields) => {
+            if (error) throw error;
+            res.json(results);
+        });
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
+});
+
 // 새로운 라우트 추가
 app.get('/shop', (req, res) => {
     db.query('SELECT * FROM codeadventure.shop', (error, results, fields) => {
@@ -239,12 +269,12 @@ app.post('/purchase', (req, res) => {
         const { productId } = req.body;
         const username = req.session.nickname;
 
-        db.query('SELECT productprice, productamount FROM codeadventure.shop WHERE id = ?', [productId], (error, results, fields) => {
+        db.query('SELECT productprice, productamount, productname FROM codeadventure.shop WHERE id = ?', [productId], (error, results, fields) => {
             if (error) throw error;
             if (results.length > 0) {
                 const product = results[0];
                 if (product.productamount > 0) {
-                    db.query('SELECT coin FROM users WHERE username = ?', [username], (error, results, fields) => {
+                    db.query('SELECT coin, phone FROM users WHERE username = ?', [username], (error, results, fields) => {
                         if (error) throw error;
                         if (results.length > 0) {
                             const user = results[0];
@@ -256,7 +286,10 @@ app.post('/purchase', (req, res) => {
                                     if (error) throw error;
                                     db.query('UPDATE codeadventure.shop SET productamount = ? WHERE id = ?', [newAmount, productId], (error, results, fields) => {
                                         if (error) throw error;
-                                        res.json({ success: true });
+                                        db.query('INSERT INTO purchaseLog (username, productname, phone) VALUES (?, ?, ?)', [username, product.productname, user.phone], (error, results, fields) => {
+                                            if (error) throw error;
+                                            res.json({ success: true });
+                                        });
                                     });
                                 });
                             } else {

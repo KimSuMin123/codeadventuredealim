@@ -8,6 +8,7 @@ import Stage from './pages/Stage';
 import Quiz from './pages/Quiz';
 import Language from './pages/Language';
 import Shop from './pages/Shop';
+import Manager from './pages/Manager';
 
 function App() {
   const [mode, setMode] = useState("START");
@@ -62,6 +63,9 @@ function App() {
   }
   else if (mode === 'SHOP') {
     content = <Shop setMode={setMode}></Shop>
+  }
+  else if (mode === 'MANAGER') {
+    content = <Manager setMode={setMode}></Manager>
   }
 
   return (
