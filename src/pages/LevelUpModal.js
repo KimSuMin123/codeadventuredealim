@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
-function LevelUpModal({ isOpen, onClose, newLevel }) {
+
+function LevelUpModal({ isOpen, onClose, newLevel, extraExperience, randomCoin, totalExperience, totalCoin }) {
   if (!isOpen) return null;
 
   return (

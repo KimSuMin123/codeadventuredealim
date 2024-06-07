@@ -7,6 +7,7 @@ import MyPage from './pages/MyPage';
 import Stage from './pages/Stage';
 import Quiz from './pages/Quiz';
 import Language from './pages/Language';
+import Shop from './pages/Shop';
 
 function App() {
   const [mode, setMode] = useState("START");
@@ -43,6 +44,7 @@ function App() {
       <p>로그인에 성공하셨습니다.</p> 
       <a href="#" onClick={() => setMode("MYPAGE")}>마이페이지</a>
       <a href="#" onClick={() => setMode("LANGUAGE")}>언어 선택</a>
+      <a href="#" onClick={() => setMode("SHOP")}>쇼핑</a>
       <a href="/logout">로그아웃</a>   
     </>
   }
@@ -57,6 +59,9 @@ function App() {
   }
   else if (mode === 'QUIZ') {
     content = <Quiz stageId={selectedStage} setMode={setMode} selectedLanguage={selectedLanguage}></Quiz>
+  }
+  else if (mode === 'SHOP') {
+    content = <Shop setMode={setMode}></Shop>
   }
 
   return (

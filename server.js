@@ -124,7 +124,19 @@ app.post('/submit', (req, res) => {
 
                     db.query(updateQuery, [newExperience, newLevel, req.session.nickname], function(error, results, fields) {
                         if (error) throw error;
-                        res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel });
+
+                        if (levelUp) {
+                            // 레벨업 시 경험치와 코인 지급
+                            const extraExperience = 100;
+                            const randomCoin = Math.floor(Math.random() * 301) + 600;
+                            db.query(`UPDATE users SET experience = experience + ?, coin = coin + ? WHERE username = ?`, 
+                            [extraExperience, randomCoin, req.session.nickname], function(error, results, fields) {
+                                if (error) throw error;
+                                res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel });
+                            });
+                        } else {
+                            res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel });
+                        }
                     });
                 });
             } else {
@@ -211,6 +223,56 @@ app.post("/signin", (req, res) => {
     } else {
         sendData.isSuccess = "아이디, 비밀번호, 이메일, 전화번호를 입력하세요!";
         res.send(sendData);  
+    }
+});
+
+// 새로운 라우트 추가
+app.get('/shop', (req, res) => {
+    db.query('SELECT * FROM codeadventure.shop', (error, results, fields) => {
+        if (error) throw error;
+        res.json(results);
+    });
+});
+
+app.post('/purchase', (req, res) => {
+    if (req.session.is_logined) {
+        const { productId } = req.body;
+        const username = req.session.nickname;
+
+        db.query('SELECT productprice, productamount FROM codeadventure.shop WHERE id = ?', [productId], (error, results, fields) => {
+            if (error) throw error;
+            if (results.length > 0) {
+                const product = results[0];
+                if (product.productamount > 0) {
+                    db.query('SELECT coin FROM users WHERE username = ?', [username], (error, results, fields) => {
+                        if (error) throw error;
+                        if (results.length > 0) {
+                            const user = results[0];
+                            if (user.coin >= product.productprice) {
+                                const newCoin = user.coin - product.productprice;
+                                const newAmount = product.productamount - 1;
+
+                                db.query('UPDATE users SET coin = ? WHERE username = ?', [newCoin, username], (error, results, fields) => {
+                                    if (error) throw error;
+                                    db.query('UPDATE codeadventure.shop SET productamount = ? WHERE id = ?', [newAmount, productId], (error, results, fields) => {
+                                        if (error) throw error;
+                                        res.json({ success: true });
+                                    });
+                                });
+                            } else {
+                                res.json({ success: false, message: 'Not enough coins' });
+                            }
+                        }
+                    });
+                } else {
+                    res.json({ success: false, message: 'Product out of stock' });
+                }
+            } else {
+                res.json({ success: false, message: 'Product not found' });
+            }
+        });
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
     }
 });
 
