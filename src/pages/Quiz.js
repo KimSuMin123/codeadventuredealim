@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import LevelUpModal from './LevelUpModal';
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
   const [answer, setAnswer] = useState("");
   const [nextStageId, setNextStageId] = useState(stageId);
+  const [levelUp, setLevelUp] = useState(false);
+  const [newLevel, setNewLevel] = useState(1);
 
   useEffect(() => {
     fetch(`http://localhost:3001/quiz/${nextStageId}?language=${selectedLanguage}`)
@@ -27,6 +30,10 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         if (data.correct) {
           if (data.firstTime) {
             alert("정답입니다! 코인 500을 획득 하셨고 경험치가 50 증가하였습니다.");
+            if (data.levelUp) {
+              setNewLevel(data.newLevel);
+              setLevelUp(true);
+            }
           } else {
             alert("정답입니다! 이미 클리어한 스테이지입니다, 보상은 지급되지 않습니다.");
           }
@@ -50,8 +57,14 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       />
       <button onClick={handleSubmit}>제출</button>
       <button onClick={() => setMode("STAGE")}>돌아가기</button>
+      <LevelUpModal 
+        isOpen={levelUp} 
+        onClose={() => setLevelUp(false)} 
+        newLevel={newLevel} 
+      />
     </div>
   );
 }
 
 export default Quiz;
+

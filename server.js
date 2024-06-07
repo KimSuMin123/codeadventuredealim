@@ -39,7 +39,7 @@ app.get('/authcheck', (req, res) => {
 
 app.get('/userinfo', (req, res) => {
     if (req.session.is_logined) {
-        db.query('SELECT username, email, phone, coin, experience, cst, javast,pythonst,jsst,htmlst,cssst,level FROM users WHERE username = ?', [req.session.nickname], function(error, results, fields) {
+        db.query('SELECT username, email, phone, coin, experience, cst, javast, pythonst, jsst, htmlst, cssst, level FROM users WHERE username = ?', [req.session.nickname], function(error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
                 res.send(results[0]);
@@ -90,22 +90,41 @@ app.post('/submit', (req, res) => {
     const { stageId, answer, language } = req.body;
     const quizTable = `${language}quiz`;
     const progressField = `${language}st`;
-    
+
     if (req.session.is_logined) {
         db.query(`SELECT answer FROM ${quizTable} WHERE id = ?`, [stageId], function(error, results, fields) {
             if (error) throw error;
             if (results.length > 0 && results[0].answer === answer) {
-                db.query(`SELECT ${progressField} FROM users WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
+                db.query(`SELECT ${progressField}, experience, level FROM users WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
                     if (error) throw error;
                     const userProgress = results[0][progressField];
-                    let updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1 WHERE username = ?`;
+                    const currentExperience = results[0].experience;
+                    const currentLevel = results[0].level;
+                    const newExperience = currentExperience + 50;
+                    let newLevel = currentLevel;
+
+                    // Calculate required experience for next level
+                    let requiredExperience = 200;
+                    for (let i = 1; i < newLevel; i++) {
+                        requiredExperience *= 2.5;
+                    }
+
+                    // Determine if the user levels up
+                    let levelUp = false;
+                    if (newExperience >= requiredExperience) {
+                        newLevel += 1;
+                        levelUp = true;
+                    }
+
+                    let updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, experience = ?, level = ? WHERE username = ?`;
                     if (userProgress < stageId) {
                         // 최초 성공 시 코인과 경험치 지급
-                        updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = experience + 50 WHERE username = ?`;
+                        updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = ?, level = ? WHERE username = ?`;
                     }
-                    db.query(updateQuery, [req.session.nickname], function(error, results, fields) {
+
+                    db.query(updateQuery, [newExperience, newLevel, req.session.nickname], function(error, results, fields) {
                         if (error) throw error;
-                        res.json({ correct: true, firstTime: userProgress < stageId });
+                        res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel });
                     });
                 });
             } else {
@@ -116,7 +135,6 @@ app.post('/submit', (req, res) => {
         res.status(401).json({ error: 'Unauthorized' });
     }
 });
-
 
 app.get('/logout', function (req, res) {
     req.session.destroy(function (err) {
