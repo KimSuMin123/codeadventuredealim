@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ShopContainer, ShopTitle, ProductTable, TableHeader, TableRow, BackButton } from '../style/ShopStyles';
 
 function Shop({ setMode }) {
   const [products, setProducts] = useState([]);
@@ -36,37 +37,37 @@ function Shop({ setMode }) {
   };
 
   return (
-    <div className="shop">
-      <h2>Shop</h2>
+    <ShopContainer>
+      <ShopTitle>Shop</ShopTitle>
       
-      <table className="product-table">
-        <thead>
+      <ProductTable>
+        <TableHeader>
           <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Available</th>
-            <th>Action</th>
+            <th>사진</th>
+            <th>이름</th>
+            <th>가격</th>
+            <th>물품명</th>
+            <th>구매하기</th>
           </tr>
-        </thead>
+        </TableHeader>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id}>
+            <TableRow key={product.id}>
               <td><img src={product.productimg} alt={product.productname} /></td>
               <td>{product.productname}</td>
               <td>{product.productprice}</td>
               <td>{product.productamount}</td>
               <td>
                 {isLoggedIn && (
-                  <button onClick={() => handlePurchase(product.id)}>Buy</button>
+                  <button onClick={() => handlePurchase(product.id)}>구매하기</button>
                 )}
               </td>
-            </tr>
+            </TableRow>
           ))}
         </tbody>
-      </table>
-      <button onClick={() => setMode('WELCOME')}>돌아가기</button>
-    </div>
+      </ProductTable>
+      <BackButton onClick={() => setMode('WELCOME')}>돌아가기</BackButton>
+    </ShopContainer>
   );
 }
 
