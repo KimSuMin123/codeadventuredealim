@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Title, StageList, StageItem, StageButton, BackButton } from '../style/stagestyle';
+import { Container, Title, StageList, StageItem, StageButton, BackButton, Background } from '../style/stagestyle';
+import cBackground from '../img/cbackground.png';
+import cssBackground from '../img/cssbackground.png';
+import javaBackground from '../img/javabackground.png';
+import pythonBackground from '../img/pythonbackground.png';
+import jsBackground from '../img/jsbackground.png';
+import htmlBackground from '../img/htmlbackground.png';
+
+const backgroundImages = {
+  c: cBackground,
+  css: cssBackground,
+  java: javaBackground,
+  python: pythonBackground,
+  js: jsBackground,
+  html: htmlBackground,
+};
+
 
 function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   const [stages, setStages] = useState([]);
@@ -24,23 +40,25 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   };
 
   return (
-    <Container>
-      <Title>스테이지 선택 ({selectedLanguage.toUpperCase()})</Title>
-      <StageList>
-        {stages.map((stage) => (
-          <StageItem key={stage.id}>
-            <StageButton
-              onClick={() => handleStageClick(stage.id)}
-              completed={stage.id <= userProgress}
-              disabled={stage.id > userProgress + 1}
-            >
-              스테이지 {stage.id}
-            </StageButton>
-          </StageItem>
-        ))}
-      </StageList>
-      <BackButton onClick={() => setMode("WELCOME")}>돌아가기</BackButton>
-    </Container>
+    <Background backgroundImage={backgroundImages[selectedLanguage]}>
+      <Container>
+        <Title>스테이지 선택 ({selectedLanguage.toUpperCase()})</Title>
+        <StageList>
+          {stages.map((stage) => (
+            <StageItem key={stage.id}>
+              <StageButton
+                onClick={() => handleStageClick(stage.id)}
+                completed={stage.id <= userProgress}
+                disabled={stage.id > userProgress + 1}
+              >
+                스테이지 {stage.id}
+              </StageButton>
+            </StageItem>
+          ))}
+        </StageList>
+        <BackButton onClick={() => setMode("WELCOME")}>돌아가기</BackButton>
+      </Container>
+    </Background>
   );
 }
 

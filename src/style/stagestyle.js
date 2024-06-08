@@ -1,9 +1,22 @@
 import styled from 'styled-components';
 
+export const Background = styled.div`
+  background-image: url(${({ backgroundImage }) => backgroundImage});
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgba(255, 255, 255, 0.5); /* 반투명 흰색 배경 */
+  padding: 20px;
 `;
 
 export const Title = styled.h2`
