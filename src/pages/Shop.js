@@ -39,20 +39,33 @@ function Shop({ setMode }) {
     <div className="shop">
       <h2>Shop</h2>
       
-      <div className="product-list">
-        {products.map((product) => (
-          <div className="product" key={product.id}>
-            <img src={product.productimg} alt={product.productname} />
-            <h3>{product.productname}</h3>
-            <p>Price: {product.productprice}</p>
-            <p>Available: {product.productamount}</p>
-            {isLoggedIn && (
-              <button onClick={() => handlePurchase(product.id)}>Buy</button>
-            )}
-          </div>
-        ))}
-        <button onClick={() => setMode('WELCOME')}>돌아가기</button>
-      </div>
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td><img src={product.productimg} alt={product.productname} /></td>
+              <td>{product.productname}</td>
+              <td>{product.productprice}</td>
+              <td>{product.productamount}</td>
+              <td>
+                {isLoggedIn && (
+                  <button onClick={() => handlePurchase(product.id)}>Buy</button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button onClick={() => setMode('WELCOME')}>돌아가기</button>
     </div>
   );
 }

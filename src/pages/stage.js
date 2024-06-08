@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Title, StageList, StageItem, StageButton, BackButton } from '../style/stagestyle';
 
 function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   const [stages, setStages] = useState([]);
@@ -23,21 +24,24 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   };
 
   return (
-    <div>
-      <h2>스테이지 선택 ({selectedLanguage.toUpperCase()})</h2>
-      <ul>
+    <Container>
+      <Title>스테이지 선택 ({selectedLanguage.toUpperCase()})</Title>
+      <StageList>
         {stages.map((stage) => (
-          <li key={stage.id}>
-            <button onClick={() => handleStageClick(stage.id)}>
+          <StageItem key={stage.id}>
+            <StageButton
+              onClick={() => handleStageClick(stage.id)}
+              completed={stage.id <= userProgress}
+              disabled={stage.id > userProgress + 1}
+            >
               스테이지 {stage.id}
-            </button>
-          </li>
+            </StageButton>
+          </StageItem>
         ))}
-      </ul>
-      <button onClick={() => setMode("WELCOME")}>돌아가기</button>
-    </div>
+      </StageList>
+      <BackButton onClick={() => setMode("WELCOME")}>돌아가기</BackButton>
+    </Container>
   );
 }
 
 export default Stage;
-
