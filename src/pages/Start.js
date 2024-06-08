@@ -1,11 +1,19 @@
 import React from 'react';
+import { StartContainer, Title, LoginButton, GlobalStyle } from '../style/startstyle';
+import background from '../img/background.png';
 
 function Start(props) {
   return (
-    <div>
-      <h2>Code Adventure</h2>
-      <button onClick={() => props.setMode("LOGIN")}>로그인 페이지로 이동</button>
-    </div>
+    <>
+      <GlobalStyle />
+      <StartContainer style={{ backgroundImage: `url(${background})` }}>
+        <Title>Code</Title>
+        <Title>Adventure</Title>
+        <LoginButton onClick={() => props.setMode("LOGIN")}>
+          Login to Start
+        </LoginButton>
+      </StartContainer>
+    </>
   );
 }
 

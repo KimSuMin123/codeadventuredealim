@@ -44,15 +44,24 @@ function Manager({ setMode }) {
     <div>
       <h2>Manager Page</h2>
       <h3>Purchase Logs</h3>
-      <ul>
-        {purchaseLogs.map((log, index) => (
-          <li key={index}>
-            아이디 : {log.username} 
-            구매 품목 : {log.productname} 
-            가격 : {log.phone}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>아이디</th>
+            <th>구매 품목</th>
+            <th>전화번호</th>
+          </tr>
+        </thead>
+        <tbody>
+          {purchaseLogs.map((log, index) => (
+            <tr key={index}>
+              <td>{log.username}</td>
+              <td>{log.productname}</td>
+              <td>{log.phone}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <h3>Products</h3>
       <ul>
