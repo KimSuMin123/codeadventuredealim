@@ -256,7 +256,6 @@ app.get('/purchase-log', (req, res) => {
     }
 });
 
-// 새로운 라우트 추가
 app.get('/shop', (req, res) => {
     db.query('SELECT * FROM codeadventure.shop', (error, results, fields) => {
         if (error) throw error;
@@ -303,6 +302,20 @@ app.post('/purchase', (req, res) => {
             } else {
                 res.json({ success: false, message: 'Product not found' });
             }
+        });
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
+});
+
+app.post('/update-quantity/:productId', (req, res) => {
+    const { productId } = req.params;
+    const { quantity } = req.body;
+
+    if (req.session.is_manager) {
+        db.query('UPDATE codeadventure.shop SET productamount = ? WHERE id = ?', [quantity, productId], (error, results, fields) => {
+            if (error) throw error;
+            res.json({ success: true });
         });
     } else {
         res.status(401).json({ error: 'Unauthorized' });
