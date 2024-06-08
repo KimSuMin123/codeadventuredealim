@@ -49,6 +49,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   return (
     <div>
       <h2>스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})</h2>
+      <p>{quiz.explanation}</p>
       <p>{quiz.question}</p>
       <input 
         type="text" 
