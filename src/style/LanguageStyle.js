@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import backgroundImage from '../img/background.png'; 
+import backgroundImage from '../img/background.png';
 
 export const Container = styled.div`
   background-image: url(${backgroundImage});
@@ -11,6 +11,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: relative; /* 추가 */
 `;
 
 export const Content = styled.div`
@@ -36,8 +37,8 @@ export const TableItem = styled.div`
 `;
 
 export const Button = styled.button`
-width: 100px;  /* 고정 너비 */
-  height: 50px; 
+  width: 100px;
+  height: 50px;
   font-size: 16px;
   cursor: pointer;
   border: none;
@@ -65,4 +66,33 @@ export const Link = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+export const StatusContainer = styled.div`
+  position: absolute; /* 추가 */
+  top: 20px; /* 조정 */
+  right: 20px; /* 조정 */
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+export const StatusItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+export const CoinImage = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+`;
+
+export const StatusText = styled.span`
+  font-size: 14px;
 `;
