@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShopContainer, ShopTitle, ProductTable, TableHeader, TableRow, BackButton } from '../style/ShopStyles';
+import background from '../img/background.png';
 
 function Shop({ setMode }) {
   const [products, setProducts] = useState([]);
@@ -37,7 +38,7 @@ function Shop({ setMode }) {
   };
 
   return (
-    <ShopContainer>
+    <ShopContainer style={{ backgroundImage: `url(${background})` }}>
       <ShopTitle>Shop</ShopTitle>
       
       <ProductTable>

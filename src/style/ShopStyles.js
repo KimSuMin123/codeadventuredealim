@@ -13,6 +13,7 @@ export const ProductTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  background-color: rgba(225, 225, 225, 0.7);
 `;
 
 export const TableHeader = styled.thead`
