@@ -1,4 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  ManagerContainer, 
+  SectionTitle, 
+  Table, 
+  TableHeader, 
+  TableRow, 
+  TableCell, 
+  UpdateQuantityContainer, 
+  UpdateButton 
+} from '../style/managerstyle';
 
 function Manager({ setMode }) {
   const [purchaseLogs, setPurchaseLogs] = useState([]);
@@ -41,52 +51,64 @@ function Manager({ setMode }) {
   };
 
   return (
-    <div>
-      <h2>Manager Page</h2>
-      <h3>Purchase Logs</h3>
-      <table>
+    <ManagerContainer>
+      <SectionTitle>Manager Page</SectionTitle>
+      <SectionTitle>Purchase Logs</SectionTitle>
+      <Table>
         <thead>
           <tr>
-            <th>아이디</th>
-            <th>구매 품목</th>
-            <th>전화번호</th>
+            <TableHeader>아이디</TableHeader>
+            <TableHeader>구매 품목</TableHeader>
+            <TableHeader>전화번호</TableHeader>
           </tr>
         </thead>
         <tbody>
           {purchaseLogs.map((log, index) => (
-            <tr key={index}>
-              <td>{log.username}</td>
-              <td>{log.productname}</td>
-              <td>{log.phone}</td>
-            </tr>
+            <TableRow key={index}>
+              <TableCell>{log.username}</TableCell>
+              <TableCell>{log.productname}</TableCell>
+              <TableCell>{log.phone}</TableCell>
+            </TableRow>
           ))}
         </tbody>
-      </table>
+      </Table>
 
-      <h3>Products</h3>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            이름: {product.productname} 
-            가격: {product.productprice} 
-            수량: {product.productamount}
-            <button onClick={() => setSelectedProduct(product)}>수량 변경</button>
-          </li>
-        ))}
-      </ul>
+      <SectionTitle>Products</SectionTitle>
+      <Table>
+        <thead>
+          <tr>
+            <TableHeader>이름</TableHeader>
+            <TableHeader>가격</TableHeader>
+            <TableHeader>수량</TableHeader>
+            <TableHeader>수량 변경</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>{product.productname}</TableCell>
+              <TableCell>{product.productprice}</TableCell>
+              <TableCell>{product.productamount}</TableCell>
+              <TableCell>
+                <UpdateButton onClick={() => setSelectedProduct(product)}>수량 변경</UpdateButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </tbody>
+      </Table>
 
       {selectedProduct && (
-        <div>
+        <UpdateQuantityContainer>
           <h4>Update Quantity for {selectedProduct.productname}</h4>
           <input
             type="number"
             value={newQuantity}
             onChange={(e) => setNewQuantity(e.target.value)}
           />
-          <button onClick={handleUpdateQuantity}>Update Quantity</button>
-        </div>
+          <UpdateButton onClick={handleUpdateQuantity}>Update Quantity</UpdateButton>
+        </UpdateQuantityContainer>
       )}
-    </div>
+    </ManagerContainer>
   );
 }
 
