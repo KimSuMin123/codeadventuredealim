@@ -18,7 +18,9 @@ function Language({ setMode, setSelectedLanguage }) {
           </li>
         ))}
       </ul>
-      <button onClick={() => setMode("WELCOME")}>돌아가기</button>
+      <a href="#" onClick={() => setMode("MYPAGE")}>마이페이지</a>
+      <a href="#" onClick={() => setMode("SHOP")}>쇼핑</a>
+      <a href="/logout">로그아웃</a>   
     </div>
   );
 }

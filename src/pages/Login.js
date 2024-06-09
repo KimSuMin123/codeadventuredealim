@@ -34,7 +34,7 @@ function Login({ setMode }) {
           if (data.isManager) {
             setMode('MANAGER');
           } else {
-            setMode('WELCOME');
+            setMode('LANGUAGE');
           }
         } else {
           setError(data.isLogin);

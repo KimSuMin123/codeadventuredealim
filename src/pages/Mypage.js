@@ -34,7 +34,7 @@ function MyPage(props) {
         <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
         <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
       </UserInfoContainer>
-      <Button onClick={() => props.setMode("WELCOME")}>메인으로 돌아가기</Button>
+      <Button onClick={() => props.setMode("LANGUAGE")}>메인으로 돌아가기</Button>
     </MyPageContainer>
   );
 }

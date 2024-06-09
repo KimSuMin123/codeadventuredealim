@@ -56,7 +56,7 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
             </StageItem>
           ))}
         </StageList>
-        <BackButton onClick={() => setMode("WELCOME")}>돌아가기</BackButton>
+        <BackButton onClick={() => setMode("LANGUAGE")}>돌아가기</BackButton>
       </Container>
     </Background>
   );

@@ -66,7 +66,7 @@ function Shop({ setMode }) {
           ))}
         </tbody>
       </ProductTable>
-      <BackButton onClick={() => setMode('WELCOME')}>돌아가기</BackButton>
+      <BackButton onClick={() => setMode('LANGUAGE')}>돌아가기</BackButton>
     </ShopContainer>
   );
 }

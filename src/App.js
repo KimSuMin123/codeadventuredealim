@@ -20,9 +20,9 @@ function App() {
       .then((res) => res.json())
       .then((json) => {        
         if (json.isLogin === "True") {
-          setMode("WELCOME");
+          setMode("LANGUAGE");
         }
-        else if (mode !== "START") {
+        else if (mode !== "START" && mode !== "LOGIN") {
           setMode("LOGIN");
         }
       });
@@ -38,16 +38,6 @@ function App() {
   }
   else if (mode === 'SIGNIN') {
     content = <Signin setMode={setMode}></Signin> 
-  }
-  else if (mode === 'WELCOME') {
-    content = <>
-      <h2>메인 페이지에 오신 것을 환영합니다</h2>
-      <p>로그인에 성공하셨습니다.</p> 
-      <a href="#" onClick={() => setMode("MYPAGE")}>마이페이지</a>
-      <a href="#" onClick={() => setMode("LANGUAGE")}>언어 선택</a>
-      <a href="#" onClick={() => setMode("SHOP")}>쇼핑</a>
-      <a href="/logout">로그아웃</a>   
-    </>
   }
   else if (mode === 'MYPAGE') {
     content = <MyPage setMode={setMode}></MyPage>
