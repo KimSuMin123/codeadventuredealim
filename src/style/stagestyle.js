@@ -16,7 +16,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.5); /* 반투명 흰색 배경 */
-  padding: 20px;
+ padding: 20px 220px;
 `;
 
 export const Title = styled.h2`
@@ -34,22 +34,26 @@ export const StageList = styled.ul`
 `;
 
 export const StageItem = styled.li`
-  margin: 10px;
+  margin: 20px;
 `;
 
 export const StageButton = styled.button`
   font-family: 'Noto', sans-serif;
-  font-size: 18px;
-  padding: 10px 20px;
+  font-size: 25px;
+  padding: 10px;
+  width: 60px; /* Adjust the width to make it a perfect circle */
+  height: 60px; /* Adjust the height to make it a perfect circle */
   border: none;
+  border-radius: 30%; /* This makes the button round */
   cursor: pointer;
   color: white;
-  background-color: ${({ completed }) => (completed ? 'blue' : 'red')};
+  background-color: ${({ completed }) => (completed ? 'GOLD' : 'SILVER')};
   &:disabled {
     cursor: not-allowed;
     background-color: gray;
   }
 `;
+
 
 export const BackButton = styled.button`
   margin-top: 20px;

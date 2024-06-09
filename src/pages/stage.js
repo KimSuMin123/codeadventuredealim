@@ -51,7 +51,7 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
                 completed={stage.id <= userProgress}
                 disabled={stage.id > userProgress + 1}
               >
-                스테이지 {stage.id}
+                 {stage.id}
               </StageButton>
             </StageItem>
           ))}
