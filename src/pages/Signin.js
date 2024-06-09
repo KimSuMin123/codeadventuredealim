@@ -78,6 +78,7 @@ function Signin(props) {
             회원가입
           </Button>
           <SignupPrompt>
+            로그인화면으로 돌아가기  
             <Button onClick={() => props.setMode("LOGIN")}>
               로그인
             </Button>
