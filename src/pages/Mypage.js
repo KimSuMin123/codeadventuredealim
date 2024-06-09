@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { MyPageContainer, UserInfoContainer, UserInfoItem, 
+  Title, Button } from '../style/MypageStyle';
 
 function MyPage(props) {
   const [userInfo, setUserInfo] = useState(null);
@@ -12,28 +14,28 @@ function MyPage(props) {
   }, []);
 
   if (!userInfo) {
-    return <div>Loading...</div>;
+    return <div>로딩 중...</div>;
   }
 
   return (
-    <>
-      <h2>마이페이지</h2>
-      <div className="form">
-        <p>아이디: {userInfo.username}</p>
-        <p>이메일: {userInfo.email}</p>
-        <p>전화번호: {userInfo.phone}</p>
-        <p>Coin : {userInfo.coin}</p>
-        <p>level : {userInfo.level}</p>
-        <p>exp : {userInfo.experience}</p>
-        <p>C언어 단계 : {userInfo.cst}</p>
-        <p>Java 단계 : {userInfo.javast}</p>
-        <p>Python 단계 : {userInfo.pythonst}</p>
-        <p>Html 단계 : {userInfo.htmlst}</p>
-        <p>Css언어 단계 : {userInfo.cssst}</p>
-        <p>Js언어 단계 : {userInfo.jsst}</p>
-      </div>
-      <button onClick={() => props.setMode("WELCOME")}>메인으로 돌아가기</button>
-    </>
+    <MyPageContainer>
+      <Title>마이페이지</Title>
+      <UserInfoContainer>
+        <UserInfoItem>아이디: {userInfo.username}</UserInfoItem>
+        <UserInfoItem>이메일: {userInfo.email}</UserInfoItem>
+        <UserInfoItem>전화번호: {userInfo.phone}</UserInfoItem>
+        <UserInfoItem>코인: {userInfo.coin}</UserInfoItem>
+        <UserInfoItem>레벨: {userInfo.level}</UserInfoItem>
+        <UserInfoItem>경험치: {userInfo.experience}</UserInfoItem>
+        <UserInfoItem>C언어 단계: {userInfo.cst}</UserInfoItem>
+        <UserInfoItem>Java 단계: {userInfo.javast}</UserInfoItem>
+        <UserInfoItem>Python 단계: {userInfo.pythonst}</UserInfoItem>
+        <UserInfoItem>HTML 단계: {userInfo.htmlst}</UserInfoItem>
+        <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
+        <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
+      </UserInfoContainer>
+      <Button onClick={() => props.setMode("WELCOME")}>메인으로 돌아가기</Button>
+    </MyPageContainer>
   );
 }
 
