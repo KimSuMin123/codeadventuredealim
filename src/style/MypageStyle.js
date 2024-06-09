@@ -20,11 +20,14 @@ export const UserInfoContainer = styled.div`
   text-align: left;
   width: 100%;
   max-width: 600px;
+  column-count: 2;
+  column-gap: 20px;
 `;
 
 export const UserInfoItem = styled.p`
   font-size: 16px;
   margin: 5px 0;
+  break-inside: avoid;
 `;
 
 export const Title = styled.h2`
