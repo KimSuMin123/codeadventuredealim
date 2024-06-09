@@ -1,17 +1,17 @@
 import React from 'react';
-import '../App.css';
+import { ModalOverlay, ModalContent, ModalTitle, ModalButton } from '../style/quizstyle';
 
-function LevelUpModal({ isOpen, onClose, newLevel, extraExperience, randomCoin, totalExperience, totalCoin }) {
+function LevelUpModal({ isOpen, onClose, newLevel }) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>레벨 업!</h2>
-        <p>축하합니다! 새로운 레벨에 도달했습니다: {newLevel}</p>
-        <button onClick={onClose}>닫기</button>
-      </div>
-    </div>
+    <ModalOverlay>
+      <ModalContent>
+        <ModalTitle>레벨 업!</ModalTitle>
+        <p>축하합니다! {newLevel} 레벨에 도달했습니다.</p>
+        <ModalButton onClick={onClose}>닫기</ModalButton>
+      </ModalContent>
+    </ModalOverlay>
   );
 }
 

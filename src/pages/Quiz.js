@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Title, Explanation, Question, Input, Button } from '../style/quizstyle';
 import LevelUpModal from './LevelUpModal';
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
@@ -44,28 +45,27 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       });
   };
 
-  if (!quiz) return <div>로딩 중...</div>;
+  if (!quiz) return <Container>로딩 중...</Container>;
 
   return (
-    <div>
-      <h2>스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})</h2>
-      <p>{quiz.explanation}</p>
-      <p>{quiz.question}</p>
-      <input 
+    <Container>
+      <Title>스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})</Title>
+      <Explanation>{quiz.explanation}</Explanation>
+      <Question>{quiz.question}</Question>
+      <Input 
         type="text" 
         value={answer} 
         onChange={(e) => setAnswer(e.target.value)} 
       />
-      <button onClick={handleSubmit}>제출</button>
-      <button onClick={() => setMode("STAGE")}>돌아가기</button>
+      <Button onClick={handleSubmit}>제출</Button>
+      <Button onClick={() => setMode("STAGE")}>돌아가기</Button>
       <LevelUpModal 
         isOpen={levelUp} 
         onClose={() => setLevelUp(false)} 
         newLevel={newLevel} 
       />
-    </div>
+    </Container>
   );
 }
 
 export default Quiz;
-
