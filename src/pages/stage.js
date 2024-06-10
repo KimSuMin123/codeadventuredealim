@@ -43,6 +43,7 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
     <Background backgroundImage={backgroundImages[selectedLanguage]}>
       <Container>
         <Title>스테이지 선택 ({selectedLanguage.toUpperCase()})</Title>
+        <Title>{selectedLanguage.toUpperCase()}왕국에 갇히셨습니다. <br/> 문제를 해결하고 왕국을 탈출 하세요.</Title>
         <StageList>
           {stages.map((stage) => (
             <StageItem key={stage.id}>

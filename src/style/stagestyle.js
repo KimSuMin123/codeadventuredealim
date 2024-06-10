@@ -23,6 +23,7 @@ export const Title = styled.h2`
   font-family: 'PixelEmulator', sans-serif;
   font-size: 24px;
   margin-bottom: 20px;
+  text-align: center;
 `;
 
 export const StageList = styled.ul`
