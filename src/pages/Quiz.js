@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Explanation, Question, Input, Button } from '../style/quizstyle';
 import LevelUpModal from './LevelUpModal';
+import SuccessModal from './SuccessModal'; // Import the new SuccessModal component
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -8,6 +9,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [nextStageId, setNextStageId] = useState(stageId);
   const [levelUp, setLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(1);
+  const [showSuccessModal, setShowSuccessModal] = useState(false); // State to control the success modal visibility
 
   useEffect(() => {
     fetch(`http://localhost:3001/quiz/${nextStageId}?language=${selectedLanguage}`)
@@ -30,7 +32,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       .then((data) => {
         if (data.correct) {
           if (data.firstTime) {
-            alert("정답입니다! 코인 500을 획득 하셨고 경험치가 50 증가하였습니다.");
+            setShowSuccessModal(true); // Show success modal
             if (data.levelUp) {
               setNewLevel(data.newLevel);
               setLevelUp(true);
@@ -64,8 +66,13 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         onClose={() => setLevelUp(false)} 
         newLevel={newLevel} 
       />
+      <SuccessModal // Include the success modal component
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+      />
     </Container>
   );
 }
 
 export default Quiz;
+
