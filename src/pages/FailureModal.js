@@ -1,4 +1,3 @@
-// FailureModal.js
 import React, { useState } from 'react';
 import { ModalOverlay, ModalContent, ModalTitle, ModalButton } from '../style/quizstyle';
 
@@ -23,9 +22,11 @@ function FailureModal({ isOpen, onClose, onPurchaseHint }) {
         <ModalTitle>틀렸습니다.</ModalTitle>
         <p>다시 시도해주세요</p>
         {successMessage && <p>{successMessage}</p>}
-        <ModalButton onClick={onClose}>Close</ModalButton>
+        
         <ModalButton onClick={handlePurchaseHint}>힌트 구매 (300 코인)</ModalButton>
-      </ModalContent>
+      
+        <ModalButton onClick={onClose}>Close</ModalButton>
+        </ModalContent>
     </ModalOverlay>
   );
 }
