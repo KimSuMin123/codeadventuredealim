@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Explanation, Question, Input, Button } from '../style/quizstyle';
 import LevelUpModal from './LevelUpModal';
-import SuccessModal from './SuccessModal'; // Import the new SuccessModal component
+import SuccessModal from './SuccessModal';
+import FailureModal from './FailureModal';
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -9,13 +10,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [nextStageId, setNextStageId] = useState(stageId);
   const [levelUp, setLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(1);
-  const [showSuccessModal, setShowSuccessModal] = useState(false); // State to control the success modal visibility
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailureModal, setShowFailureModal] = useState(false);
+  const [hint, setHint] = useState("");
 
   useEffect(() => {
     fetch(`http://localhost:3001/quiz/${nextStageId}?language=${selectedLanguage}`)
       .then((res) => res.json())
       .then((data) => {
         setQuiz(data);
+        setHint("");
         setAnswer("");
       });
   }, [nextStageId, selectedLanguage]);
@@ -32,7 +36,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       .then((data) => {
         if (data.correct) {
           if (data.firstTime) {
-            setShowSuccessModal(true); // Show success modal
+            setShowSuccessModal(true);
             if (data.levelUp) {
               setNewLevel(data.newLevel);
               setLevelUp(true);
@@ -42,8 +46,25 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
           }
           setNextStageId(nextStageId + 1);
         } else {
-          alert("틀렸습니다. 다시 시도하세요.");
+          setShowFailureModal(true);
         }
+      });
+  };
+
+  const handlePurchaseHint = () => {
+    return fetch("http://localhost:3001/purchase-hint", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ stageId: nextStageId, language: selectedLanguage }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setHint(data.hint);
+        }
+        return data;
       });
   };
 
@@ -54,6 +75,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       <Title>스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})</Title>
       <Explanation>{quiz.explanation}</Explanation>
       <Question>{quiz.question}</Question>
+      {hint && <p>힌트: {hint}</p>}
       <Input 
         type="text" 
         value={answer} 
@@ -66,13 +88,17 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         onClose={() => setLevelUp(false)} 
         newLevel={newLevel} 
       />
-      <SuccessModal // Include the success modal component
+      <SuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
+      />
+      <FailureModal 
+        isOpen={showFailureModal}
+        onClose={() => setShowFailureModal(false)}
+        onPurchaseHint={handlePurchaseHint}
       />
     </Container>
   );
 }
 
 export default Quiz;
-

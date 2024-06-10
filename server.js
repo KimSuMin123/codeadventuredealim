@@ -321,6 +321,35 @@ app.post('/update-quantity/:productId', (req, res) => {
         res.status(401).json({ error: 'Unauthorized' });
     }
 });
+// server.js
+app.post('/purchase-hint', (req, res) => {
+  if (req.session.is_logined) {
+    const { stageId, language } = req.body;
+    const quizTable = `${language}quiz`;
+
+    db.query('SELECT coin FROM users WHERE username = ?', [req.session.nickname], (error, results, fields) => {
+      if (error) throw error;
+      const user = results[0];
+      if (user.coin >= 300) {
+        db.query('UPDATE users SET coin = coin - 300 WHERE username = ?', [req.session.nickname], (error, results, fields) => {
+          if (error) throw error;
+          db.query(`SELECT hint FROM ${quizTable} WHERE id = ?`, [stageId], (error, results, fields) => {
+            if (error) throw error;
+            if (results.length > 0) {
+              res.json({ success: true, hint: results[0].hint });
+            } else {
+              res.status(404).json({ success: false, message: 'Hint not found' });
+            }
+          });
+        });
+      } else {
+        res.json({ success: false, message: 'Not enough coins' });
+      }
+    });
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
