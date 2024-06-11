@@ -24,9 +24,8 @@ export const Explanation = styled.p`
 `;
 
 export const Question = styled.p`
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin-bottom: 20px;
-  text-align: center;
   font-weight: bold;
 `;
 

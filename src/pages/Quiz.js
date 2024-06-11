@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Explanation, Question, Input, Button } from '../style/quizstyle';
+import { CodeBlock } from "react-code-blocks";
 import LevelUpModal from './LevelUpModal';
 import SuccessModal from './SuccessModal';
 import FailureModal from './FailureModal';
@@ -74,7 +75,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
     <Container>
       <Title>스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})</Title>
       <Explanation>{quiz.explanation}</Explanation>
-      <Question>{quiz.question}</Question>
+      <Question><CodeBlock text={quiz.question}></CodeBlock></Question>
       {hint && <p>힌트: {hint}</p>}
       <Input 
         type="text" 
