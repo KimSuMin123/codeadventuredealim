@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Content, Title, Table, TableItem, Button, Links, Link, StatusContainer, StatusItem, CoinImage, StatusText } from '../style/LanguageStyle';
-import coin from '../img/coin.png'
+import { Container, Content, Title, Table, TableItem, Button, Links, Link, StatusContainer, StatusItem, CoinImage, StatusText, AdContainer } from '../style/LanguageStyle';
+import coin from '../img/coin.png';
 
 function Language({ setMode, setSelectedLanguage }) {
   const [userInfo, setUserInfo] = useState({ coin: 0, level: 1, experience: 0, nextLevelExp: 200 });
@@ -24,8 +24,26 @@ function Language({ setMode, setSelectedLanguage }) {
     setMode('STAGE');
   };
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.src = 'https://t1.daumcdn.net/kas/static/ba.min.js';
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <Container>
+      {/* <AdContainer className="kakao-ad-container">
+        <ins className="kakao_ad_area"
+          style={{ display: 'none' }}
+          data-ad-unit="DAN-UVTN348pC6N0XcSv"
+          data-ad-width="728"
+          data-ad-height="90"
+          data-ad-onfail="callBackFunc"
+        ></ins>
+      </AdContainer> */}
       <Content>
         <Title>언어 선택</Title>
         <Table>
@@ -45,7 +63,7 @@ function Language({ setMode, setSelectedLanguage }) {
       </Content>
       <StatusContainer>
         <StatusItem>
-          <CoinImage src={coin}alt="Coin" />
+          <CoinImage src={coin} alt="Coin" />
           <StatusText>{userInfo.coin}</StatusText>
         </StatusItem>
         <StatusItem>
@@ -60,4 +78,3 @@ function Language({ setMode, setSelectedLanguage }) {
 }
 
 export default Language;
-

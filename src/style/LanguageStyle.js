@@ -14,6 +14,13 @@ export const Container = styled.div`
   position: relative; /* 추가 */
 `;
 
+export const AdContainer = styled.div`
+  position: absolute;
+  top: 20px; /* 조정 */
+  left: 43%;
+  transform: translateX(-50%);
+`;
+
 export const Content = styled.div`
   background-color: rgba(255, 255, 255, 0.7);
   padding: 20px;
