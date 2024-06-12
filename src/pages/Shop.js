@@ -30,7 +30,7 @@ function Shop({ setMode }) {
       .then((data) => {
         if (data.success) {
           alert('성공적으로 구매가 되었습니다!');
-          // Optionally, update the product list or user's coins here
+          window.location.reload();
         } else {
           alert('구매 실패 : ' + data.message);
         }
