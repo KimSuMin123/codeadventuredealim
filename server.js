@@ -36,6 +36,20 @@ app.get('/authcheck', (req, res) => {
     }
     res.send(sendData);
 });
+app.get('/users', (req, res) => {
+    // 관리자만 접근할 수 있도록 조건을 추가할 수 있습니다.
+    if (req.session.is_manager) {
+        db.query('SELECT id, username, email, phone, coin, experience, cst, javast, pythonst, jsst, htmlst, cssst, level FROM users', (error, results, fields) => {
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).json({ error: 'Database query error' });
+            }
+            res.json(results);
+        });
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
+});
 
 app.get('/userinfo', (req, res) => {
     if (req.session.is_logined) {

@@ -13,6 +13,7 @@ import {
 function Manager({ setMode }) {
   const [purchaseLogs, setPurchaseLogs] = useState([]);
   const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [newQuantity, setNewQuantity] = useState('');
 
@@ -24,6 +25,10 @@ function Manager({ setMode }) {
     fetch('/shop')
       .then((res) => res.json())
       .then((data) => setProducts(data));
+
+    fetch('/users')
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
   }, []);
 
   const handleUpdateQuantity = () => {
@@ -53,6 +58,30 @@ function Manager({ setMode }) {
   return (
     <ManagerContainer>
       <SectionTitle>Manager Page</SectionTitle>
+      <SectionTitle>Member</SectionTitle>
+      <Table>
+        <thead>
+          <tr>
+            <TableHeader>이름</TableHeader>
+            <TableHeader>이메일</TableHeader>
+            <TableHeader>전화번호</TableHeader>
+            <TableHeader>코인</TableHeader>
+            <TableHeader>경험치</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.phone}</TableCell>
+              <TableCell>{user.coin}</TableCell>
+              <TableCell>{user.experience}</TableCell>
+            </TableRow>
+          ))}
+        </tbody>
+      </Table>
+
       <SectionTitle>Purchase Logs</SectionTitle>
       <Table>
         <thead>
@@ -96,6 +125,7 @@ function Manager({ setMode }) {
           ))}
         </tbody>
       </Table>
+      
 
       {selectedProduct && (
         <UpdateQuantityContainer>
