@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Title, Explanation, Question, Input, Button, PlayerLives, MonsterLives, Player, Monster, BottomContainer, AnswerContainer } from '../style/quizstyle';
+import { Container, Title, Explanation, Question, Input, Button, Player, Monster, BottomContainer, AnswerContainer } from '../style/quizstyle';
 import { CodeBlock } from "react-code-blocks";
 import LevelUpModal from './LevelUpModal';
 import SuccessModal from './SuccessModal';
 import FailureModal from './FailureModal';
+import lifeImage from '../img/life.png'; // Ensure you have the image in the correct directory
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -94,10 +95,20 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   if (!quiz) return <Container>로딩 중...</Container>;
 
+  const renderLives = (numLives) => {
+    return (
+      <div>
+        {[...Array(numLives)].map((_, index) => (
+          <img key={index} src={lifeImage} alt="life" style={{ width: '20px', height: '20px', margin: '0 2px' }} />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <Container>
-      <PlayerLives>플레이어 목숨: {playerLives}</PlayerLives>
-      <MonsterLives>몬스터 목숨: {monsterLives}</MonsterLives>
+      <div>플레이어 목숨: {renderLives(playerLives)}</div>
+      <div>몬스터 목숨: {renderLives(monsterLives)}</div>
       <Title>스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})</Title>
       <Explanation>{quiz.explanation}</Explanation>
       <Question><CodeBlock text={quiz.question}></CodeBlock></Question>

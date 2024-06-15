@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { MyPageContainer, UserInfoContainer, UserInfoItem, 
   Title, Button } from '../style/MypageStyle';
 
+import Run from '../Knightmove/Run';
+
 function MyPage(props) {
   const [userInfo, setUserInfo] = useState(null);
 
@@ -33,6 +35,7 @@ function MyPage(props) {
         <UserInfoItem>HTML 단계: {userInfo.htmlst}</UserInfoItem>
         <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
         <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
+        <Run/>
       </UserInfoContainer>
       <Button onClick={() => props.setMode("LANGUAGE")}>메인으로 돌아가기</Button>
     </MyPageContainer>
