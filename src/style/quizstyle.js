@@ -30,18 +30,19 @@ export const Question = styled.p`
 `;
 
 export const Input = styled.input`
-  padding: 10px;
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  border-radius: 10px;
+  padding: 5px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  border-radius: 5px;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 200px;
 `;
 
 export const Button = styled.button`
   padding: 10px 20px;
   font-size: 1.2rem;
-  margin: 10px;
+  margin: 5px; // 간격을 줄이기 위해 수정
   border-radius: 10px;
   border: none;
   background-color: #ff6b6b;
@@ -60,10 +61,10 @@ export const Button = styled.button`
   }
 `;
 
-export const PlayerLives = styled.div`
+export const MonsterLives = styled.div`
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px;
   font-size: 1.2rem;
   color: #333;
   background-color: #fff;
@@ -72,10 +73,10 @@ export const PlayerLives = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-export const MonsterLives = styled.div`
+export const PlayerLives = styled.div`
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px;
   font-size: 1.2rem;
   color: #333;
   background-color: #fff;
@@ -89,7 +90,15 @@ export const BottomContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   position: absolute;
-  bottom: 20px;
+  bottom: 60px; // 간격을 줄이기 위해 수정
+  padding: 0 20px;
+`;
+
+export const AnswerContainer = styled.div`
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  bottom: 300px; // 간격을 줄이기 위해 수정
   padding: 0 20px;
 `;
 
