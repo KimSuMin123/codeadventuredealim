@@ -4,8 +4,8 @@ const path = require('path');
 const app = express();
 const port = 3001;
 
-const db = require('./lib/db');
-const sessionOption = require('./lib/sessionOption');
+const db = require('./lib/db'); // 데이터베이스 연결
+const sessionOption = require('./lib/sessionOption'); // 세션 옵션
 const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
 
@@ -36,8 +36,8 @@ app.get('/authcheck', (req, res) => {
     }
     res.send(sendData);
 });
+
 app.get('/users', (req, res) => {
-    // 관리자만 접근할 수 있도록 조건을 추가할 수 있습니다.
     if (req.session.is_manager) {
         db.query('SELECT id, username, email, phone, coin, experience, cst, javast, pythonst, jsst, htmlst, cssst, level FROM users', (error, results, fields) => {
             if (error) {
@@ -100,61 +100,63 @@ app.get('/quiz/:stageId', (req, res) => {
     });
 });
 
-app.post('/submit', (req, res) => {
-    const { stageId, answer, language } = req.body;
+app.post('/submit-answer', (req, res) => {
+    const { stageId, answer, answerKey, language } = req.body;
     const quizTable = `${language}quiz`;
     const progressField = `${language}st`;
 
     if (req.session.is_logined) {
-        db.query(`SELECT answer FROM ${quizTable} WHERE id = ?`, [stageId], function(error, results, fields) {
+        db.query(`SELECT ${answerKey} FROM ${quizTable} WHERE id = ?`, [stageId], function(error, results, fields) {
             if (error) throw error;
-            if (results.length > 0 && results[0].answer === answer) {
-                db.query(`SELECT ${progressField}, experience, level FROM users WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
-                    if (error) throw error;
-                    const userProgress = results[0][progressField];
-                    const currentExperience = results[0].experience;
-                    const currentLevel = results[0].level;
-                    const newExperience = currentExperience + 50;
-                    let newLevel = currentLevel;
-
-                    // Calculate required experience for next level
-                    let requiredExperience = 200;
-                    for (let i = 1; i < newLevel; i++) {
-                        requiredExperience *= 2.5;
-                    }
-
-                    // Determine if the user levels up
-                    let levelUp = false;
-                    if (newExperience >= requiredExperience) {
-                        newLevel += 1;
-                        levelUp = true;
-                    }
-
-                    let updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, experience = ?, level = ? WHERE username = ?`;
-                    if (userProgress < stageId) {
-                        // 최초 성공 시 코인과 경험치 지급
-                        updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = ?, level = ? WHERE username = ?`;
-                    }
-
-                    db.query(updateQuery, [newExperience, newLevel, req.session.nickname], function(error, results, fields) {
+            if (results.length > 0) {
+                const correctAnswer = results[0][answerKey] === answer;
+                
+                if (correctAnswer) {
+                    db.query(`SELECT ${progressField}, experience, level FROM users WHERE username = ?`, [req.session.nickname], function(error, results, fields) {
                         if (error) throw error;
+                        const userProgress = results[0][progressField];
+                        const currentExperience = results[0].experience;
+                        const currentLevel = results[0].level;
+                        const newExperience = currentExperience + 50;
+                        let newLevel = currentLevel;
 
-                        if (levelUp) {
-                            // 레벨업 시 경험치와 코인 지급
-                            const extraExperience = 100;
-                            const randomCoin = Math.floor(Math.random() * 301) + 600;
-                            db.query(`UPDATE users SET experience = experience + ?, coin = coin + ? WHERE username = ?`, 
-                            [extraExperience, randomCoin, req.session.nickname], function(error, results, fields) {
-                                if (error) throw error;
-                                res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel });
-                            });
-                        } else {
-                            res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel });
+                        let requiredExperience = 200;
+                        for (let i = 1; i < newLevel; i++) {
+                            requiredExperience *= 2.5;
                         }
+
+                        let levelUp = false;
+                        if (newExperience >= requiredExperience) {
+                            newLevel += 1;
+                            levelUp = true;
+                        }
+
+                        let updateQuery = `UPDATE users SET experience = ?, level = ? WHERE username = ?`;
+                        if (userProgress < stageId) {
+                            updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = ?, level = ? WHERE username = ?`;
+                        }
+
+                        db.query(updateQuery, [newExperience, newLevel, req.session.nickname], function(error, results, fields) {
+                            if (error) throw error;
+
+                            if (levelUp) {
+                                const extraExperience = 100;
+                                const randomCoin = Math.floor(Math.random() * 301) + 600;
+                                db.query(`UPDATE users SET experience = experience + ?, coin = coin + ? WHERE username = ?`, 
+                                [extraExperience, randomCoin, req.session.nickname], function(error, results, fields) {
+                                    if (error) throw error;
+                                    res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel, correctAnswer });
+                                });
+                            } else {
+                                res.json({ correct: true, firstTime: userProgress < stageId, levelUp, newLevel, correctAnswer });
+                            }
+                        });
                     });
-                });
+                } else {
+                    res.json({ correct: false, correctAnswer });
+                }
             } else {
-                res.json({ correct: false });
+                res.status(404).json({ error: 'Quiz not found' });
             }
         });
     } else {
@@ -335,7 +337,7 @@ app.post('/update-quantity/:productId', (req, res) => {
         res.status(401).json({ error: 'Unauthorized' });
     }
 });
-// server.js
+
 app.post('/purchase-hint', (req, res) => {
   if (req.session.is_logined) {
     const { stageId, language } = req.body;

@@ -1,4 +1,3 @@
-// quizstyle.js
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -9,6 +8,7 @@ export const Container = styled.div`
   color: #fff;
   min-height: 100vh;
   padding: 20px;
+  position: relative;
 `;
 
 export const Title = styled.h2`
@@ -58,6 +58,57 @@ export const Button = styled.button`
   &:active {
     transform: scale(1);
   }
+`;
+
+export const PlayerLives = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.2rem;
+  color: #333;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
+export const MonsterLives = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  color: #333;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
+export const BottomContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: absolute;
+  bottom: 20px;
+  padding: 0 20px;
+`;
+
+export const Player = styled.div`
+  font-size: 1.5rem;
+  color: #333;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
+export const Monster = styled.div`
+  font-size: 1.5rem;
+  color: #333;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 export const ModalOverlay = styled.div`
