@@ -3,6 +3,7 @@ import { MyPageContainer, UserInfoContainer, UserInfoItem,
   Title, Button } from '../style/MypageStyle';
 
 import Run from '../Knightmove/Run';
+import Cloud from '../Knightmove/Cloud';
 
 function MyPage(props) {
   const [userInfo, setUserInfo] = useState(null);
