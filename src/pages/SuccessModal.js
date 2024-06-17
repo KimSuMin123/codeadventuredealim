@@ -13,7 +13,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
     <ModalOverlay>
       <ModalContent>
         <ModalTitle>정답입니다!</ModalTitle>
-        <p>코인 500을 획득 하셨고 경험치가 50 증가하였습니다.</p>
+        <p>다음 스테이지로 넘어 갑니다.</p>
         <ModalButton onClick={onClose}>확인</ModalButton>
       </ModalContent>
     </ModalOverlay>

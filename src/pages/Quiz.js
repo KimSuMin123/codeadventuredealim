@@ -48,6 +48,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [playerLives, setPlayerLives] = useState(3);
   const [monsterLives, setMonsterLives] = useState(3);
   const [firstAttempt, setFirstAttempt] = useState(true);
+  const [levelCleared, setLevelCleared] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -60,6 +61,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         setAnswers({ answer1: "", answer2: "", answer3: "" });
         setCorrectAnswers({ answer1: false, answer2: false, answer3: false });
         setFirstAttempt(true);
+        setLevelCleared(data.cleared || false); // Assuming the API returns a 'cleared' field
       });
   }, [nextStageId, selectedLanguage]);
 
@@ -88,7 +90,11 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             const updatedLives = prevLives - 1;
             if (updatedLives <= 0) {
               if (firstAttempt) {
-                setShowSuccessModal(true);
+                if (levelCleared) {
+                  setShowSuccessModal(true);
+                } else {
+                  setShowSuccessModal(true);
+                }
                 if (data.levelUp) {
                   setNewLevel(data.newLevel);
                   setLevelUp(true);
@@ -228,10 +234,12 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         onClose={() => setLevelUp(false)}
         newLevel={newLevel}
       />
-      <SuccessModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-      />
+      {!levelCleared && (
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
       <FailureModal
         isOpen={showFailureModal}
         onClose={() => setShowFailureModal(false)}
