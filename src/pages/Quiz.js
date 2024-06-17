@@ -15,6 +15,8 @@ import {
   SideContainer,
   LeftContainer,
   RightContainer,
+  BackButton,
+  Spacer,
 } from "../style/quizstyle";
 import { CodeBlock } from "react-code-blocks";
 import LevelUpModal from "./LevelUpModal";
@@ -144,6 +146,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   return (
     <Container>
       <SideContainer>
+        <Spacer />
         <LeftContainer>
           <Title>
             스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})
@@ -200,7 +203,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
               </Button>
             </div>
           </AnswerContainer>
-          <Button onClick={() => setMode("STAGE")}>돌아가기</Button>
+          <BackButton onClick={() => setMode("STAGE")}>돌아가기</BackButton>
         </LeftContainer>
         <RightContainer>
           <BottomContainer>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import quizimg from "../img/quiz.png";
 
 export const Container = styled.div`
   display: flex;
@@ -12,14 +13,16 @@ export const SideContainer = styled.div`
 `;
 
 export const LeftContainer = styled.div`
-  background-image: url("https://i.pinimg.com/564x/7f/ac/63/7fac637e5e4d4fe7df9579bcf226f8af.jpg");
-  padding: 20px;
-  width: 50%;
+  background-image: url(${quizimg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 99vh;
 `;
 
 export const RightContainer = styled.div`
-  padding: 20px;
-  width: 50%;
+  width: 70%;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,27 +31,45 @@ export const RightContainer = styled.div`
 export const Title = styled.h1`
   font-size: 2rem;
   margin-bottom: 20px;
+  margin-top: 90px;
+  margin-left: 100px;
 `;
 
 export const Explanation = styled.p`
   font-size: 1.2rem;
+  margin-left: 100px;
   margin-bottom: 20px;
+  width: 600px;
+`;
+export const Spacer = styled.div`
+  width: 30px;
 `;
 
 export const Question = styled.div`
   font-size: 1rem;
+  width: 600px;
+  margin-left: 100px;
   margin-bottom: 20px;
 `;
 
 export const Input = styled.input`
   margin-right: 10px;
   padding: 10px;
+  margin-left: 100px;
+  width: 490px;
   font-size: 1rem;
 `;
 
 export const Button = styled.button`
   padding: 10px 20px;
   font-size: 1rem;
+  cursor: pointer;
+`;
+export const BackButton = styled.button`
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin-left: 100px;
+  margin-top: 100px;
   cursor: pointer;
 `;
 
