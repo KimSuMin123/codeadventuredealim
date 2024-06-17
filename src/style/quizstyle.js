@@ -1,170 +1,126 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: skyblue;
-  color: #fff;
-  min-height: 100vh;
-  padding: 20px;
-  position: relative;
 `;
 
-export const Title = styled.h2`
+export const SideContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+export const LeftContainer = styled.div`
+  background-image: url("https://i.pinimg.com/564x/7f/ac/63/7fac637e5e4d4fe7df9579bcf226f8af.jpg");
+  padding: 20px;
+  width: 50%;
+`;
+
+export const RightContainer = styled.div`
+  padding: 20px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const Title = styled.h1`
   font-size: 2rem;
   margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 export const Explanation = styled.p`
   font-size: 1.2rem;
-  margin-bottom: 10px;
-  text-align: center;
+  margin-bottom: 20px;
 `;
 
-export const Question = styled.p`
+export const Question = styled.div`
   font-size: 1rem;
   margin-bottom: 20px;
-  font-weight: bold;
 `;
 
 export const Input = styled.input`
-  padding: 5px;
+  margin-right: 10px;
+  padding: 10px;
   font-size: 1rem;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 200px;
 `;
 
 export const Button = styled.button`
   padding: 10px 20px;
-  font-size: 1.2rem;
-  margin: 5px; // 간격을 줄이기 위해 수정
-  border-radius: 10px;
-  border: none;
-  background-color: #ff6b6b;
-  color: #fff;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.3s;
-
-  &:hover {
-    background-color: #ff4757;
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(1);
-  }
 `;
 
-export const MonsterLives = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.2rem;
-  color: #333;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+export const AnswerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
-export const PlayerLives = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 1.2rem;
-  color: #333;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+export const LifeContainer = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+
+export const LifeImage = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
 `;
 
 export const BottomContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  position: absolute;
-  bottom: 60px; // 간격을 줄이기 위해 수정
-  padding: 0 20px;
-`;
-
-export const AnswerContainer = styled.div`
-  justify-content: center;
-  width: 100%;
-  position: absolute;
-  bottom: 300px; // 간격을 줄이기 위해 수정
-  padding: 0 20px;
+  align-items: flex-end;
+  margin-top: 20px;
 `;
 
 export const Player = styled.div`
-  font-size: 1.5rem;
-  color: #333;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 150px;
+  height: 150px;
+  order: 1; // 변경된 부분
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const Monster = styled.div`
-  font-size: 1.5rem;
-  color: #333;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 100px;
+  order: 2; // 변경된 부분
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 export const ModalContent = styled.div`
-  background-color: #fff;
+  background: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  color: #333;
-  max-width: 400px;
-  width: 100%;
 `;
 
 export const ModalTitle = styled.h2`
-  font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #3a1c71;
 `;
 
 export const ModalButton = styled.button`
   padding: 10px 20px;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  border: none;
-  background-color: #3a1c71;
-  color: #fff;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-
-  &:hover {
-    background-color: #2a0d49;
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(1);
-  }
 `;
