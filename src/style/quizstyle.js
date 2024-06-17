@@ -57,7 +57,12 @@ export const Question = styled.div`
   margin-left: 100px;
   margin-bottom: 20px;
 `;
-
+export const Hint = styled.div`
+  font-size: 1rem;
+  width: 600px;
+  margin-left: 100px;
+  margin-bottom: 20px;
+`;
 export const Input = styled.input`
   margin-right: 10px;
   padding: 10px;
@@ -75,7 +80,7 @@ export const BackButton = styled.button`
   padding: 10px 20px;
   font-size: 1rem;
   margin-left: 100px;
-  margin-top: 100px;
+  margin-top: 10px;
   cursor: pointer;
 `;
 

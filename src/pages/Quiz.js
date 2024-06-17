@@ -17,6 +17,7 @@ import {
   RightContainer,
   BackButton,
   Spacer,
+  Hint,
 } from "../style/quizstyle";
 import { CodeBlock } from "react-code-blocks";
 import LevelUpModal from "./LevelUpModal";
@@ -155,7 +156,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
           <Question>
             <CodeBlock text={quiz.question} />
           </Question>
-          {hint && <p>힌트: {hint}</p>}
+          <Hint>{hint && <p>힌트: {hint}</p>}</Hint>
           <AnswerContainer>
             <div>
               <Input
