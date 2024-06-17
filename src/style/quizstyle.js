@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import quizimg from "../img/quiz.png";
+import cimg from "../img/cbackground.png";
 
 export const Container = styled.div`
+  background-image: url(${cimg});
   display: flex;
+  background-color: rgba(255, 255, 255, 0.5);
   flex-direction: column;
   align-items: center;
 `;
@@ -21,11 +24,14 @@ export const LeftContainer = styled.div`
 `;
 
 export const RightContainer = styled.div`
+  margin-top: 50px;
+  margin-bottom: 70px;
   width: 70%;
   margin-left: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 export const Title = styled.h1`
@@ -94,12 +100,11 @@ export const BottomContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 20px;
 `;
 
 export const Player = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 300px;
+  height: 300px;
   order: 1; // 변경된 부분
   img {
     width: 100%;
@@ -108,8 +113,8 @@ export const Player = styled.div`
 `;
 
 export const Monster = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 300px;
+  height: 300px;
   order: 2; // 변경된 부분
   img {
     width: 100%;

@@ -219,6 +219,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             </Player>
           </BottomContainer>
         </RightContainer>
+        <Spacer />
       </SideContainer>
       <LevelUpModal
         isOpen={levelUp}
