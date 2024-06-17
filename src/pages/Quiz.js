@@ -25,7 +25,13 @@ import SuccessModal from "./SuccessModal";
 import FailureModal from "./FailureModal";
 import lifeImage from "../img/life.png";
 import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
+import AttackImage from "../Knightmove/Attack";
+import HurtImage from "../Knightmove/Hurt";
+import DeadImage from "../Knightmove/Dead";
 import MonsterImage from "../img/monster.png";
+import Hurt from "../Knightmove/Hurt";
+import Attack from "../Knightmove/Attack";
+import Dead from "../Knightmove/Dead";
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -49,6 +55,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [monsterLives, setMonsterLives] = useState(3);
   const [firstAttempt, setFirstAttempt] = useState(true);
   const [levelCleared, setLevelCleared] = useState(false);
+  const [characterState, setCharacterState] = useState("idle");
 
   useEffect(() => {
     fetch(
@@ -62,6 +69,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         setCorrectAnswers({ answer1: false, answer2: false, answer3: false });
         setFirstAttempt(true);
         setLevelCleared(data.cleared || false); // Assuming the API returns a 'cleared' field
+        setCharacterState("idle"); // Reset character state to idle
       });
   }, [nextStageId, selectedLanguage]);
 
@@ -85,6 +93,8 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             ...prevCorrectAnswers,
             [answerKey]: true,
           }));
+          setCharacterState("attack"); // Set character state to attack
+          setTimeout(() => setCharacterState("idle"), 1000); // Reset to idle after 1 second
 
           setMonsterLives((prevLives) => {
             const updatedLives = prevLives - 1;
@@ -107,9 +117,12 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             return updatedLives;
           });
         } else {
+          setCharacterState("hurt"); // Set character state to hurt
+          setTimeout(() => setCharacterState("idle"), 1000); // Reset to idle after 1 second
           setPlayerLives((prevLives) => {
             const updatedLives = prevLives - 1;
             if (updatedLives <= 0) {
+              setCharacterState("dead"); // Set character state to dead
               setShowFailureModal(true);
             }
             return updatedLives;
@@ -149,6 +162,19 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         ))}
       </LifeContainer>
     );
+  };
+
+  const renderCharacterImage = () => {
+    switch (characterState) {
+      case "attack":
+        return <Attack />;
+      case "hurt":
+        return <Hurt />;
+      case "dead":
+        return <Dead />;
+      default:
+        return <img src={UserImage} alt="Idle" />;
+    }
   };
 
   return (
@@ -222,9 +248,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             <Monster>
               <img src={MonsterImage} alt="Monster" />
             </Monster>
-            <Player>
-              <img src={UserImage} alt="User" />
-            </Player>
+            <Player>{renderCharacterImage()}</Player>
           </BottomContainer>
         </RightContainer>
         <Spacer />
