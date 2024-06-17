@@ -1,5 +1,10 @@
-import React from 'react';
-import { ModalOverlay, ModalContent, ModalTitle, ModalButton } from '../style/quizstyle';
+import React from "react";
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalTitle,
+  ModalButton,
+} from "../style/quizstyle";
 
 const SuccessModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;

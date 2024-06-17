@@ -25,7 +25,7 @@ import SuccessModal from "./SuccessModal";
 import FailureModal from "./FailureModal";
 import lifeImage from "../img/life.png";
 import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
-import MonstrImage from "../img/monster.png";
+import MonsterImage from "../img/monster.png";
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -47,6 +47,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [hint, setHint] = useState("");
   const [playerLives, setPlayerLives] = useState(3);
   const [monsterLives, setMonsterLives] = useState(3);
+  const [firstAttempt, setFirstAttempt] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -58,6 +59,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         setHint("");
         setAnswers({ answer1: "", answer2: "", answer3: "" });
         setCorrectAnswers({ answer1: false, answer2: false, answer3: false });
+        setFirstAttempt(true);
       });
   }, [nextStageId, selectedLanguage]);
 
@@ -82,17 +84,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             [answerKey]: true,
           }));
 
-          if (data.firstTime) {
-            setShowSuccessModal(true);
-            if (data.levelUp) {
-              setNewLevel(data.newLevel);
-              setLevelUp(true);
-            }
-          }
-
           setMonsterLives((prevLives) => {
             const updatedLives = prevLives - 1;
             if (updatedLives <= 0) {
+              if (firstAttempt) {
+                setShowSuccessModal(true);
+                if (data.levelUp) {
+                  setNewLevel(data.newLevel);
+                  setLevelUp(true);
+                }
+              }
               setNextStageId(nextStageId + 1);
               setPlayerLives(3);
               return 3;
@@ -213,8 +214,8 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
           </BottomContainer>
           <BottomContainer>
             <Monster>
-              <img src={MonstrImage} alt="Monster" />
-            </Monster>{" "}
+              <img src={MonsterImage} alt="Monster" />
+            </Monster>
             <Player>
               <img src={UserImage} alt="User" />
             </Player>
