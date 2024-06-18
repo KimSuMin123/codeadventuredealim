@@ -2,7 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 const app = express();
-const port = 3001;
+const port = 8001;
 
 const db = require("./lib/db"); // 데이터베이스 연결
 const sessionOption = require("./lib/sessionOption"); // 세션 옵션
