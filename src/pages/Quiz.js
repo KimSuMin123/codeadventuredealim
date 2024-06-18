@@ -53,6 +53,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [firstAttempt, setFirstAttempt] = useState(true);
   const [levelCleared, setLevelCleared] = useState(false);
   const [characterState, setCharacterState] = useState("idle");
+  const [monsterState, setMonsterState] = useState("idle");
 
   useEffect(() => {
     fetch(
@@ -67,8 +68,28 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         setFirstAttempt(true);
         setLevelCleared(data.cleared || false); // Assuming the API returns a 'cleared' field
         setCharacterState("idle"); // Reset character state to idle
+        setMonsterState("idle"); // Reset monster state to idle
       });
   }, [nextStageId, selectedLanguage]);
+
+  useEffect(() => {
+    const monsterAttackInterval = setInterval(() => {
+      setMonsterState("attack");
+      setTimeout(() => setMonsterState("idle"), 1000); // Reset to idle after 1 second
+
+      setPlayerLives((prevLives) => {
+        const updatedLives = prevLives - 1;
+        if (updatedLives <= 0) {
+          setCharacterState("dead"); // Set character state to dead
+          setShowFailureModal(true);
+          clearInterval(monsterAttackInterval); // Stop attacks if player is dead
+        }
+        return updatedLives;
+      });
+    }, 10000); // Monster attacks every 10 seconds
+
+    return () => clearInterval(monsterAttackInterval);
+  }, []);
 
   const handleSubmitAnswer = (answerKey) => {
     fetch("http://localhost:3001/submit-answer", {
@@ -95,26 +116,34 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
           setMonsterLives((prevLives) => {
             const updatedLives = prevLives - 1;
-            if (updatedLives <= 0) {
-              if (firstAttempt) {
-                if (levelCleared) {
-                  setShowSuccessModal(true);
-                } else {
-                  setShowSuccessModal(true);
+            if (updatedLives > 0) {
+              setMonsterState("hurt"); // Set monster state to hurt
+              setTimeout(() => setMonsterState("idle"), 1000); // Reset to idle after 1 second
+            } else {
+              setMonsterState("dead"); // Set monster state to dead
+              setTimeout(() => {
+                if (firstAttempt) {
+                  if (levelCleared) {
+                    setShowSuccessModal(true);
+                  } else {
+                    setShowSuccessModal(true);
+                  }
+                  if (data.levelUp) {
+                    setNewLevel(data.newLevel);
+                    setLevelUp(true);
+                  }
                 }
-                if (data.levelUp) {
-                  setNewLevel(data.newLevel);
-                  setLevelUp(true);
-                }
-              }
-              setNextStageId(nextStageId + 1);
-              setPlayerLives(3);
-              return 3;
+                setNextStageId(nextStageId + 1);
+                setPlayerLives(3);
+                setMonsterLives(3);
+                setMonsterState("idle");
+              }, 1000);
             }
             return updatedLives;
           });
         } else {
-          setCharacterState("hurt"); // Set character state to hurt
+          setCharacterState("hurt");
+          setMonsterState("attack"); // Set character state to hurt
           setTimeout(() => setCharacterState("idle"), 1000); // Reset to idle after 1 second
           setPlayerLives((prevLives) => {
             const updatedLives = prevLives - 1;
@@ -172,6 +201,30 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       default:
         return <img src={UserImage} alt="Idle" />;
     }
+  };
+
+  const renderMonsterImage = () => {
+    let rotation = 0;
+    switch (monsterState) {
+      case "hurt":
+        rotation = 30;
+        break;
+      case "attack":
+        rotation = -30;
+        break;
+      case "dead":
+        rotation = 90;
+        break;
+      default:
+        rotation = 0;
+    }
+    return (
+      <img
+        src={MonsterImage}
+        alt="Monster"
+        style={{ transform: `rotate(${rotation}deg)` }}
+      />
+    );
   };
 
   return (
@@ -242,9 +295,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             <div>몬스터 목숨: {renderLives(monsterLives)}</div>
           </BottomContainer>
           <BottomContainer>
-            <Monster>
-              <img src={MonsterImage} alt="Monster" />
-            </Monster>
+            <Monster>{renderMonsterImage()}</Monster>
             <Player>{renderCharacterImage()}</Player>
           </BottomContainer>
         </RightContainer>
