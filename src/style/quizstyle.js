@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import quizimg from "../img/quiz.png";
-import cimg from "../img/cbackground.png";
 
 export const Container = styled.div`
-  background-image: url(${cimg});
+  background-image: url(${({ backgroundImage }) => backgroundImage});
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
   display: flex;
-  background-color: rgba(255, 255, 255, 0.5);
   flex-direction: column;
   align-items: center;
 `;

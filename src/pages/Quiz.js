@@ -29,6 +29,12 @@ import MonsterImage from "../img/monster.png";
 import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
 import Dead from "../Knightmove/Dead";
+import cBackground from "../img/cbackground.png";
+import cssBackground from "../img/cssbackground.png";
+import javaBackground from "../img/javabackground.png";
+import pythonBackground from "../img/pythonbackground.png";
+import jsBackground from "../img/jsbackground.png";
+import htmlBackground from "../img/htmlbackground.png";
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -55,140 +61,173 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [characterState, setCharacterState] = useState("idle");
   const [monsterState, setMonsterState] = useState("idle");
 
+  const backgroundImages = {
+    c: cBackground,
+    css: cssBackground,
+    java: javaBackground,
+    python: pythonBackground,
+    js: jsBackground,
+    html: htmlBackground,
+  };
+
   useEffect(() => {
-    fetch(
-      `http://localhost:3001/quiz/${nextStageId}?language=${selectedLanguage}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setQuiz(data);
-        setHint("");
-        setAnswers({ answer1: "", answer2: "", answer3: "" });
-        setCorrectAnswers({ answer1: false, answer2: false, answer3: false });
-        setFirstAttempt(true);
-        setLevelCleared(data.cleared || false); // Assuming the API returns a 'cleared' field
-        setCharacterState("idle"); // Reset character state to idle
-        setMonsterState("idle"); // Reset monster state to idle
-      });
+    fetchQuiz(nextStageId, selectedLanguage);
   }, [nextStageId, selectedLanguage]);
 
   useEffect(() => {
     const monsterAttackInterval = setInterval(() => {
-      setMonsterState("attack");
-      setTimeout(() => setMonsterState("idle"), 1000); // Reset to idle after 1 second
-
-      setPlayerLives((prevLives) => {
-        const updatedLives = prevLives - 1;
-        if (updatedLives <= 0) {
-          setCharacterState("dead"); // Set character state to dead
-          setShowFailureModal(true);
-          clearInterval(monsterAttackInterval); // Stop attacks if player is dead
-        }
-        return updatedLives;
-      });
-    }, 10000); // Monster attacks every 10 seconds
+      monsterAttack();
+    }, 10000);
 
     return () => clearInterval(monsterAttackInterval);
   }, []);
 
-  const handleSubmitAnswer = (answerKey) => {
-    fetch("http://localhost:3001/submit-answer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        stageId: nextStageId,
-        answer: answers[answerKey],
-        answerKey,
-        language: selectedLanguage,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.correct) {
-          setCorrectAnswers((prevCorrectAnswers) => ({
-            ...prevCorrectAnswers,
-            [answerKey]: true,
-          }));
-          setCharacterState("attack"); // Set character state to attack
-          setTimeout(() => setCharacterState("idle"), 1000); // Reset to idle after 1 second
+  const fetchQuiz = async (stageId, language) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/quiz/${stageId}?language=${language}`
+      );
+      const data = await res.json();
+      setQuiz(data);
+      resetState(data.cleared || false);
+    } catch (error) {
+      console.error("Failed to fetch quiz data:", error);
+    }
+  };
 
-          setMonsterLives((prevLives) => {
-            const updatedLives = prevLives - 1;
-            if (updatedLives > 0) {
-              setMonsterState("hurt"); // Set monster state to hurt
-              setTimeout(() => setMonsterState("idle"), 1000); // Reset to idle after 1 second
-            } else {
-              setMonsterState("dead"); // Set monster state to dead
-              setTimeout(() => {
-                if (firstAttempt) {
-                  if (levelCleared) {
-                    setShowSuccessModal(true);
-                  } else {
-                    setShowSuccessModal(true);
-                  }
-                  if (data.levelUp) {
-                    setNewLevel(data.newLevel);
-                    setLevelUp(true);
-                  }
-                }
-                setNextStageId(nextStageId + 1);
-                setPlayerLives(3);
-                setMonsterLives(3);
-                setMonsterState("idle");
-              }, 1000);
-            }
-            return updatedLives;
-          });
-        } else {
-          setCharacterState("hurt");
-          setMonsterState("attack"); // Set character state to hurt
-          setTimeout(() => setCharacterState("idle"), 1000); // Reset to idle after 1 second
-          setPlayerLives((prevLives) => {
-            const updatedLives = prevLives - 1;
-            if (updatedLives <= 0) {
-              setCharacterState("dead"); // Set character state to dead
-              setShowFailureModal(true);
-            }
-            return updatedLives;
-          });
-        }
+  const resetState = (cleared) => {
+    setHint("");
+    setAnswers({ answer1: "", answer2: "", answer3: "" });
+    setCorrectAnswers({ answer1: false, answer2: false, answer3: false });
+    setFirstAttempt(true);
+    setLevelCleared(cleared);
+    setCharacterState("idle");
+    setMonsterState("idle");
+  };
+
+  const monsterAttack = () => {
+    setMonsterState("attack");
+    setTimeout(() => setMonsterState("idle"), 1000);
+
+    setPlayerLives((prevLives) => {
+      const updatedLives = prevLives - 1;
+      if (updatedLives <= 0) {
+        setCharacterState("dead");
+        setShowFailureModal(true);
+      }
+      return updatedLives;
+    });
+  };
+
+  const handleSubmitAnswer = async (answerKey) => {
+    try {
+      const res = await fetch("http://localhost:3001/submit-answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          answer: answers[answerKey],
+          answerKey,
+          language: selectedLanguage,
+        }),
       });
+      const data = await res.json();
+      handleAnswerResponse(data, answerKey);
+    } catch (error) {
+      console.error("Failed to submit answer:", error);
+    }
   };
 
-  const handlePurchaseHint = () => {
-    return fetch("http://localhost:3001/purchase-hint", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        stageId: nextStageId,
-        language: selectedLanguage,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setHint(data.hint);
-          setPlayerLives(3);
+  const handleAnswerResponse = (data, answerKey) => {
+    if (data.correct) {
+      handleCorrectAnswer(answerKey, data); // Pass data here
+    } else {
+      handleIncorrectAnswer();
+    }
+  };
+
+  const handleCorrectAnswer = (answerKey, data) => {
+    setCorrectAnswers((prev) => ({ ...prev, [answerKey]: true }));
+    setCharacterState("attack");
+    setTimeout(() => setCharacterState("idle"), 1000);
+
+    setMonsterLives((prevLives) => {
+      const updatedLives = prevLives - 1;
+      if (updatedLives > 0) {
+        setMonsterState("hurt");
+        setTimeout(() => setMonsterState("idle"), 1000);
+      } else {
+        setMonsterState("dead");
+        handleLevelCompletion(data); // Pass data here
+      }
+      return updatedLives;
+    });
+  };
+
+  const handleLevelCompletion = (data) => {
+    setTimeout(() => {
+      if (firstAttempt) {
+        setShowSuccessModal(true);
+        if (data.levelUp) {
+          setNewLevel(data.newLevel);
+          setLevelUp(true);
         }
-        return data;
+      }
+      moveToNextStage();
+    }, 1000);
+  };
+
+  const handleIncorrectAnswer = () => {
+    setCharacterState("hurt");
+    setMonsterState("attack");
+    setTimeout(() => setCharacterState("idle"), 1000);
+
+    setPlayerLives((prevLives) => {
+      const updatedLives = prevLives - 1;
+      if (updatedLives <= 0) {
+        setCharacterState("dead");
+        setShowFailureModal(true);
+      }
+      return updatedLives;
+    });
+  };
+
+  const moveToNextStage = () => {
+    setNextStageId(nextStageId + 1);
+    setPlayerLives(3);
+    setMonsterLives(3);
+    setMonsterState("idle");
+  };
+
+  const handlePurchaseHint = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/purchase-hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          language: selectedLanguage,
+        }),
       });
+      const data = await res.json();
+      if (data.success) {
+        setHint(data.hint);
+        setPlayerLives(3);
+      }
+    } catch (error) {
+      console.error("Failed to purchase hint:", error);
+    }
   };
 
-  if (!quiz) return <Container>로딩 중...</Container>;
+  if (!quiz) return <Container>Loading...</Container>;
 
-  const renderLives = (numLives) => {
-    return (
-      <LifeContainer>
-        {[...Array(numLives)].map((_, index) => (
-          <LifeImage key={index} src={lifeImage} alt="life" />
-        ))}
-      </LifeContainer>
-    );
-  };
+  const renderLives = (numLives) => (
+    <LifeContainer>
+      {[...Array(numLives)].map((_, index) => (
+        <LifeImage key={index} src={lifeImage} alt="life" />
+      ))}
+    </LifeContainer>
+  );
 
   const renderCharacterImage = () => {
     switch (characterState) {
@@ -228,71 +267,47 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   };
 
   return (
-    <Container>
+    <Container backgroundImage={backgroundImages[selectedLanguage]}>
       <SideContainer>
         <Spacer />
         <LeftContainer>
           <Title>
-            스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})
+            Stage {nextStageId} ({selectedLanguage.toUpperCase()})
           </Title>
           <Explanation>{quiz.explanation}</Explanation>
           <Question>
             <CodeBlock text={quiz.question} />
           </Question>
-          <Hint>{hint && <p>힌트: {hint}</p>}</Hint>
+          {hint && (
+            <Hint>
+              <p>Hint: {hint}</p>
+            </Hint>
+          )}
           <AnswerContainer>
-            <div>
-              <Input
-                type="text"
-                value={answers.answer1}
-                onChange={(e) =>
-                  setAnswers({ ...answers, answer1: e.target.value })
-                }
-              />
-              <Button
-                onClick={() => handleSubmitAnswer("answer1")}
-                disabled={correctAnswers.answer1}
-              >
-                {correctAnswers.answer1 ? "정답" : "제출"}
-              </Button>
-            </div>
-            <div>
-              <Input
-                type="text"
-                value={answers.answer2}
-                onChange={(e) =>
-                  setAnswers({ ...answers, answer2: e.target.value })
-                }
-              />
-              <Button
-                onClick={() => handleSubmitAnswer("answer2")}
-                disabled={correctAnswers.answer2}
-              >
-                {correctAnswers.answer2 ? "정답" : "제출"}
-              </Button>
-            </div>
-            <div>
-              <Input
-                type="text"
-                value={answers.answer3}
-                onChange={(e) =>
-                  setAnswers({ ...answers, answer3: e.target.value })
-                }
-              />
-              <Button
-                onClick={() => handleSubmitAnswer("answer3")}
-                disabled={correctAnswers.answer3}
-              >
-                {correctAnswers.answer3 ? "정답" : "제출"}
-              </Button>
-            </div>
+            {["answer1", "answer2", "answer3"].map((key) => (
+              <div key={key}>
+                <Input
+                  type="text"
+                  value={answers[key]}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, [key]: e.target.value })
+                  }
+                />
+                <Button
+                  onClick={() => handleSubmitAnswer(key)}
+                  disabled={correctAnswers[key]}
+                >
+                  {correctAnswers[key] ? "Correct" : "Submit"}
+                </Button>
+              </div>
+            ))}
           </AnswerContainer>
-          <BackButton onClick={() => setMode("STAGE")}>돌아가기</BackButton>
+          <BackButton onClick={() => setMode("STAGE")}>Back</BackButton>
         </LeftContainer>
         <RightContainer>
           <BottomContainer>
-            <div>플레이어 목숨: {renderLives(playerLives)}</div>
-            <div>몬스터 목숨: {renderLives(monsterLives)}</div>
+            <div>Player Lives: {renderLives(playerLives)}</div>
+            <div>Monster Lives: {renderLives(monsterLives)}</div>
           </BottomContainer>
           <BottomContainer>
             <Monster>{renderMonsterImage()}</Monster>
