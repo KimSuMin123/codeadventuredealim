@@ -471,5 +471,5 @@ app.post("/purchase-hint", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${PORT}`);
 });
