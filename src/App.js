@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import Start from "./pages/Start";
 import Login from "./pages/Login";
 import Signin from "./pages/Signin";
-import Stage from "./pages/stage";
+import Stage from "./pages/stage.js";
 import Quiz from "./pages/Quiz";
 import Language from "./pages/Language";
 import Shop from "./pages/Shop";
 import Manager from "./pages/Manager";
-import MyPage from "./pages/MyPage";
+import MyPage from "./pages/MyPage.js";
 import Battle from "./pages/Battle";
 
 function App() {
