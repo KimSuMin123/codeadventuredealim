@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Title, StageList, StageItem, StageButton, BackButton, Background } from '../style/stagestyle';
-import cBackground from '../img/cbackground.png';
-import cssBackground from '../img/cssbackground.png';
-import javaBackground from '../img/javabackground.png';
-import pythonBackground from '../img/pythonbackground.png';
-import jsBackground from '../img/jsbackground.png';
-import htmlBackground from '../img/htmlbackground.png';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Title,
+  StageList,
+  StageItem,
+  StageButton,
+  BackButton,
+  Background,
+} from "../style/stagestyle";
+import cBackground from "../img/cbackground.png";
+import cssBackground from "../img/cssbackground.png";
+import javaBackground from "../img/javabackground.png";
+import pythonBackground from "../img/pythonbackground.png";
+import jsBackground from "../img/jsbackground.png";
+import htmlBackground from "../img/htmlbackground.png";
 
 const backgroundImages = {
   c: cBackground,
@@ -15,7 +23,6 @@ const backgroundImages = {
   js: jsBackground,
   html: htmlBackground,
 };
-
 
 function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   const [stages, setStages] = useState([]);
@@ -33,7 +40,7 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   const handleStageClick = (stageId) => {
     if (stageId <= userProgress + 1) {
       setSelectedStage(stageId);
-      setMode("QUIZ");
+      setMode("BATTLE");
     } else {
       alert("이전 스테이지를 완료해야 합니다.");
     }
@@ -43,7 +50,10 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
     <Background backgroundImage={backgroundImages[selectedLanguage]}>
       <Container>
         <Title>스테이지 선택 ({selectedLanguage.toUpperCase()})</Title>
-        <Title>{selectedLanguage.toUpperCase()}왕국에 갇히셨습니다. <br/> 문제를 해결하고 왕국을 탈출 하세요.</Title>
+        <Title>
+          {selectedLanguage.toUpperCase()}왕국에 갇히셨습니다. <br /> 문제를
+          해결하고 왕국을 탈출 하세요.
+        </Title>
         <StageList>
           {stages.map((stage) => (
             <StageItem key={stage.id}>
@@ -52,7 +62,7 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
                 completed={stage.id <= userProgress}
                 disabled={stage.id > userProgress + 1}
               >
-                 {stage.id}
+                {stage.id}
               </StageButton>
             </StageItem>
           ))}
