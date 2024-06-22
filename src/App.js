@@ -10,7 +10,6 @@ import Shop from "./pages/Shop";
 import Manager from "./pages/Manager";
 import MyPage from "./pages/MyPage";
 import Battle from "./pages/Battle";
-import Header from "./pages/Header";
 
 function App() {
   const [mode, setMode] = useState("START");
