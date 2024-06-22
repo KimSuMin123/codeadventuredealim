@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Start from "./pages/Start";
 import Login from "./pages/Login";
 import Signin from "./pages/Signin";
-import Stage from "./pages/Stage";
+import Stage from "./pages/stage";
 import Quiz from "./pages/Quiz";
 import Language from "./pages/Language";
 import Shop from "./pages/Shop";
