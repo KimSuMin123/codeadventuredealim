@@ -17,7 +17,9 @@ function App() {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/authcheck")
+    fetch(
+      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/authcheck"
+    )
       .then((res) => res.json())
       .then((json) => {
         if (json.isLogin === "True") {

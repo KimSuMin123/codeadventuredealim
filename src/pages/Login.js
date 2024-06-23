@@ -18,16 +18,19 @@ function Login({ setMode }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3001/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        userPassword,
-      }),
-    })
+    fetch(
+      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          userPassword,
+        }),
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to authenticate");
