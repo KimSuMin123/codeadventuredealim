@@ -40,7 +40,7 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   const handleStageClick = (stageId) => {
     if (stageId <= userProgress + 1) {
       setSelectedStage(stageId);
-      setMode("Quiz");
+      setMode("QUIZ");
     } else {
       alert("이전 스테이지를 완료해야 합니다.");
     }
