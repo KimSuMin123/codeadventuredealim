@@ -2,6 +2,14 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 const app = express();
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    credentials: true,
+  })
+);
+
 const port = 3001;
 
 const db = require("./lib/db"); // 데이터베이스 연결
