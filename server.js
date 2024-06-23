@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors");
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app",
     credentials: true,
   })
 );
