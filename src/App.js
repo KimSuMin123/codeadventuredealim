@@ -8,7 +8,7 @@ import Quiz from "./pages/Quiz";
 import Language from "./pages/Language";
 import Shop from "./pages/Shop";
 import Manager from "./pages/Manager";
-import MyPage from "./pages/MyPage";
+import MyPage from "./pages/Mypage";
 import Battle from "./pages/Battle";
 
 function App() {
