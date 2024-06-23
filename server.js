@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors");
 app.use(
   cors({
-    origin: "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app",
+    origin: "https://www.codeadventure.shop",
     credentials: true,
   })
 );

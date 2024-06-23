@@ -11,9 +11,7 @@ function MyPage(props) {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    fetch(
-      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/userinfo"
-    )
+    fetch("https://www.codeadventure.shop")
       .then((res) => res.json())
       .then((json) => {
         setUserInfo(json);
