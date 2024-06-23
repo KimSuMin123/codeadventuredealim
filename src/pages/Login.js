@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StartContainer,
   LoginContainer,
@@ -7,41 +7,47 @@ import {
   Input,
   Button,
   ErrorMessage,
-  SignupPrompt
-} from '../style/LoginStyle';
-import background from '../img/background.png';
+  SignupPrompt,
+} from "../style/LoginStyle";
+import background from "../img/background.png";
 
 function Login({ setMode }) {
-  const [userId, setUserId] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [error, setError] = useState('');
+  const [userId, setUserId] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3001/login', {
-      method: 'POST',
+    fetch("http://localhost:3001/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         userId,
         userPassword,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to authenticate");
+        }
+        return res.json();
+      })
       .then((data) => {
-        if (data.isLogin === 'True') {
+        if (data.isLogin === "True") {
           if (data.isManager) {
-            setMode('MANAGER');
+            setMode("MANAGER");
           } else {
-            setMode('LANGUAGE');
+            setMode("LANGUAGE");
           }
         } else {
           setError(data.isLogin);
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Fetch error:", error);
+        setError("Failed to authenticate. Please try again.");
       });
   };
 
@@ -65,7 +71,10 @@ function Login({ setMode }) {
           />
           <Button type="submit">Login</Button>
           <SignupPrompt>
-            계정이 없으신가요? <Button type="button" onClick={() => setMode('SIGNIN')}>회원가입</Button>
+            계정이 없으신가요?{" "}
+            <Button type="button" onClick={() => setMode("SIGNIN")}>
+              회원가입
+            </Button>
           </SignupPrompt>
         </LoginForm>
       </LoginContainer>
