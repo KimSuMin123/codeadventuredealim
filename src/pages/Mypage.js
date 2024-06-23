@@ -11,7 +11,7 @@ function MyPage(props) {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    fetch("https://www.codeadventure.shop")
+    fetch("https://www.codeadventure.shop/userinfo")
       .then((res) => res.json())
       .then((json) => {
         setUserInfo(json);
