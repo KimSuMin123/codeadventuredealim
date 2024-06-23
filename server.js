@@ -29,16 +29,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/build/index.html"));
 });
 
-app.get("/authcheck", (req, res) => {
-  const sendData = { isLogin: "" };
-  if (req.session.is_logined) {
-    sendData.isLogin = "True";
-  } else {
-    sendData.isLogin = "False";
-  }
-  res.send(sendData);
-});
-
 app.get("/users", (req, res) => {
   if (req.session.is_manager) {
     db.query(
