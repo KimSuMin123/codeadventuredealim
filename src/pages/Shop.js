@@ -14,32 +14,25 @@ function Shop({ setMode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch(
-      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/authcheck"
-    )
+    fetch("https://www.codeadventure.shop/authcheck")
       .then((res) => res.json())
       .then((json) => {
         setIsLoggedIn(json.isLogin === "True");
       });
 
-    fetch(
-      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/shop"
-    )
+    fetch("https://www.codeadventure.shop/shop")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
 
   const handlePurchase = (productId) => {
-    fetch(
-      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/purchase",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId }),
-      }
-    )
+    fetch("https://www.codeadventure.shop/purchase", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

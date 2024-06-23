@@ -77,7 +77,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const fetchQuiz = async (stageId, language) => {
     try {
       const res = await fetch(
-        `https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/quiz/${stageId}?language=${language}`
+        `https://www.codeadventure.shop/quiz/${stageId}?language=${language}`
       );
       const data = await res.json();
       setQuiz(data);
@@ -113,19 +113,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handleSubmitAnswer = async (answerKey) => {
     try {
-      const res = await fetch(
-        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/submit-answer",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            stageId: nextStageId,
-            answer: answers[answerKey],
-            answerKey,
-            language: selectedLanguage,
-          }),
-        }
-      );
+      const res = await fetch("https://www.codeadventure.shop/submit-answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          answer: answers[answerKey],
+          answerKey,
+          language: selectedLanguage,
+        }),
+      });
       const data = await res.json();
       handleAnswerResponse(data, answerKey);
     } catch (error) {
@@ -196,17 +193,14 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handlePurchaseHint = async () => {
     try {
-      const res = await fetch(
-        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/purchase-hint",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            stageId: nextStageId,
-            language: selectedLanguage,
-          }),
-        }
-      );
+      const res = await fetch("https://www.codeadventure.shop/purchase-hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          language: selectedLanguage,
+        }),
+      });
       const data = await res.json();
       if (data.success) {
         setHint(data.hint);
