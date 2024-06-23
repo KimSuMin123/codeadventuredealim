@@ -29,7 +29,9 @@ function Stage({ setMode, setSelectedStage, selectedLanguage }) {
   const [userProgress, setUserProgress] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/stages?language=${selectedLanguage}`)
+    fetch(
+      `https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/stages?language=${selectedLanguage}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setStages(data.stages);

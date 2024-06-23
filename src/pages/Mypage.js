@@ -11,7 +11,9 @@ function MyPage(props) {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/userinfo")
+    fetch(
+      "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/userinfo"
+    )
       .then((res) => res.json())
       .then((json) => {
         setUserInfo(json);

@@ -57,13 +57,16 @@ function Signin(props) {
                 email: email,
                 phone: phone,
               };
-              fetch("http://localhost:3001/signin", {
-                method: "post",
-                headers: {
-                  "content-type": "application/json",
-                },
-                body: JSON.stringify(userData),
-              })
+              fetch(
+                "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/signin",
+                {
+                  method: "post",
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  body: JSON.stringify(userData),
+                }
+              )
                 .then((res) => res.json())
                 .then((json) => {
                   if (json.isSuccess === "True") {
