@@ -2,7 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = 3001;
 
 const db = require("./lib/db"); // 데이터베이스 연결
 const sessionOption = require("./lib/sessionOption"); // 세션 옵션
@@ -27,6 +27,16 @@ app.use(
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/build/index.html"));
+});
+
+app.get("/authcheck", (req, res) => {
+  const sendData = { isLogin: "" };
+  if (req.session.is_logined) {
+    sendData.isLogin = "True";
+  } else {
+    sendData.isLogin = "False";
+  }
+  res.send(sendData);
 });
 
 app.get("/users", (req, res) => {
@@ -460,6 +470,6 @@ app.post("/purchase-hint", (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
 });
