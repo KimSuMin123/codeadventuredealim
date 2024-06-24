@@ -34,28 +34,16 @@ export const StartContainer = styled.div`
   text-align: center;
 `;
 
-const slideUpAnimation = `
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(-300px);
-    opacity: 1;
-  }
-`;
-
 export const Title = styled.h2`
   font-family: "PixelEmulator", sans-serif;
-  font-size: 100px;
+  font-size: 300px;
   text-align: center;
-  background: linear-gradient(to bottom, #f7d04f, #b8860b); /* gold gradient */
+  background: linear-gradient(to bottom, #f7d04f, #916904); /* gold gradient */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1px black;
   line-height: 0.8;
-  margin: 0;
-  animation: ${slideUpAnimation} 0.5s ease-in-out forwards; /* Apply animation */
+  margin: -300px 0 0 0;
 `;
 
 export const LoginButton = styled.button`
