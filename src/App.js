@@ -9,6 +9,7 @@ import Language from "./pages/Language";
 import Shop from "./pages/Shop";
 import Manager from "./pages/Manager";
 import MyPage from "./pages/Mypage";
+import Prolog from "./pages/prolog";
 
 function App() {
   const [mode, setMode] = useState("START");
@@ -66,6 +67,8 @@ function App() {
     content = <Shop setMode={setMode}></Shop>;
   } else if (mode === "MANAGER") {
     content = <Manager setMode={setMode}></Manager>;
+  } else if (mode === "PROLOG") {
+    content = <Prolog setMode={setMode}></Prolog>;
   }
   return (
     <>

@@ -38,8 +38,10 @@ function Login({ setMode }) {
         if (data.isLogin === "True") {
           if (data.isManager) {
             setMode("MANAGER");
+          } else if (data.isNewUser) {
+            setMode("PROLOG");
           } else {
-            setMode("LANGUAGE");
+            setMode("STAGE");
           }
         } else {
           setError(data.isLogin);
