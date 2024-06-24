@@ -1,6 +1,6 @@
 import React from "react";
 
-import CssBack from "../../img/Cssbackground.png";
+import CssBack from "../../img/cssbackground.png";
 
 const Background = styled.div`
   background-image: url(${CssBack});
