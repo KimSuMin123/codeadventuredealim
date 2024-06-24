@@ -1,71 +1,317 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import {
+  Container,
+  Title,
+  Explanation,
+  Question,
+  Input,
+  Button,
+  Player,
+  Monster,
+  BottomContainer,
+  AnswerContainer,
+  LifeContainer,
+  LifeImage,
+  SideContainer,
+  LeftContainer,
+  RightContainer,
+  BackButton,
+  Spacer,
+  Hint,
+} from "../style/quizstyle";
+import { CodeBlock } from "react-code-blocks";
+import LevelUpModal from "./LevelUpModal";
+import SuccessModal from "./SuccessModal";
+import FailureModal from "./FailureModal";
+import lifeImage from "../img/life.png";
+import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
+import Attack from "../Knightmove/Attack";
+import Hurt from "../Knightmove/Hurt";
+import Dead from "../Knightmove/Dead";
+import cBackground from "../img/cbackground.png";
+import cssBackground from "../img/cssbackground.png";
+import javaBackground from "../img/javabackground.png";
+import pythonBackground from "../img/pythonbackground.png";
+import jsBackground from "../img/jsbackground.png";
+import htmlBackground from "../img/htmlbackground.png";
 
-const Quiz = (props) => {
-  const { stageId } = props.match.params; // React Router로부터 stageId 파라미터를 가져옴
+function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [answers, setAnswers] = useState({
+    answer1: "",
+    answer2: "",
+    answer3: "",
+  });
+  const [correctAnswers, setCorrectAnswers] = useState({
+    answer1: false,
+    answer2: false,
+    answer3: false,
+  });
+  const [nextStageId, setNextStageId] = useState(stageId);
+  const [levelUp, setLevelUp] = useState(false);
+  const [newLevel, setNewLevel] = useState(1);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailureModal, setShowFailureModal] = useState(false);
+  const [hint, setHint] = useState("");
+  const [playerLives, setPlayerLives] = useState(3);
+  const [monsterLives, setMonsterLives] = useState(3);
+  const [firstAttempt, setFirstAttempt] = useState(true);
+  const [levelCleared, setLevelCleared] = useState(false);
+  const [characterState, setCharacterState] = useState("idle");
+  const [monsterState, setMonsterState] = useState("idle");
+
+  const backgroundImages = {
+    c: cBackground,
+    css: cssBackground,
+    java: javaBackground,
+    python: pythonBackground,
+    js: jsBackground,
+    html: htmlBackground,
+  };
 
   useEffect(() => {
-    axios
-      .get(`/quiz/${stageId}`)
-      .then((response) => {
-        setQuiz(response.data);
-        setLoading(false);
-        setError(null);
-      })
-      .catch((error) => {
-        setQuiz(null);
-        setLoading(false);
-        setError("Failed to fetch quiz data");
+    fetchQuiz(nextStageId, selectedLanguage);
+  }, [nextStageId, selectedLanguage]);
+
+  const fetchQuiz = async (stageId, language) => {
+    try {
+      const res = await fetch(
+        `https://www.codeadventure.shop/quiz/${stageId}}`
+      );
+      const data = await res.json();
+      setQuiz(data);
+      resetState(data.cleared || false);
+    } catch (error) {
+      console.error("Failed to fetch quiz data:", error);
+    }
+  };
+
+  const resetState = (cleared) => {
+    setHint("");
+    setAnswers({ answer1: "", answer2: "", answer3: "" });
+    setCorrectAnswers({ answer1: false, answer2: false, answer3: false });
+    setFirstAttempt(true);
+    setLevelCleared(cleared);
+    setCharacterState("idle");
+    setMonsterState("idle");
+  };
+
+  const monsterAttack = () => {
+    setMonsterState("attack");
+    setTimeout(() => setMonsterState("idle"), 1000);
+
+    setPlayerLives((prevLives) => {
+      const updatedLives = prevLives - 1;
+      if (updatedLives <= 0) {
+        setCharacterState("dead");
+        setShowFailureModal(true);
+      }
+      return updatedLives;
+    });
+  };
+
+  const handleSubmitAnswer = async (answerKey) => {
+    try {
+      const res = await fetch("https://www.codeadventure.shop/submit-answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          answer: answers[answerKey],
+          answerKey,
+          language: selectedLanguage,
+        }),
       });
-  }, [stageId]); // stageId가 변경될 때마다 useEffect가 다시 실행됨
+      const data = await res.json();
+      handleAnswerResponse(data, answerKey);
+    } catch (error) {
+      console.error("Failed to submit answer:", error);
+    }
+  };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleAnswerResponse = (data, answerKey) => {
+    if (data.correct) {
+      handleCorrectAnswer(answerKey, data); // Pass data here
+    } else {
+      handleIncorrectAnswer();
+    }
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const handleCorrectAnswer = (answerKey, data) => {
+    setCorrectAnswers((prev) => ({ ...prev, [answerKey]: true }));
+    setCharacterState("attack");
+    setTimeout(() => setCharacterState("idle"), 1000);
 
-  if (!quiz) {
-    return <div>Quiz not found</div>;
-  }
+    setMonsterLives((prevLives) => {
+      const updatedLives = prevLives - 1;
+      if (updatedLives > 0) {
+        setMonsterState("hurt");
+        setTimeout(() => setMonsterState("idle"), 1000);
+      } else {
+        setMonsterState("dead");
+        handleLevelCompletion(data); // Pass data here
+      }
+      return updatedLives;
+    });
+  };
+
+  const handleLevelCompletion = (data) => {
+    setTimeout(() => {
+      if (firstAttempt) {
+        setShowSuccessModal(true);
+        if (data.levelUp) {
+          setNewLevel(data.newLevel);
+          setLevelUp(true);
+        }
+      }
+      moveToNextStage();
+    }, 1000);
+  };
+
+  const handleIncorrectAnswer = () => {
+    setCharacterState("hurt");
+    setMonsterState("attack");
+    setTimeout(() => setCharacterState("idle"), 1000);
+
+    setPlayerLives((prevLives) => {
+      const updatedLives = prevLives - 1;
+      if (updatedLives <= 0) {
+        setCharacterState("dead");
+        setShowFailureModal(true);
+      }
+      return updatedLives;
+    });
+  };
+
+  const moveToNextStage = () => {
+    setNextStageId(nextStageId + 1);
+    setPlayerLives(3);
+    setMonsterLives(3);
+    setMonsterState("idle");
+  };
+
+  const handlePurchaseHint = async () => {
+    try {
+      const res = await fetch("https://www.codeadventure.shop/purchase-hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          language: selectedLanguage,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setHint(data.hint);
+        setPlayerLives(3);
+      }
+    } catch (error) {
+      console.error("Failed to purchase hint:", error);
+    }
+  };
+
+  if (!quiz) return <Container>Loading...</Container>;
+
+  const renderLives = (numLives) => (
+    <LifeContainer>
+      {[...Array(numLives)].map((_, index) => (
+        <LifeImage key={index} src={lifeImage} alt="life" />
+      ))}
+    </LifeContainer>
+  );
+
+  const renderCharacterImage = () => {
+    switch (characterState) {
+      case "attack":
+        return <Attack />;
+      case "hurt":
+        return <Hurt />;
+      case "dead":
+        return <Dead />;
+      default:
+        return <img src={UserImage} alt="Idle" />;
+    }
+  };
 
   return (
-    <div>
-      <h2>Quiz Details</h2>
-      <p>
-        <strong>Question:</strong> {quiz.question_text}
-      </p>
-      <p>
-        <strong>Answer 1:</strong> {quiz.answer1_text}
-      </p>
-      <p>
-        <strong>Answer 2:</strong> {quiz.answer2_text}
-      </p>
-      <p>
-        <strong>Answer 3:</strong> {quiz.answer3_text}
-      </p>
-      <p>
-        <strong>Hint:</strong> {quiz.hint_text}
-      </p>
-      <p>
-        <strong>Explanation:</strong> {quiz.explanation_text}
-      </p>
-      <p>
-        <strong>Monster:</strong> {quiz.monster_text}
-      </p>
-      <p>
-        <strong>Monster Name:</strong> {quiz.monster_name}
-      </p>
-      <p>
-        <strong>Background:</strong> {quiz.background_text}
-      </p>
-    </div>
+    <Container backgroundImage={backgroundImages[selectedLanguage]}>
+      <SideContainer>
+        <Spacer />
+        <LeftContainer>
+          <Title>
+            Stage {nextStageId} ({selectedLanguage.toUpperCase()})
+          </Title>
+          <Explanation>{quiz.explanation}</Explanation>
+          <Question>
+            <CodeBlock text={quiz.question} />
+          </Question>
+          {hint && (
+            <Hint>
+              <p>Hint: {hint}</p>
+            </Hint>
+          )}
+          <AnswerContainer>
+            {["answer1", "answer2", "answer3"].map((key) => (
+              <div key={key}>
+                <Input
+                  type="text"
+                  value={answers[key]}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, [key]: e.target.value })
+                  }
+                />
+                <Button
+                  onClick={() => handleSubmitAnswer(key)}
+                  disabled={correctAnswers[key]}
+                >
+                  {correctAnswers[key] ? "Correct" : "Submit"}
+                </Button>
+              </div>
+            ))}
+          </AnswerContainer>
+          <BackButton onClick={() => setMode("STAGE")}>Back</BackButton>
+        </LeftContainer>
+        <RightContainer>
+          <BottomContainer>
+            <div>Player Lives: {renderLives(playerLives)}</div>
+            <div>Monster Lives: {renderLives(monsterLives)}</div>
+          </BottomContainer>
+          <BottomContainer>
+            <Monster>
+              <img src={quiz.monsterImage} alt={quiz.monsterName} />
+            </Monster>
+            <Player>{renderCharacterImage()}</Player>
+          </BottomContainer>
+        </RightContainer>
+        <Spacer />
+      </SideContainer>
+      {levelUp && (
+        <LevelUpModal
+          newLevel={newLevel}
+          onClose={() => {
+            setLevelUp(false);
+            setShowSuccessModal(false);
+          }}
+        />
+      )}
+      {showSuccessModal && (
+        <SuccessModal
+          onClose={() => {
+            setShowSuccessModal(false);
+            setFirstAttempt(false);
+          }}
+        />
+      )}
+      {showFailureModal && (
+        <FailureModal
+          onClose={() => {
+            setShowFailureModal(false);
+            setFirstAttempt(false);
+          }}
+        />
+      )}
+    </Container>
   );
-};
+}
 
 export default Quiz;
