@@ -69,7 +69,7 @@ function Language({ setMode, setSelectedLanguage }) {
         ></ins>
       </AdContainer> */}
       <Content>
-        <Title>언어 선택</Title>
+        <Title>어느 던전에서 놀고 싶어?</Title>
         <Table>
           {["c", "java", "python", "html", "css", "js"].map((language) => (
             <TableItem key={language}>
