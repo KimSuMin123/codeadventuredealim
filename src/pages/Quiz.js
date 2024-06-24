@@ -25,9 +25,8 @@ import SuccessModal from "./SuccessModal";
 import FailureModal from "./FailureModal";
 import lifeImage from "../img/life.png";
 import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
-import MonsterImage from "../img/monster.png";
-import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
+import Hurt from "../Knightmove/Hurt";
 import Dead from "../Knightmove/Dead";
 import cBackground from "../img/cbackground.png";
 import cssBackground from "../img/cssbackground.png";
@@ -234,30 +233,6 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
     }
   };
 
-  const renderMonsterImage = () => {
-    let rotation = 0;
-    switch (monsterState) {
-      case "hurt":
-        rotation = 30;
-        break;
-      case "attack":
-        rotation = -30;
-        break;
-      case "dead":
-        rotation = 90;
-        break;
-      default:
-        rotation = 0;
-    }
-    return (
-      <img
-        src={MonsterImage}
-        alt="Monster"
-        style={{ transform: `rotate(${rotation}deg)` }}
-      />
-    );
-  };
-
   return (
     <Container backgroundImage={backgroundImages[selectedLanguage]}>
       <SideContainer>
@@ -302,28 +277,39 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
             <div>Monster Lives: {renderLives(monsterLives)}</div>
           </BottomContainer>
           <BottomContainer>
-            <Monster>{renderMonsterImage()}</Monster>
+            <Monster>
+              <img src={quiz.monsterImage} alt={quiz.monsterName} />
+            </Monster>
             <Player>{renderCharacterImage()}</Player>
           </BottomContainer>
         </RightContainer>
         <Spacer />
       </SideContainer>
-      <LevelUpModal
-        isOpen={levelUp}
-        onClose={() => setLevelUp(false)}
-        newLevel={newLevel}
-      />
-      {!levelCleared && (
-        <SuccessModal
-          isOpen={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
+      {levelUp && (
+        <LevelUpModal
+          newLevel={newLevel}
+          onClose={() => {
+            setLevelUp(false);
+            setShowSuccessModal(false);
+          }}
         />
       )}
-      <FailureModal
-        isOpen={showFailureModal}
-        onClose={() => setShowFailureModal(false)}
-        onPurchaseHint={handlePurchaseHint}
-      />
+      {showSuccessModal && (
+        <SuccessModal
+          onClose={() => {
+            setShowSuccessModal(false);
+            setFirstAttempt(false);
+          }}
+        />
+      )}
+      {showFailureModal && (
+        <FailureModal
+          onClose={() => {
+            setShowFailureModal(false);
+            setFirstAttempt(false);
+          }}
+        />
+      )}
     </Container>
   );
 }

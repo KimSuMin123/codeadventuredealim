@@ -123,6 +123,8 @@ app.get("/quiz/:stageId", (req, res) => {
   const stageId = req.params.stageId;
   const language = req.query.language;
   const quizTable = `${language}quiz`; // Dynamic table name
+  const monsterTable = `${language}monster`; // Assuming a monster table
+  const backgroundTable = `${language}background`; // Assuming a background table
 
   db.query(
     `SELECT * FROM ${quizTable} WHERE id = ?`,
@@ -130,14 +132,44 @@ app.get("/quiz/:stageId", (req, res) => {
     function (error, results, fields) {
       if (error) throw error;
       if (results.length > 0) {
-        res.json(results[0]);
+        const quizData = results[0];
+        // Now fetch monster and background details
+        db.query(
+          `SELECT * FROM ${monsterTable} WHERE id = ?`,
+          [quizData.monsterId], // Adjust with your actual schema
+          function (error, monsterResults, fields) {
+            if (error) throw error;
+            if (monsterResults.length > 0) {
+              const monsterData = monsterResults[0];
+              quizData.monsterName = monsterData.name;
+              quizData.monsterImage = monsterData.image;
+              // Now fetch background image
+              db.query(
+                `SELECT image FROM ${backgroundTable} WHERE id = ?`,
+                [quizData.backgroundId], // Adjust with your actual schema
+                function (error, bgResults, fields) {
+                  if (error) throw error;
+                  if (bgResults.length > 0) {
+                    quizData.backgroundImage = bgResults[0].image;
+                    res.json(quizData);
+                  } else {
+                    res
+                      .status(404)
+                      .json({ error: "Background image not found" });
+                  }
+                }
+              );
+            } else {
+              res.status(404).json({ error: "Monster data not found" });
+            }
+          }
+        );
       } else {
         res.status(404).json({ error: "Quiz not found" });
       }
     }
   );
 });
-
 // Submit answer route
 app.post("/submit-answer", (req, res) => {
   const { stageId, answer, answerKey, language } = req.body;
