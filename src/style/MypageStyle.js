@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import background from '../img/background.png';
+import styled from "styled-components";
+import background from "../img/background.png";
 
 export const MyPageContainer = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ export const MyPageContainer = styled.div`
 `;
 
 export const UserInfoContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #c7a126;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -22,6 +22,7 @@ export const UserInfoContainer = styled.div`
   max-width: 600px;
   column-count: 2;
   column-gap: 20px;
+  top: 100px;
 `;
 
 export const UserInfoItem = styled.p`
@@ -31,7 +32,7 @@ export const UserInfoItem = styled.p`
 `;
 
 export const Title = styled.h2`
-  font-family: 'PixelEmulator', sans-serif;
+  font-family: "PixelEmulator", sans-serif;
   color: black;
   margin-bottom: 20px;
 `;
