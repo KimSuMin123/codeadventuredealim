@@ -76,7 +76,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const fetchQuiz = async (stageId, language) => {
     try {
       const res = await fetch(
-        `https://www.codeadventure.shop/quiz/${stageId}?language=${language}`
+        `https://www.codeadventure.shop/quiz/${stageId}}`
       );
       const data = await res.json();
       setQuiz(data);
