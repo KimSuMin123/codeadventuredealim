@@ -43,7 +43,6 @@ export const Title = styled.h2`
   -webkit-text-stroke: 2px black;
   line-height: 0.8;
   margin: 0;
-  padding: 10px 0;
 `;
 
 export const LoginButton = styled.button`
