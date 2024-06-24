@@ -1,4 +1,5 @@
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle }, { keyframes } from "styled-components";
+
 import PixelEmulator from "../font/PixelEmulator.otf";
 import Noto from "../font/NotoSans-Regular.ttf";
 
