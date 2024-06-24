@@ -34,9 +34,9 @@ export const Title = styled.h2`
   font-family: "PixelEmulator", sans-serif;
   color: #d9b132;
   font-weight: bold; /* 굵게 설정 */
-  font-size: 48px; /* 크게 설정, 필요에 따라 크기 조정 */
+  font-size: 72px; /* 크게 설정, 필요에 따라 크기 조정 */
   margin-bottom: 20px;
-  -webkit-text-stroke: 1px black;
+  -webkit-text-stroke: 2px black;
   margin-top: 100px;
 `;
 export const Button = styled.button`
