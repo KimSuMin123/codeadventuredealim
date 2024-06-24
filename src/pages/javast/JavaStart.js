@@ -1,10 +1,22 @@
 import React from "react";
+import styled from "styled-components";
+import JavaBack from "../../img/Javabackground.png";
+
+const Background = styled.div`
+  background-image: url(${JavaBack});
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function JavaStart() {
   return (
-    <div className="App">
+    <Background>
       <p>JavaStart</p>
-    </div>
+    </Background>
   );
 }
 

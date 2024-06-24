@@ -1,10 +1,21 @@
 import React from "react";
+import HtmlBack from "../../img/Htmlbackground.png";
+
+const Background = styled.div`
+  background-image: url(${HtmlBack});
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function HtmlStart() {
   return (
-    <div className="App">
+    <Background>
       <p>HtmlStart</p>
-    </div>
+    </Background>
   );
 }
 
