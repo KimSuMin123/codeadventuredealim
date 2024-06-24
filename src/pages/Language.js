@@ -13,6 +13,7 @@ import {
   CoinImage,
   StatusText,
   AdContainer,
+  DevilImage, // 추가
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";
 import devil from "../img/devil.png";
@@ -60,15 +61,6 @@ function Language({ setMode, setSelectedLanguage }) {
 
   return (
     <Container>
-      {/* <AdContainer className="kakao-ad-container">
-        <ins className="kakao_ad_area"
-          style={{ display: 'none' }}
-          data-ad-unit="DAN-UVTN348pC6N0XcSv"
-          data-ad-width="728"
-          data-ad-height="90"
-          data-ad-onfail="callBackFunc"
-        ></ins>
-      </AdContainer> */}
       <Content>
         <Title>어느 던전에서 놀고 싶어?</Title>
         <Table>
@@ -80,7 +72,7 @@ function Language({ setMode, setSelectedLanguage }) {
             </TableItem>
           ))}
         </Table>
-        <img src={devil}></img>
+        <DevilImage src={devil} alt="Devil" /> {/* 스타일링된 이미지 */}
         <Links>
           <Link onClick={() => setMode("MYPAGE")}>마이페이지</Link>
           <Link onClick={() => setMode("SHOP")}>쇼핑</Link>

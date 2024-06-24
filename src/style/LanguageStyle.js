@@ -13,6 +13,14 @@ export const Container = styled.div`
   text-align: center;
   position: relative; /* 추가 */
 `;
+export const DevilImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px; /* 적절한 크기로 조정 */
+  height: auto;
+  z-index: 1;
+`;
 
 export const AdContainer = styled.div`
   position: absolute;
