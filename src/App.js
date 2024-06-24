@@ -83,7 +83,7 @@ function App() {
     content = <JavaStart setMode={setMode}></JavaStart>;
   } else if (mode === "JSSTART") {
     content = <JsStart setMode={setMode}></JsStart>;
-  } else if (mode === "PythonSTART") {
+  } else if (mode === "PYTHONSTART") {
     content = <PythonStart setMode={setMode}></PythonStart>;
   } else if (mode === "HTMLSTART") {
     content = <HtmlStart setMode={setMode}></HtmlStart>;
