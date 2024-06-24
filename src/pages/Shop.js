@@ -46,7 +46,7 @@ function Shop({ setMode }) {
 
   return (
     <ShopContainer style={{ backgroundImage: `url(${background})` }}>
-      <ShopTitle>Shop</ShopTitle>
+      <ShopTitle>상점</ShopTitle>
 
       <ProductTable>
         <TableHeader>
