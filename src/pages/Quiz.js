@@ -8,4 +8,4 @@ const Quiz = () => {
   );
 };
 
-export default QuiZ;
+export default Quiz;
