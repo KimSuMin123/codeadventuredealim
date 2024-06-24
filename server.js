@@ -3,12 +3,6 @@ const session = require("express-session");
 const path = require("path");
 const app = express();
 const cors = require("cors");
-const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
-const db = require("./lib/db"); // 데이터베이스 연결
-const sessionOption = require("./lib/sessionOption"); // 세션 옵션
-
-// CORS configuration
 app.use(
   cors({
     origin: "https://www.codeadventure.shop",
@@ -16,7 +10,17 @@ app.use(
   })
 );
 
-// Session configuration
+const port = 3001;
+
+const db = require("./lib/db"); // 데이터베이스 연결
+const sessionOption = require("./lib/sessionOption"); // 세션 옵션
+const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
+
+app.use(express.static(path.join(__dirname, "/build")));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 var MySQLStore = require("express-mysql-session")(session);
 var sessionStore = new MySQLStore(sessionOption);
 app.use(
@@ -29,20 +33,10 @@ app.use(
   })
 );
 
-// Middleware
-app.use(express.static(path.join(__dirname, "/build")));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// Constants
-const port = 3001;
-
-// Root route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/build/index.html"));
 });
 
-// Authentication check route
 app.get("/authcheck", (req, res) => {
   const sendData = { isLogin: "" };
   if (req.session.is_logined) {
@@ -53,7 +47,6 @@ app.get("/authcheck", (req, res) => {
   res.send(sendData);
 });
 
-// User list route (for managers only)
 app.get("/users", (req, res) => {
   if (req.session.is_manager) {
     db.query(
@@ -71,7 +64,6 @@ app.get("/users", (req, res) => {
   }
 });
 
-// User info route
 app.get("/userinfo", (req, res) => {
   if (req.session.is_logined) {
     db.query(
@@ -91,11 +83,10 @@ app.get("/userinfo", (req, res) => {
   }
 });
 
-// Stages route
 app.get("/stages", (req, res) => {
   if (req.session.is_logined) {
     const language = req.query.language;
-    const quizTable = `${language}quiz`; // Dynamic table name
+    const quizTable = `${language}quiz`; // 동적으로 테이블 이름을 설정
     const progressField = `${language}st`;
 
     db.query(
@@ -118,13 +109,10 @@ app.get("/stages", (req, res) => {
   }
 });
 
-// Quiz route
 app.get("/quiz/:stageId", (req, res) => {
   const stageId = req.params.stageId;
   const language = req.query.language;
-  const quizTable = `${language}quiz`; // Dynamic table name
-  const monsterTable = `${language}monster`; // Assuming a monster table
-  const backgroundTable = `${language}background`; // Assuming a background table
+  const quizTable = `${language}quiz`; // 동적으로 테이블 이름을 설정
 
   db.query(
     `SELECT * FROM ${quizTable} WHERE id = ?`,
@@ -132,45 +120,14 @@ app.get("/quiz/:stageId", (req, res) => {
     function (error, results, fields) {
       if (error) throw error;
       if (results.length > 0) {
-        const quizData = results[0];
-        // Now fetch monster and background details
-        db.query(
-          `SELECT * FROM ${monsterTable} WHERE id = ?`,
-          [quizData.monsterId], // Adjust with your actual schema
-          function (error, monsterResults, fields) {
-            if (error) throw error;
-            if (monsterResults.length > 0) {
-              const monsterData = monsterResults[0];
-              quizData.monsterName = monsterData.name;
-              quizData.monsterImage = monsterData.image;
-              // Now fetch background image
-              db.query(
-                `SELECT image FROM ${backgroundTable} WHERE id = ?`,
-                [quizData.backgroundId], // Adjust with your actual schema
-                function (error, bgResults, fields) {
-                  if (error) throw error;
-                  if (bgResults.length > 0) {
-                    quizData.backgroundImage = bgResults[0].image;
-                    res.json(quizData);
-                  } else {
-                    res
-                      .status(404)
-                      .json({ error: "Background image not found" });
-                  }
-                }
-              );
-            } else {
-              res.status(404).json({ error: "Monster data not found" });
-            }
-          }
-        );
+        res.json(results[0]);
       } else {
         res.status(404).json({ error: "Quiz not found" });
       }
     }
   );
 });
-// Submit answer route
+
 app.post("/submit-answer", (req, res) => {
   const { stageId, answer, answerKey, language } = req.body;
   const quizTable = `${language}quiz`;
@@ -207,16 +164,20 @@ app.post("/submit-answer", (req, res) => {
                 if (newExperience >= requiredExperience) {
                   newLevel += 1;
                   levelUp = true;
+                }
 
-                  // Reset experience for the next level
-                  const nextLevelExperience = 0; // You can set this to any initial value for the next level
-                  db.query(
-                    `UPDATE users SET experience = ?, level = ? WHERE username = ?`,
-                    [nextLevelExperience, newLevel, req.session.nickname],
-                    function (error, results, fields) {
-                      if (error) throw error;
+                let updateQuery = `UPDATE users SET experience = ?, level = ? WHERE username = ?`;
+                if (userProgress < stageId) {
+                  updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = ?, level = ? WHERE username = ?`;
+                }
 
-                      // Award additional experience and coins
+                db.query(
+                  updateQuery,
+                  [newExperience, newLevel, req.session.nickname],
+                  function (error, results, fields) {
+                    if (error) throw error;
+
+                    if (levelUp) {
                       const extraExperience = 100;
                       const randomCoin = Math.floor(Math.random() * 301) + 600;
                       db.query(
@@ -233,50 +194,17 @@ app.post("/submit-answer", (req, res) => {
                           });
                         }
                       );
+                    } else {
+                      res.json({
+                        correct: true,
+                        firstTime: userProgress < stageId,
+                        levelUp,
+                        newLevel,
+                        correctAnswer,
+                      });
                     }
-                  );
-                } else {
-                  let updateQuery = `UPDATE users SET experience = ?, level = ? WHERE username = ?`;
-                  if (userProgress < stageId) {
-                    updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = ?, level = ? WHERE username = ?`;
                   }
-
-                  db.query(
-                    updateQuery,
-                    [newExperience, newLevel, req.session.nickname],
-                    function (error, results, fields) {
-                      if (error) throw error;
-
-                      if (levelUp) {
-                        const extraExperience = 100;
-                        const randomCoin =
-                          Math.floor(Math.random() * 301) + 600;
-                        db.query(
-                          `UPDATE users SET experience = experience + ?, coin = coin + ? WHERE username = ?`,
-                          [extraExperience, randomCoin, req.session.nickname],
-                          function (error, results, fields) {
-                            if (error) throw error;
-                            res.json({
-                              correct: true,
-                              firstTime: userProgress < stageId,
-                              levelUp,
-                              newLevel,
-                              correctAnswer,
-                            });
-                          }
-                        );
-                      } else {
-                        res.json({
-                          correct: true,
-                          firstTime: userProgress < stageId,
-                          levelUp,
-                          newLevel,
-                          correctAnswer,
-                        });
-                      }
-                    }
-                  );
-                }
+                );
               }
             );
           } else {
@@ -292,14 +220,12 @@ app.post("/submit-answer", (req, res) => {
   }
 });
 
-// Logout route
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
     res.redirect("/");
   });
 });
 
-// Login route
 app.post("/login", (req, res) => {
   const username = req.body.userId;
   const password = req.body.userPassword;
@@ -320,35 +246,238 @@ app.post("/login", (req, res) => {
         "SELECT * FROM users WHERE username = ?",
         [username],
         function (error, results, fields) {
+          if (error) throw error;
           if (results.length > 0) {
-            bcrypt.compare(
-              password,
-              results[0].password,
-              function (err, result) {
-                if (result) {
-                  req.session.is_logined = true;
-                  req.session.nickname = username;
-                  req.session.save(function () {
-                    sendData.isLogin = "True";
-                    res.send(sendData);
-                  });
-                } else {
-                  res.status(401).json({ error: "Authentication failed" });
-                }
+            bcrypt.compare(password, results[0].password, (err, result) => {
+              if (result === true) {
+                req.session.is_logined = true;
+                req.session.nickname = username;
+                req.session.save(function () {
+                  sendData.isLogin = "True";
+                  res.send(sendData);
+                });
+                db.query(
+                  `INSERT INTO logTable (created, username, action, command, actiondetail) VALUES (NOW(), ?, 'login' , ?, ?)`,
+                  [req.session.nickname, "-", `React 로그인 테스트`],
+                  function (error, result) {}
+                );
+              } else {
+                sendData.isLogin = "로그인 정보가 일치하지 않습니다.";
+                res.send(sendData);
               }
-            );
+            });
           } else {
-            res.status(401).json({ error: "User not found" });
+            sendData.isLogin = "아이디 정보가 일치하지 않습니다.";
+            res.send(sendData);
           }
         }
       );
     }
   } else {
-    res.status(401).json({ error: "Authentication failed" });
+    sendData.isLogin = "아이디와 비밀번호를 입력하세요!";
+    res.send(sendData);
   }
 });
 
-// Server listening
+app.post("/signin", (req, res) => {
+  const username = req.body.userId;
+  const password = req.body.userPassword;
+  const password2 = req.body.userPassword2;
+  const email = req.body.email;
+  const phone = req.body.phone;
+
+  const sendData = { isSuccess: "" };
+
+  if (username && password && password2 && email && phone) {
+    db.query(
+      "SELECT * FROM users WHERE username = ?",
+      [username],
+      function (error, results, fields) {
+        if (error) throw error;
+        if (results.length <= 0 && password == password2) {
+          const hashedPassword = bcrypt.hashSync(password, 10);
+          db.query(
+            `INSERT INTO users (username, password, email, phone, coin, experience, cst, javast, pythonst, jsst, cssst, htmlst, level) 
+                          VALUES (?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, 1)`,
+            [username, hashedPassword, email, phone],
+            function (error, data) {
+              if (error) throw error;
+              req.session.save(function () {
+                sendData.isSuccess = "True";
+                res.send(sendData);
+              });
+            }
+          );
+        } else if (password != password2) {
+          sendData.isSuccess = "입력된 비밀번호가 서로 다릅니다.";
+          res.send(sendData);
+        } else {
+          sendData.isSuccess = "이미 존재하는 아이디 입니다!";
+          res.send(sendData);
+        }
+      }
+    );
+  } else {
+    sendData.isSuccess = "아이디, 비밀번호, 이메일, 전화번호를 입력하세요!";
+    res.send(sendData);
+  }
+});
+
+app.get("/managercheck", (req, res) => {
+  const sendData = { isManager: false };
+  if (req.session.is_manager) {
+    sendData.isManager = true;
+  }
+  res.send(sendData);
+});
+
+app.get("/purchase-log", (req, res) => {
+  if (req.session.is_manager) {
+    db.query(
+      "SELECT username, productname, phone FROM purchaseLog",
+      (error, results, fields) => {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
+app.get("/shop", (req, res) => {
+  db.query("SELECT * FROM codeadventure.shop", (error, results, fields) => {
+    if (error) throw error;
+    res.json(results);
+  });
+});
+
+app.post("/purchase", (req, res) => {
+  if (req.session.is_logined) {
+    const { productId } = req.body;
+    const username = req.session.nickname;
+
+    db.query(
+      "SELECT productprice, productamount, productname FROM codeadventure.shop WHERE id = ?",
+      [productId],
+      (error, results, fields) => {
+        if (error) throw error;
+        if (results.length > 0) {
+          const product = results[0];
+          if (product.productamount > 0) {
+            db.query(
+              "SELECT coin, phone FROM users WHERE username = ?",
+              [username],
+              (error, results, fields) => {
+                if (error) throw error;
+                if (results.length > 0) {
+                  const user = results[0];
+                  if (user.coin >= product.productprice) {
+                    const newCoin = user.coin - product.productprice;
+                    const newAmount = product.productamount - 1;
+
+                    db.query(
+                      "UPDATE users SET coin = ? WHERE username = ?",
+                      [newCoin, username],
+                      (error, results, fields) => {
+                        if (error) throw error;
+                        db.query(
+                          "UPDATE codeadventure.shop SET productamount = ? WHERE id = ?",
+                          [newAmount, productId],
+                          (error, results, fields) => {
+                            if (error) throw error;
+                            db.query(
+                              "INSERT INTO purchaseLog (username, productname, phone) VALUES (?, ?, ?)",
+                              [username, product.productname, user.phone],
+                              (error, results, fields) => {
+                                if (error) throw error;
+                                res.json({ success: true });
+                              }
+                            );
+                          }
+                        );
+                      }
+                    );
+                  } else {
+                    res.json({ success: false, message: "Not enough coins" });
+                  }
+                }
+              }
+            );
+          } else {
+            res.json({ success: false, message: "Product out of stock" });
+          }
+        } else {
+          res.json({ success: false, message: "Product not found" });
+        }
+      }
+    );
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
+app.post("/update-quantity/:productId", (req, res) => {
+  const { productId } = req.params;
+  const { quantity } = req.body;
+
+  if (req.session.is_manager) {
+    db.query(
+      "UPDATE codeadventure.shop SET productamount = ? WHERE id = ?",
+      [quantity, productId],
+      (error, results, fields) => {
+        if (error) throw error;
+        res.json({ success: true });
+      }
+    );
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
+app.post("/purchase-hint", (req, res) => {
+  if (req.session.is_logined) {
+    const { stageId, language } = req.body;
+    const quizTable = `${language}quiz`;
+
+    db.query(
+      "SELECT coin FROM users WHERE username = ?",
+      [req.session.nickname],
+      (error, results, fields) => {
+        if (error) throw error;
+        const user = results[0];
+        if (user.coin >= 300) {
+          db.query(
+            "UPDATE users SET coin = coin - 300 WHERE username = ?",
+            [req.session.nickname],
+            (error, results, fields) => {
+              if (error) throw error;
+              db.query(
+                `SELECT hint FROM ${quizTable} WHERE id = ?`,
+                [stageId],
+                (error, results, fields) => {
+                  if (error) throw error;
+                  if (results.length > 0) {
+                    res.json({ success: true, hint: results[0].hint });
+                  } else {
+                    res
+                      .status(404)
+                      .json({ success: false, message: "Hint not found" });
+                  }
+                }
+              );
+            }
+          );
+        } else {
+          res.json({ success: false, message: "Not enough coins" });
+        }
+      }
+    );
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${port}`);
 });
