@@ -40,8 +40,8 @@ function Login({ setMode }) {
             setMode("MANAGER");
           } else if (data.isNewUser) {
             setMode("PROLOG");
-          } else {
-            setMode("MANAGER");
+          } else if (!data.isNewUser) {
+            setMode("STAGE");
           }
         } else {
           setError(data.isLogin);
