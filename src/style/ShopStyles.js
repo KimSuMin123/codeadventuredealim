@@ -13,6 +13,7 @@ export const ShopContainer = styled.div`
 `;
 export const ShopTitle = styled.h2`
   margin-bottom: 20px;
+  color: #d9b132;
 `;
 
 export const ProductTable = styled.table`
