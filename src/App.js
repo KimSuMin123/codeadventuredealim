@@ -16,6 +16,7 @@ import JavaStart from "./pages/javast/JavaStart";
 import JsStart from "./pages/jsst/JsStart";
 import PythonStart from "./pages/pythonst/PythonStart";
 import HtmlStart from "./pages/htmlst/Htmlstart";
+
 function App() {
   const [mode, setMode] = useState("START");
   const [selectedStage, setSelectedStage] = useState(null);
