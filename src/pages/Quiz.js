@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const QuizPage = () => {
+const Quiz = () => {
   const quizData = [
     {
       question: "What is the capital of France?",
