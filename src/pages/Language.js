@@ -58,19 +58,39 @@ function Language({ setMode, setSelectedLanguage }) {
     script.src = "https://t1.daumcdn.net/kas/static/ba.min.js";
     document.body.appendChild(script);
   }, []);
+  const navigateToCStart = () => {
+    setMode("CSTART");
+  };
+  const navigateToJAVAStart = () => {
+    setMode("JAVASTART");
+  };
+  const navigateToJSStart = () => {
+    setMode("JSSTART");
+  };
+  const navigateToCSSStart = () => {
+    setMode("CSSSTART");
+  };
+  const navigateToPYTHONStart = () => {
+    setMode("PYTHONSTART");
+  };
+  const navigateToHTMLStart = () => {
+    setMode("HTMLSTART");
+  };
 
   return (
     <Container>
       <Content>
         <Title>어느 던전부터 도전 할래?</Title>
         <Table>
-          {["c", "java", "python", "html", "css", "js"].map((language) => (
-            <TableItem key={language}>
-              <Button onClick={() => handleLanguageClick(language)}>
-                {language.toUpperCase()}
-              </Button>
-            </TableItem>
-          ))}
+          <TableItem>
+            <Button onClick={navigateToCStart}>C</Button>
+            <Button onClick={navigateToJAVAStart}>JAVA</Button>
+
+            <Button onClick={navigateToPYTHONStart}>PYTHON</Button>
+            <Button onClick={navigateToHTMLStart}>HTML</Button>
+            <Button onClick={navigateToCSSStart}>CSS</Button>
+            <Button onClick={navigateToJSStart}>JS</Button>
+          </TableItem>
         </Table>
         <DevilImage src={devil} alt="Devil" /> {/* 스타일링된 이미지 */}
         <Links>
