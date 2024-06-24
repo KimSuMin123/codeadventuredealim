@@ -1,10 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import background from "../img/background.png";
 
 export const ShopContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  text-align: center;
+  background-image: url(${background});
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
 `;
-
 export const ShopTitle = styled.h2`
   margin-bottom: 20px;
 `;
@@ -39,7 +45,7 @@ export const TableRow = styled.tr`
 
   button {
     padding: 5px 10px;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
@@ -52,12 +58,12 @@ export const TableRow = styled.tr`
 
 export const BackButton = styled.button`
   padding: 10px 20px;
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
   border: none;
   cursor: pointer;
 
   &:hover {
-    background-color: #007B9E;
+    background-color: #007b9e;
   }
 `;
