@@ -40,7 +40,6 @@ export const Title = styled.h2`
   background: linear-gradient(to bottom, #d4af37, #b8860b); /* gold gradient */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 1px 1px 2px black, 0 0 25px black, 0 0 5px darkgoldenrod;
   line-height: 0.8;
   margin: 0;
   padding: 10px 0;
