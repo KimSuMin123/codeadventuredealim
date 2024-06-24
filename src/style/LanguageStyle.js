@@ -12,22 +12,6 @@ export const Container = styled.div`
   align-items: center;
   text-align: center;
   position: relative; /* 추가 */
-
-  padding: 20px; /* 말풍선 내부 패딩 */
-  border-radius: 10px; /* 둥근 테두리 */
-  background-color: rgba(255, 255, 255, 0.9); /* 반투명 배경색 */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -20px; /* 꼬리 위치 조정 */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 20px;
-    border-style: solid;
-    border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent; /* 말풍선 꼬리 색상 */
-  }
 `;
 
 export const AdContainer = styled.div`

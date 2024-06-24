@@ -15,6 +15,7 @@ import {
   AdContainer,
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";
+import devil from "../img/devil.png";
 
 function Language({ setMode, setSelectedLanguage }) {
   const [userInfo, setUserInfo] = useState({
@@ -79,6 +80,7 @@ function Language({ setMode, setSelectedLanguage }) {
             </TableItem>
           ))}
         </Table>
+        <img src={devil}></img>
         <Links>
           <Link onClick={() => setMode("MYPAGE")}>마이페이지</Link>
           <Link onClick={() => setMode("SHOP")}>쇼핑</Link>
