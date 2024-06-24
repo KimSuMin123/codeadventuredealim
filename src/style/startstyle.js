@@ -37,9 +37,10 @@ export const Title = styled.h2`
   font-family: "PixelEmulator", sans-serif;
   font-size: 100px;
   text-align: center;
-  background: linear-gradient(to bottom, #d4af37, #b8860b); /* gold gradient */
+  background: linear-gradient(to bottom, #f7d04f, #b8860b); /* gold gradient */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px black;
   line-height: 0.8;
   margin: 0;
   padding: 10px 0;
