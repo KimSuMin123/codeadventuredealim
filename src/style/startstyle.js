@@ -36,7 +36,7 @@ export const StartContainer = styled.div`
 
 export const Title = styled.h2`
   font-family: "PixelEmulator", sans-serif;
-  font-size: 300px;
+  font-size: 125px;
   text-align: center;
   background: linear-gradient(to bottom, #f7d04f, #916904); /* gold gradient */
   -webkit-background-clip: text;
