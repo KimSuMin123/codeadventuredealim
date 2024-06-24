@@ -41,7 +41,7 @@ function Login({ setMode }) {
           } else if (data.isNewUser) {
             setMode("PROLOG");
           } else if (!data.isNewUser) {
-            setMode("STAGE");
+            setMode("LANGUAGE");
           }
         } else {
           setError(data.isLogin);
