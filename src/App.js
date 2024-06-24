@@ -15,7 +15,7 @@ import CStart from "./pages/cst/CStart";
 import JavaStart from "./pages/javast/JavaStart";
 import JsStart from "./pages/jsst/JsStart";
 import PythonStart from "./pages/pythonst/PythonStart";
-import HtmlStart from "./pages/htmlst/Htmlstart";
+import HtmlStart from "./pages/htmlst/HtmrStart";
 
 function App() {
   const [mode, setMode] = useState("START");
