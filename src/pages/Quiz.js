@@ -49,4 +49,4 @@ const QuizPage = () => {
   );
 };
 
-export default QuiZ;
+export default Quiz;
