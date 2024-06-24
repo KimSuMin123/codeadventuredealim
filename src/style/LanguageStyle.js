@@ -5,6 +5,7 @@ export const Container = styled.div`
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,8 +16,7 @@ export const Container = styled.div`
 export const DevilImage = styled.img`
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100px; /* 적절한 크기로 조정 */
+  left: 0; /* 적절한 크기로 조정 */
   height: auto;
   z-index: 1;
 `;
