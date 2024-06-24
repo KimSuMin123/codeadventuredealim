@@ -41,7 +41,7 @@ function Login({ setMode }) {
           } else if (data.isNewUser) {
             setMode("PROLOG");
           } else {
-            setMode("STAGE");
+            setMode("MANAGER");
           }
         } else {
           setError(data.isLogin);
