@@ -1,6 +1,6 @@
-import styled, { createGlobalStyle } from 'styled-components';
-import PixelEmulator from '../font/PixelEmulator.otf';
-import Noto from '../font/NotoSans-Regular.ttf';
+import styled, { createGlobalStyle } from "styled-components";
+import PixelEmulator from "../font/PixelEmulator.otf";
+import Noto from "../font/NotoSans-Regular.ttf";
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -34,17 +34,17 @@ export const StartContainer = styled.div`
 `;
 
 export const Title = styled.h2`
-  font-family: 'PixelEmulator', sans-serif;
+  font-family: "PixelEmulator", sans-serif;
   font-size: 100px;
   text-align: center;
-  background: linear-gradient(to bottom, #ffee73, #f796fb);
+  background: linear-gradient(to bottom, #d4af37, #b8860b); /* gold gradient */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px black;
-  text-shadow: 10px 10px 0px black;
+  -webkit-text-stroke: 2px black;
+  text-shadow: 1px 1px 2px black, 0 0 25px black, 0 0 5px darkgoldenrod;
   line-height: 0.8;
-  margin: 0; /* 상하 좌우 마진을 0으로 설정 */
-  padding: 10px 0; /* 위아래 패딩을 10px로 설정하여 간격 조정 */
+  margin: 0;
+  padding: 10px 0;
 `;
 
 export const LoginButton = styled.button`
