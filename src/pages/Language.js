@@ -82,15 +82,13 @@ function Language({ setMode, setSelectedLanguage }) {
       <Content>
         <Title>어느 던전부터 도전 할래?</Title>
         <Table>
-          <TableItem>
-            <Button onClick={navigateToCStart}>C</Button>
-            <Button onClick={navigateToJAVAStart}>JAVA</Button>
+          <Button onClick={navigateToCStart}>C</Button>
+          <Button onClick={navigateToJAVAStart}>JAVA</Button>
 
-            <Button onClick={navigateToPYTHONStart}>PYTHON</Button>
-            <Button onClick={navigateToHTMLStart}>HTML</Button>
-            <Button onClick={navigateToCSSStart}>CSS</Button>
-            <Button onClick={navigateToJSStart}>JS</Button>
-          </TableItem>
+          <Button onClick={navigateToPYTHONStart}>PYTHON</Button>
+          <Button onClick={navigateToHTMLStart}>HTML</Button>
+          <Button onClick={navigateToCSSStart}>CSS</Button>
+          <Button onClick={navigateToJSStart}>JS</Button>
         </Table>
         <DevilImage src={devil} alt="Devil" /> {/* 스타일링된 이미지 */}
         <Links>

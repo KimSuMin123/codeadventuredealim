@@ -43,9 +43,6 @@ export const Table = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-`;
-
-export const TableItem = styled.div`
   display: flex;
   justify-content: center;
 `;
