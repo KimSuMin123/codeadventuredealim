@@ -9,7 +9,7 @@ import Language from "./pages/Language";
 import Shop from "./pages/Shop";
 import Manager from "./pages/Manager";
 import MyPage from "./pages/Mypage";
-import Prolog from "./pages/prolog";
+import Prolog from "./pages/Prolog";
 
 function App() {
   const [mode, setMode] = useState("START");
