@@ -62,7 +62,7 @@ function Language({ setMode, setSelectedLanguage }) {
   return (
     <Container>
       <Content>
-        <Title>어느 던전에서 놀고 싶어?</Title>
+        <Title>어느 던전부터 도전 할래?</Title>
         <Table>
           {["c", "java", "python", "html", "css", "js"].map((language) => (
             <TableItem key={language}>
