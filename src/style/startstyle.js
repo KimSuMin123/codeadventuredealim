@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle }, { keyframes } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 import PixelEmulator from "../font/PixelEmulator.otf";
 import Noto from "../font/NotoSans-Regular.ttf";
@@ -34,7 +34,7 @@ export const StartContainer = styled.div`
   text-align: center;
 `;
 
-const slideUpAnimation = keyframes`
+const slideUpAnimation = `
   0% {
     transform: translateY(0);
     opacity: 0;
