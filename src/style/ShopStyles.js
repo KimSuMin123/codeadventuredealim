@@ -12,8 +12,12 @@ export const ShopContainer = styled.div`
   height: 100vh;
 `;
 export const ShopTitle = styled.h2`
-  margin-bottom: 20px;
+  font-family: "PixelEmulator", sans-serif;
   color: #d9b132;
+  font-weight: bold; /* 굵게 설정 */
+  font-size: 48px; /* 크게 설정, 필요에 따라 크기 조정 */
+  margin-bottom: 20px;
+  margin-top: 100px;
 `;
 
 export const ProductTable = styled.table`
