@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import JavaBack from "../../img/Javabackground.png";
+import JavaBack from "../../img/javabackground.png";
 
 const Background = styled.div`
   background-image: url(${JavaBack});

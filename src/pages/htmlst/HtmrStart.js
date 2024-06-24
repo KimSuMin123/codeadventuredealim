@@ -1,5 +1,5 @@
 import React from "react";
-import HtmlBack from "../../img/Htmlbackground.png";
+import HtmlBack from "../../img/htmlbackground.png";
 
 const Background = styled.div`
   background-image: url(${HtmlBack});

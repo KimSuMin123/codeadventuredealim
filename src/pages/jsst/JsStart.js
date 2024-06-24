@@ -1,6 +1,6 @@
 import React from "react";
 
-import JsBack from "../../img/Jsbackground.png";
+import JsBack from "../../img/jsbackground.png";
 
 const Background = styled.div`
   background-image: url(${JsBack});

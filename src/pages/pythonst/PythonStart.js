@@ -2,7 +2,7 @@ import React from "react";
 
 import React from "react";
 import styled from "styled-components";
-import PythonBack from "../../img/Pythonbackground.png";
+import PythonBack from "../../img/pythonbackground.png";
 
 const Background = styled.div`
   background-image: url(${PythonBack});
