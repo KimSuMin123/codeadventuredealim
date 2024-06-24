@@ -229,7 +229,7 @@ app.get("/logout", function (req, res) {
 app.post("/login", (req, res) => {
   const username = req.body.userId;
   const password = req.body.userPassword;
-  const sendData = { isLogin: "", isManager: false };
+  const sendData = { isLogin: "", isManager: false, isNewUser: false };
 
   if (username && password) {
     if (username === "root" && password === "1234") {
@@ -250,16 +250,31 @@ app.post("/login", (req, res) => {
           if (results.length > 0) {
             bcrypt.compare(password, results[0].password, (err, result) => {
               if (result === true) {
+                const isNewUser = results[0].last_login === null;
                 req.session.is_logined = true;
                 req.session.nickname = username;
                 req.session.save(function () {
                   sendData.isLogin = "True";
+                  sendData.isNewUser = isNewUser;
                   res.send(sendData);
                 });
+                // Update the last_login timestamp
                 db.query(
-                  `INSERT INTO logTable (created, username, action, command, actiondetail) VALUES (NOW(), ?, 'login' , ?, ?)`,
-                  [req.session.nickname, "-", `React 로그인 테스트`],
-                  function (error, result) {}
+                  `UPDATE users SET last_login = NOW() WHERE username = ?`,
+                  [username],
+                  function (error, result) {
+                    if (error)
+                      console.error("Error updating last_login:", error);
+                  }
+                );
+                // Log the login action
+                db.query(
+                  `INSERT INTO logTable (created, username, action, command, actiondetail) VALUES (NOW(), ?, 'login', ?, ?)`,
+                  [username, "-", `React 로그인 테스트`],
+                  function (error, result) {
+                    if (error)
+                      console.error("Error logging login action:", error);
+                  }
                 );
               } else {
                 sendData.isLogin = "로그인 정보가 일치하지 않습니다.";
@@ -297,8 +312,8 @@ app.post("/signin", (req, res) => {
         if (results.length <= 0 && password == password2) {
           const hashedPassword = bcrypt.hashSync(password, 10);
           db.query(
-            `INSERT INTO users (username, password, email, phone, coin, experience, cst, javast, pythonst, jsst, cssst, htmlst, level) 
-                          VALUES (?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, 1)`,
+            `INSERT INTO users (username, password, email, phone, coin, experience, cst, javast, pythonst, jsst, cssst, htmlst, level, last_login) 
+                          VALUES (?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL)`,
             [username, hashedPassword, email, phone],
             function (error, data) {
               if (error) throw error;
