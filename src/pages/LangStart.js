@@ -7,6 +7,11 @@ function LangStart() {
   const { lan } = useParams();
 
   useEffect(() => {
+    if (!lan) {
+      setError("Language parameter is missing");
+      return;
+    }
+
     fetch(`/get_message?lan=${lan}`)
       .then((response) => {
         if (!response.ok) {
@@ -25,19 +30,19 @@ function LangStart() {
     <div className="lang-start">
       <div className="character-container">
         <img
-          src={require("../img/valla/valla_idle_sw/1.png").default}
+          src="/img/valla/valla_idle_sw/1.png"
           alt="Character 1"
           className="character"
         />
         <img
-          src={require("../img/devil.png").default}
+          src="/img/devil.png"
           alt="Character 2"
           className="character"
         />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
-        {messages ? (
+        {messages && Object.keys(messages).length > 0 ? (
           <>
             {messages.Text && <p>{messages.Text}</p>}
             {messages.Text2 && <p>{messages.Text2}</p>}
@@ -48,7 +53,7 @@ function LangStart() {
             {messages.Text2tablecol && <p>{messages.Text2tablecol}</p>}
           </>
         ) : (
-          <p>Loading messages...</p>
+          !error && <p>Loading messages...</p>
         )}
       </div>
     </div>
