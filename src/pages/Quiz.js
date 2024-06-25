@@ -85,7 +85,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const fetchQuiz = async (stageId, language) => {
     try {
       const res = await fetch(
-        `http://localhost:3001/quiz/${stageId}?language=${language}`
+        `https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/quiz/${stageId}?language=${language}`
       );
       const data = await res.json();
       setQuiz(data);
@@ -201,14 +201,17 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handlePurchaseHint = async () => {
     try {
-      const res = await fetch("http://localhost:3001/purchase-hint", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          stageId: nextStageId,
-          language: selectedLanguage,
-        }),
-      });
+      const res = await fetch(
+        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/purchase-hint",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            stageId: nextStageId,
+            language: selectedLanguage,
+          }),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         setHint(data.hint);
