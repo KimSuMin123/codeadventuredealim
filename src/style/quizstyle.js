@@ -44,10 +44,11 @@ export const Title = styled.h1`
 
 export const Explanation = styled.p`
   font-size: 1.2rem;
-  margin-left: 100px;
+  margin-left: 10px;
   margin-bottom: 20px;
   width: 600px;
 `;
+
 export const Spacer = styled.div`
   width: 30px;
 `;
@@ -58,12 +59,14 @@ export const Question = styled.div`
   margin-left: 100px;
   margin-bottom: 20px;
 `;
+
 export const Hint = styled.div`
   font-size: 1rem;
   width: 600px;
   margin-left: 100px;
   margin-bottom: 20px;
 `;
+
 export const Input = styled.input`
   margin-right: 10px;
   padding: 10px;
@@ -77,6 +80,7 @@ export const Button = styled.button`
   font-size: 1rem;
   cursor: pointer;
 `;
+
 export const BackButton = styled.button`
   padding: 10px 20px;
   font-size: 1rem;
@@ -111,7 +115,8 @@ export const BottomContainer = styled.div`
 export const Player = styled.div`
   width: 300px;
   height: 300px;
-  order: 1; // 변경된 부분
+  margin-top: auto; // Add this line to push the Player to the bottom
+  order: 1;
   img {
     width: 100%;
     height: 100%;
@@ -121,7 +126,7 @@ export const Player = styled.div`
 export const Monster = styled.div`
   width: 300px;
   height: 300px;
-  order: 2; // 변경된 부분
+  order: 2;
   img {
     width: 100%;
     height: 100%;
