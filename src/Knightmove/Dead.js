@@ -1,10 +1,10 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-import img1 from "../img/valla/death/01.png";
-import img2 from "../img/valla/death/02.png";
-import img3 from "../img/valla/death/03.png";
-import img4 from "../img/valla/death/04.png";
+import img1 from "../img/valla/valla_death/01.png";
+import img2 from "../img/valla/valla_death/02.png";
+import img3 from "../img/valla/valla_death/03.png";
+import img4 from "../img/valla/valla_death/04.png";
 
 const dieAnimation = keyframes`
   0% { background-image: url(${img0}); }
