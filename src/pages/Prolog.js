@@ -39,7 +39,7 @@ const StartContainer = styled.div`
 const TextContainer = styled.div`
   position: relative;
   z-index: 1;
-  max-width: 900px;
+  max-width: 1200px;
   animation: ${fadeInUp} 10s ease-in-out;
   text-align: center;
   h1 {
