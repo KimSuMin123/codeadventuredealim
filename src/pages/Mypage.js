@@ -38,11 +38,6 @@ function MyPage(props) {
         <UserInfoItem>HTML 단계: {userInfo.htmlst}</UserInfoItem>
         <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
         <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
-        <img
-          src="https://postimg.cc/rdVC5jLS"
-          alt="Example"
-          style={{ width: "200px", height: "200px" }} // 임시 스타일 추가
-        />
       </UserInfoContainer>
       <Button onClick={() => props.setMode("LANGUAGE")}>
         메인으로 돌아가기
