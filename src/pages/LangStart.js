@@ -1,47 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import devil from "../img/devil.png";
+import valla from "../img/valla/valla_idle_sw/1.png";
 
 function LangStart() {
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState({});
   const [error, setError] = useState(null);
-
-  const { lan } = useParams();
+  const lan = localStorage.getItem("selectedLanguage");
 
   useEffect(() => {
+    if (!lan) {
+      setError("Language parameter is missing");
+      return;
+    }
+
     fetch(`/get_message?lan=${lan}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => setMessages(data))
       .catch((error) => {
         console.error("Error fetching message:", error);
         setError("Error loading messages");
       });
-  }, [lan]);
+  }, [lan, history]);
 
   return (
-    <div className="LangStart">
+    <div className="lang-start">
       <div className="character-container">
-        <img
-          src="../img/valla/valla_idle_sw/1.png"
-          alt="Character 1"
-          className="character"
-        />
-        <img src="../img/devil.png" alt="Character 2" className="character" />
+        <img src={valla} alt="valla" />
+        <img src={devil} alt="Devil" />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
-        {messages ? (
-          <>
-            <p>{messages.Text}</p>
-            <p>{messages.Text2}</p>
-            <p>{messages.Text3}</p>
-            <p>{messages.Text4}</p>
-            <p>{messages.Text5}</p>
-            <p>{messages.Text6}</p>
-            <p>{messages.Text2tablecol}</p>
-          </>
-        ) : (
-          <p>Loading messages...</p>
-        )}
+        {!error && messages && Object.keys(messages).length > 0
+          ? Object.keys(messages).map((key) => <p key={key}>{messages[key]}</p>)
+          : !error && <p>Loading messages...</p>}
       </div>
     </div>
   );

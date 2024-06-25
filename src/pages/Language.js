@@ -50,6 +50,7 @@ function Language({ setMode, setSelectedLanguage }) {
       .then((res) => res.json())
       .then((data) => {
         setSelectedLanguage(language);
+        localStorage.setItem("selectedLanguage", language);
         if (data.startPage) {
           setMode(`${language.toUpperCase()}START`);
         } else {

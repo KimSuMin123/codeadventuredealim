@@ -72,10 +72,8 @@ function App() {
     content = <Manager setMode={setMode}></Manager>;
   } else if (mode === "PROLOG") {
     content = <Prolog setMode={setMode}></Prolog>;
-  } else if (mode === "CSSSTART") {
-    content = <CssStart setMode={setMode}></CssStart>;
-  } else if (mode === "CSTART") {
-    content = <Cstart setMode={setMode}></Cstart>;
+  } else if (mode === "LANGSTARAT") {
+    content = <LangStart setMode={setMode}></LangStart>;
   }
   return (
     <>
