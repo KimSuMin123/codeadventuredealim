@@ -39,7 +39,7 @@ function MyPage(props) {
         <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
         <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
         <img
-          src="https://drive.google.com/uc?export=view&id=1oE5e7Ie1zW1IQdIlme6PdW5I_L3zNxJu"
+          src="https://postimg.cc/rdVC5jLS"
           alt="Example"
           style={{ width: "200px", height: "200px" }} // 임시 스타일 추가
         />
