@@ -257,8 +257,8 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         <Spacer />
         <LeftContainer>
           <Title>
-            <img src={devil} alt="Devil" /> {/* Use devil image for title */}
-            스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})
+            <img src={devil} alt="Devil" style={{ width: 30, height: 30 }} />{" "}
+            {/* Set devil image size */}
           </Title>
           <Explanation>{quiz.explanation}</Explanation>
           <Question>
@@ -291,13 +291,17 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
           <BackButton onClick={() => setMode("STAGE")}>뒤로가기</BackButton>
         </LeftContainer>
         <RightContainer>
+          <BottomContainer style={{ justifyContent: "space-between" }}>
+            <Player style={{ alignSelf: "flex-end" }}>
+              {renderCharacterImage()}
+            </Player>
+            <Monster style={{ alignSelf: "flex-start" }}>
+              {renderMonsterImage()}
+            </Monster>
+          </BottomContainer>
           <BottomContainer>
             <div>플레이어 생명: {renderLives(playerLives)}</div>
             <div>몬스터 생명: {renderLives(monsterLives)}</div>
-          </BottomContainer>
-          <BottomContainer>
-            <Monster>{renderMonsterImage()}</Monster>
-            <Player>{renderCharacterImage()}</Player>
           </BottomContainer>
         </RightContainer>
         <Spacer />
