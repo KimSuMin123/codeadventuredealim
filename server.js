@@ -3,6 +3,7 @@ const session = require("express-session");
 const path = require("path");
 const app = express();
 const cors = require("cors");
+
 app.use(
   cors({
     origin: "https://www.codeadventure.shop",
@@ -17,11 +18,11 @@ const sessionOption = require("./lib/sessionOption"); // 세션 옵션
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 
-app.use(express.static(path.join(__dirname, "/build")));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "/build"))); // 정적 파일 경로 설정
+app.use(bodyParser.urlencoded({ extended: false })); // URL-encoded 데이터 파싱 설정
+app.use(bodyParser.json()); // JSON 데이터 파싱 설정
 
-var MySQLStore = require("express-mysql-session")(session);
+var MySQLStore = require("express-mysql-session")(session); // MySQL 세션 스토어 설정
 var sessionStore = new MySQLStore(sessionOption);
 app.use(
   session({
@@ -34,7 +35,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/build/index.html"));
+  res.sendFile(path.join(__dirname, "/build/index.html")); // 메인 페이지 서빙
 });
 
 app.get("/authcheck", (req, res) => {
@@ -44,7 +45,7 @@ app.get("/authcheck", (req, res) => {
   } else {
     sendData.isLogin = "False";
   }
-  res.send(sendData);
+  res.send(sendData); // 로그인 상태 확인
 });
 
 app.get("/users", (req, res) => {
@@ -56,11 +57,11 @@ app.get("/users", (req, res) => {
           console.error("Database query error:", error);
           return res.status(500).json({ error: "Database query error" });
         }
-        res.json(results);
+        res.json(results); // 모든 사용자 정보 조회 (관리자만 가능)
       }
     );
   } else {
-    res.status(401).json({ error: "Unauthorized" });
+    res.status(401).json({ error: "Unauthorized" }); // 권한 없는 사용자에 대한 응답
   }
 });
 
@@ -75,7 +76,7 @@ app.get("/check-language-start", (req, res) => {
       (error, results, fields) => {
         if (error) throw error;
         const userProgress = results[0][progressField];
-        res.json({ startPage: userProgress === 0 });
+        res.json({ startPage: userProgress === 0 }); // 사용자가 해당 언어 학습을 처음 시작하는지 확인
       }
     );
   } else {
@@ -91,7 +92,7 @@ app.get("/userinfo", (req, res) => {
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
-          res.send(results[0]);
+          res.send(results[0]); // 사용자 정보 조회
         } else {
           res.status(404).json({ error: "User not found" });
         }
@@ -105,7 +106,7 @@ app.get("/userinfo", (req, res) => {
 app.get("/stages", (req, res) => {
   if (req.session.is_logined) {
     const language = req.query.language;
-    const quizTable = `${language}quiz`; // 동적으로 테이블 이름을 설정
+    const quizTable = `${language}quiz`; // 동적으로 테이블 이름 설정
     const progressField = `${language}st`;
 
     db.query(
@@ -118,7 +119,7 @@ app.get("/stages", (req, res) => {
           `SELECT id FROM ${quizTable}`,
           function (error, results, fields) {
             if (error) throw error;
-            res.json({ stages: results, userProgress });
+            res.json({ stages: results, userProgress }); // 사용자의 진행 상태와 함께 모든 스테이지 ID 조회
           }
         );
       }
@@ -136,7 +137,7 @@ app.get("/quiz/:stageId", (req, res) => {
       .status(400)
       .json({ error: "Language query parameter is required" });
   }
-  const quizTable = `${language}quiz`; // 동적으로 테이블 이름을 설정
+  const quizTable = `${language}quiz`; // 동적으로 테이블 이름 설정
 
   db.query(
     `SELECT * FROM ${quizTable} WHERE id = ?`,
@@ -147,7 +148,7 @@ app.get("/quiz/:stageId", (req, res) => {
         return res.status(500).json({ error: "Database query error" });
       }
       if (results.length > 0) {
-        res.json(results[0]); // 특정 ID의 퀴즈 데이터를 응답으로 보냄
+        res.json(results[0]); // 특정 ID의 퀴즈 데이터 조회
       } else {
         res.status(404).json({ error: "Quiz not found" });
       }
@@ -233,7 +234,7 @@ app.post("/submit-answer", (req, res) => {
               }
             );
           } else {
-            res.json({ correct: false, correctAnswers });
+            res.json({ correct: false, correctAnswers }); // 정답이 아닌 경우
           }
         } else {
           res.status(404).json({ error: "Quiz not found" });
@@ -247,7 +248,7 @@ app.post("/submit-answer", (req, res) => {
 
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
-    res.redirect("/");
+    res.redirect("/"); // 로그아웃 처리
   });
 });
 
