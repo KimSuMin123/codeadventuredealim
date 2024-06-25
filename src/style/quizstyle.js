@@ -15,6 +15,8 @@ export const Container = styled.div`
 export const SideContainer = styled.div`
   display: flex;
   width: 100%;
+  margin: 20px;
+  border: black 2px;
 `;
 
 export const LeftContainer = styled.div`
@@ -39,7 +41,7 @@ export const RightContainer = styled.div`
 export const Title = styled.h1`
   font-size: 2rem;
   margin-bottom: 20px;
-  margin-left: 50px;
+  margin-left: 20px;
 `;
 
 export const Explanation = styled.p`
@@ -56,7 +58,7 @@ export const Spacer = styled.div`
 export const Question = styled.div`
   font-size: 1rem;
   width: 600px;
-  margin-left: 100px;
+  margin-left: 20px;
   margin-bottom: 20px;
 `;
 
@@ -84,7 +86,7 @@ export const Button = styled.button`
 export const BackButton = styled.button`
   padding: 10px 20px;
   font-size: 1rem;
-  margin-left: 100px;
+  margin-left: 20px;
   margin-top: 10px;
   cursor: pointer;
 `;
