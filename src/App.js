@@ -11,11 +11,6 @@ import Manager from "./pages/Manager";
 import MyPage from "./pages/Mypage";
 import Prolog from "./pages/Prolog";
 import Cstart from "./pages/Cstart";
-import Cssstart from "./pages/Cssstart";
-import Jsstart from "./pages/Jsstart";
-import Javastart from "./pages/Javastart";
-import Pythonstart from "./pages/Pythonstart";
-import Htmlstart from "./pages/Htmlstart";
 
 function App() {
   const [mode, setMode] = useState("START");
