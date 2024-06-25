@@ -52,7 +52,7 @@ function Language({ setMode, setSelectedLanguage }) {
         setSelectedLanguage(language);
         localStorage.setItem("selectedLanguage", language);
         if (data.startPage) {
-          setMode(`${language.toUpperCase()}START`);
+          setMode("LANGSTART");
         } else {
           setMode("STAGE");
         }
