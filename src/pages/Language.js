@@ -51,7 +51,7 @@ function Language({ setMode, setSelectedLanguage }) {
       .then((data) => {
         setSelectedLanguage(language);
         if (data.startPage) {
-          setMode("${language.toUpperCase()}START");
+          setMode(`${language.toUpperCase()}START`);
         } else {
           setMode("STAGE");
         }

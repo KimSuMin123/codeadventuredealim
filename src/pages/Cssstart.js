@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import devil from "../img/devil.png";
+import valla from "../img/valla.png";
 
 function CssStart() {
   const [messages, setMessages] = useState({});
@@ -29,12 +31,8 @@ function CssStart() {
   return (
     <div className="lang-start">
       <div className="character-container">
-        <img
-          src="../img/valla/valla_idle_sw/1.png"
-          alt="Character 1"
-          className="character"
-        />
-        <img src="../img/devil.png" alt="Character 2" className="character" />
+        <DevilImage src={valla} alt="valla" />
+        <DevilImage src={devil} alt="Devil" />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
