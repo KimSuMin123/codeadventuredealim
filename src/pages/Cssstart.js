@@ -31,8 +31,8 @@ function CssStart() {
   return (
     <div className="lang-start">
       <div className="character-container">
-        <DevilImage src={valla} alt="valla" />
-        <DevilImage src={devil} alt="Devil" />
+        <img src={valla} alt="valla" />
+        <img src={devil} alt="Devil" />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
