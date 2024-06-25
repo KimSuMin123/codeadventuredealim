@@ -63,6 +63,7 @@ app.get("/users", (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
 app.get("/check-language-start", (req, res) => {
   const language = req.query.language;
   const progressField = `${language}st`;
@@ -81,6 +82,7 @@ app.get("/check-language-start", (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
 app.get("/userinfo", (req, res) => {
   if (req.session.is_logined) {
     db.query(
@@ -134,7 +136,7 @@ app.get("/quiz/:stageId", (req, res) => {
       .status(400)
       .json({ error: "Language query parameter is required" });
   }
-  const quizTable = `${language}quiz`; // Dynamically set the table name
+  const quizTable = `${language}quiz`; // 동적으로 테이블 이름을 설정
 
   db.query(
     `SELECT * FROM ${quizTable} WHERE id = ?`,
