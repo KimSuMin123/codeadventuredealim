@@ -55,7 +55,9 @@ export const StageButton = styled.button`
   color: white;
   background-color: ${({ completed }) => (completed ? "GOLD" : "transparent")};
   background-image: ${({ completed }) =>
-    completed ? "none" : "url(Lock.png)"};
+    completed
+      ? "none"
+      : "url(https://drive.google.com/file/d/1BHOyhXXTiazuq4gziGLS1_Y6eBExkAGe/view?usp=drive_link)"};
   background-size: cover;
   background-position: center;
   &:disabled {
