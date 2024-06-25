@@ -25,16 +25,9 @@ import SuccessModal from "./SuccessModal";
 import FailureModal from "./FailureModal";
 import lifeImage from "../img/life.png";
 import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
-import MonsterImage from "../img/monster.png";
 import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
 import Dead from "../Knightmove/Dead";
-import cBackground from "../img/cbackground.png";
-import cssBackground from "../img/cssbackground.png";
-import javaBackground from "../img/javabackground.png";
-import pythonBackground from "../img/pythonbackground.png";
-import jsBackground from "../img/jsbackground.png";
-import htmlBackground from "../img/htmlbackground.png";
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -60,15 +53,6 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   const [levelCleared, setLevelCleared] = useState(false);
   const [characterState, setCharacterState] = useState("idle");
   const [monsterState, setMonsterState] = useState("idle");
-
-  const backgroundImages = {
-    c: cBackground,
-    css: cssBackground,
-    java: javaBackground,
-    python: pythonBackground,
-    js: jsBackground,
-    html: htmlBackground,
-  };
 
   useEffect(() => {
     fetchQuiz(nextStageId, selectedLanguage);
@@ -254,7 +238,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
     }
     return (
       <img
-        src={MonsterImage}
+        src={quiz.monsterimg}
         alt="Monster"
         style={{ transform: `rotate(${rotation}deg)` }}
       />
@@ -262,7 +246,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   };
 
   return (
-    <Container backgroundImage={backgroundImages[selectedLanguage]}>
+    <Container backgroundImage={quiz.background}>
       <SideContainer>
         <Spacer />
         <LeftContainer>
