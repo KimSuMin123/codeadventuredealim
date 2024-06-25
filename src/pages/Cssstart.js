@@ -30,11 +30,11 @@ function CssStart() {
     <div className="lang-start">
       <div className="character-container">
         <img
-          src="/img/valla/valla_idle_sw/1.png"
+          src="../img/valla/valla_idle_sw/1.png"
           alt="Character 1"
           className="character"
         />
-        <img src="/img/devil.png" alt="Character 2" className="character" />
+        <img src="../img/devil.png" alt="Character 2" className="character" />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
