@@ -129,15 +129,23 @@ app.get("/stages", (req, res) => {
 app.get("/quiz/:stageId", (req, res) => {
   const stageId = req.params.stageId;
   const language = req.query.language;
-  const quizTable = `${language}quiz`; // 동적으로 테이블 이름을 설정
+  if (!language) {
+    return res
+      .status(400)
+      .json({ error: "Language query parameter is required" });
+  }
+  const quizTable = `${language}quiz`; // Dynamically set the table name
 
   db.query(
     `SELECT * FROM ${quizTable} WHERE id = ?`,
     [stageId],
     function (error, results, fields) {
-      if (error) throw error;
+      if (error) {
+        console.error("Error executing query:", error);
+        return res.status(500).json({ error: "Database query error" });
+      }
       if (results.length > 0) {
-        res.json(results[0]);
+        res.json(results[0]); // 특정 ID의 퀴즈 데이터를 응답으로 보냄
       } else {
         res.status(404).json({ error: "Quiz not found" });
       }
