@@ -8,7 +8,12 @@ function LangStart() {
 
   useEffect(() => {
     fetch(`/get_message?lan=${lan}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => setMessages(data))
       .catch((error) => {
         console.error("Error fetching message:", error);
@@ -20,11 +25,15 @@ function LangStart() {
     <div className="lang-start">
       <div className="character-container">
         <img
-          src="../img/valla/valla_idle_sw/1.png"
+          src={require("../img/valla/valla_idle_sw/1.png").default}
           alt="Character 1"
           className="character"
         />
-        <img src="../img/devil.png" alt="Character 2" className="character" />
+        <img
+          src={require("../img/devil.png").default}
+          alt="Character 2"
+          className="character"
+        />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
