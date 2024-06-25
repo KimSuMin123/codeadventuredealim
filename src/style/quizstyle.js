@@ -39,7 +39,7 @@ export const RightContainer = styled.div`
 export const Title = styled.h1`
   font-size: 2rem;
   margin-bottom: 20px;
-  margin-left: 100px;
+  margin-left: 50px;
 `;
 
 export const Explanation = styled.p`
@@ -115,7 +115,7 @@ export const BottomContainer = styled.div`
 export const Player = styled.div`
   width: 300px;
   height: 300px;
-  margin-top: auto; // Add this line to push the Player to the bottom
+  margin-top: 500px;
   order: 1;
   img {
     width: 100%;
