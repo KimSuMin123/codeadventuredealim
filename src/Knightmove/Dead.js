@@ -7,11 +7,11 @@ import img3 from "../img/valla/valla_death/03.png";
 import img4 from "../img/valla/valla_death/04.png";
 
 const dieAnimation = keyframes`
-  0% { background-image: url(${img0}); }
-  25% { background-image: url(${img1}); }
-  50% { background-image: url(${img2}); }
-  75% { background-image: url(${img3}); }
-  100% { background-image: url(${img4}); }
+  0% { background-image: url(${img1}); }
+  35% { background-image: url(${img1}); }
+  65% { background-image: url(${img2}); }
+  100% { background-image: url(${img3}); }
+  
 
 `;
 
