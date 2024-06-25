@@ -63,7 +63,24 @@ app.get("/users", (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+app.get("/check-language-start", (req, res) => {
+  const language = req.query.language;
+  const progressField = `${language}st`;
 
+  if (req.session.is_logined) {
+    db.query(
+      `SELECT ${progressField} FROM users WHERE username = ?`,
+      [req.session.nickname],
+      (error, results, fields) => {
+        if (error) throw error;
+        const userProgress = results[0][progressField];
+        res.json({ startPage: userProgress === 0 });
+      }
+    );
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
 app.get("/userinfo", (req, res) => {
   if (req.session.is_logined) {
     db.query(

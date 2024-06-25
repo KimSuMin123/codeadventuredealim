@@ -13,7 +13,7 @@ import {
   CoinImage,
   StatusText,
   AdContainer,
-  DevilImage, // 추가
+  DevilImage,
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";
 import devil from "../img/devil.png";
@@ -46,8 +46,18 @@ function Language({ setMode, setSelectedLanguage }) {
   }, []);
 
   const handleLanguageClick = (language) => {
-    setSelectedLanguage(language);
-    setMode("STAGE");
+    fetch(`/check-language-start?language=${language}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.startPage) {
+          setSelectedLanguage(language);
+          setMode(`${language.toUpperCase()}START`);
+        } else {
+          setSelectedLanguage(language);
+          setMode("STAGE");
+        }
+      })
+      .catch((err) => console.error("Error checking language start:", err));
   };
 
   useEffect(() => {
@@ -72,7 +82,7 @@ function Language({ setMode, setSelectedLanguage }) {
             </TableItem>
           ))}
         </Table>
-        <DevilImage src={devil} alt="Devil" /> {/* 스타일링된 이미지 */}
+        <DevilImage src={devil} alt="Devil" />
         <Links>
           <Link onClick={() => setMode("MYPAGE")}>마이페이지</Link>
           <Link onClick={() => setMode("SHOP")}>쇼핑</Link>
