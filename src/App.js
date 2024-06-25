@@ -76,6 +76,10 @@ function App() {
   return (
     <>
       <div className="background">{content}</div>
+      <img
+        src="https://drive.google.com/file/d/1oE5e7Ie1zW1IQdIlme6PdW5I_L3zNxJu/view?usp=drive_link"
+        alt="Example"
+      />
     </>
   );
 }
