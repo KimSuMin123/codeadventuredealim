@@ -16,7 +16,7 @@ export const SideContainer = styled.div`
   display: flex;
   width: 100%;
   margin: 20px;
-  border: black 2px;
+  height: 700px;
 `;
 
 export const LeftContainer = styled.div`
@@ -24,7 +24,7 @@ export const LeftContainer = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
-  height: 99vh;
+  height: 700px;
 `;
 
 export const RightContainer = styled.div`
