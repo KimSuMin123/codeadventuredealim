@@ -169,13 +169,10 @@ app.post("/submit-answer", (req, res) => {
                 const currentExperience = results[0].experience;
                 const currentLevel = results[0].level;
                 const newExperience =
-                  currentExperience + (userProgress < stageId ? 50 : 0); // Award experience only if the stage is new
+                  currentExperience + (userProgress < stageId ? 50 : 0); // 새로운 스테이지 맞춤 시 경험치 획득
                 let newLevel = currentLevel;
 
-                let requiredExperience = 200;
-                for (let i = 1; i < newLevel; i++) {
-                  requiredExperience *= 2.5;
-                }
+                const requiredExperience = 200 * Math.pow(2, newLevel - 1);
 
                 let levelUp = false;
                 if (newExperience >= requiredExperience) {
@@ -185,7 +182,7 @@ app.post("/submit-answer", (req, res) => {
 
                 let updateQuery = `UPDATE users SET experience = ?, level = ? WHERE username = ?`;
                 if (userProgress < stageId) {
-                  updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 500, experience = ?, level = ? WHERE username = ?`;
+                  updateQuery = `UPDATE users SET ${progressField} = ${progressField} + 1, coin = coin + 50, experience = ?, level = ? WHERE username = ?`;
                 }
 
                 db.query(
@@ -195,11 +192,9 @@ app.post("/submit-answer", (req, res) => {
                     if (error) throw error;
 
                     if (levelUp) {
-                      const extraExperience = 100;
-                      const randomCoin = Math.floor(Math.random() * 301) + 600;
                       db.query(
-                        `UPDATE users SET experience = experience + ?, coin = coin + ? WHERE username = ?`,
-                        [extraExperience, randomCoin, req.session.nickname],
+                        `UPDATE users SET experience = 0, coin = coin + 500 WHERE username = ?`,
+                        [req.session.nickname],
                         function (error, results, fields) {
                           if (error) throw error;
                           res.json({
