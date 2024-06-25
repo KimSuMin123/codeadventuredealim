@@ -232,7 +232,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         rotation = 30;
         break;
       case "attack":
-        rotation = -90;
+        rotation = -20;
         break;
       default:
         rotation = 0;
