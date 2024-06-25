@@ -238,7 +238,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
     }
     return (
       <img
-        src={quiz.monsterimg}
+        src={quiz.monster}
         alt="Monster"
         style={{ transform: `rotate(${rotation}deg)` }}
       />
@@ -246,7 +246,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   };
 
   return (
-    <Container backgroundImage={quiz.background}>
+    <Container style={{ backgroundImage: `url(${quiz.background})` }}>
       <SideContainer>
         <Spacer />
         <LeftContainer>
