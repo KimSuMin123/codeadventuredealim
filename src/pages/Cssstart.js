@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import devil from "../img/devil.png";
-import valla from "../img/valla.png";
+import valla from "../img/valla/valla_idle_sw/1.png";
 
 function CssStart() {
   const [messages, setMessages] = useState({});
