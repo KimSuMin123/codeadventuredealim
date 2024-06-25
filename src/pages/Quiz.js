@@ -31,7 +31,7 @@ import Dead from "../Knightmove/Dead";
 import devil from "../img/devil.png";
 import coin from "../img/coin.png";
 
-const API_URL = "http://localhost:3001"; // API URL 상수화
+const API_URL = "https://www.codeadventure.shop"; // API URL 상수화
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
