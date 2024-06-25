@@ -12,11 +12,11 @@ import {
   StatusItem,
   CoinImage,
   StatusText,
+  AdContainer,
   DevilImage,
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";
 import devil from "../img/devil.png";
-import { useNavigate } from "react-router-dom"; //enen
 
 function Language({ setMode, setSelectedLanguage }) {
   const [userInfo, setUserInfo] = useState({
@@ -25,7 +25,6 @@ function Language({ setMode, setSelectedLanguage }) {
     experience: 0,
     nextLevelExp: 200,
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/userinfo")
@@ -52,7 +51,7 @@ function Language({ setMode, setSelectedLanguage }) {
       .then((data) => {
         setSelectedLanguage(language);
         if (data.startPage) {
-          setMode(`${language}START`);
+          setMode(`${language.toUpperCase()}START`);
         } else {
           setMode("STAGE");
         }
