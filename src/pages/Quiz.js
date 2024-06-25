@@ -74,14 +74,6 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
     fetchQuiz(nextStageId, selectedLanguage);
   }, [nextStageId, selectedLanguage]);
 
-  useEffect(() => {
-    const monsterAttackInterval = setInterval(() => {
-      monsterAttack();
-    }, 10000);
-
-    return () => clearInterval(monsterAttackInterval);
-  }, []);
-
   const fetchQuiz = async (stageId, language) => {
     try {
       const res = await fetch(
