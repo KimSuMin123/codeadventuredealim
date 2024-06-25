@@ -21,11 +21,11 @@ function LangStart() {
     <div className="LangStart">
       <div className="character-container">
         <img
-          src="/path/to/valla_idle_sw_1.png"
+          src="../img/valla/valla_idle_sw/1.png"
           alt="Character 1"
           className="character"
         />
-        <img src="/path/to/devil.png" alt="Character 2" className="character" />
+        <img src="../img/devil.png" alt="Character 2" className="character" />
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
