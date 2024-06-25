@@ -24,7 +24,6 @@ import LevelUpModal from "./LevelUpModal";
 import SuccessModal from "./SuccessModal";
 import FailureModal from "./FailureModal";
 import lifeImage from "../img/life.png";
-import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
 import MonsterImage from "../img/monster.png";
 import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
@@ -211,14 +210,17 @@ function Quiz({ stageId, setMode, selectedLanguage, setAnswerState }) {
 
   const handlePurchaseHint = async () => {
     try {
-      const res = await fetch("http://localhost:3001/purchase-hint", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          stageId: nextStageId,
-          language: selectedLanguage,
-        }),
-      });
+      const res = await fetch(
+        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/purchase-hint",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            stageId: nextStageId,
+            language: selectedLanguage,
+          }),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         setHint(data.hint);
