@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   Container,
+  SideContainer,
+  LeftContainer,
+  RightContainer,
   Title,
   Explanation,
   Question,
@@ -12,9 +15,6 @@ import {
   AnswerContainer,
   LifeContainer,
   LifeImage,
-  SideContainer,
-  LeftContainer,
-  RightContainer,
   BackButton,
   Spacer,
   Hint,
@@ -97,19 +97,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handleSubmitAnswer = async (answerKey) => {
     try {
-      const res = await fetch(
-        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/submit-answer",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            stageId: nextStageId,
-            answer: answers[answerKey],
-            answerKey,
-            language: selectedLanguage,
-          }),
-        }
-      );
+      const res = await fetch("http://localhost:3001/submit-answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          answer: answers[answerKey],
+          answerKey,
+          language: selectedLanguage,
+        }),
+      });
       const data = await res.json();
       handleAnswerResponse(data, answerKey);
     } catch (error) {
@@ -249,7 +246,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   };
 
   return (
-    <Background backgroundImage={quiz.background}>
+    <Container backgroundImage={quiz.background}>
       <SideContainer>
         <Spacer />
         <LeftContainer>
@@ -314,7 +311,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         onClose={() => setShowFailureModal(false)}
         onPurchaseHint={handlePurchaseHint}
       />
-    </Background>
+    </Container>
   );
 }
 
