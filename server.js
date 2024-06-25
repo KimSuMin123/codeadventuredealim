@@ -6,6 +6,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "https://www.codeadventure.shop",
+    origin: "https://ibb.co",
     credentials: true,
   })
 );
