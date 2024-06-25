@@ -35,8 +35,16 @@ const API_URL = "https://www.codeadventure.shop"; // API URL 상수화
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
-  const [answers, setAnswers] = useState({ answer1: "", answer2: "", answer3: "" });
-  const [correctAnswers, setCorrectAnswers] = useState({ answer1: false, answer2: false, answer3: false });
+  const [answers, setAnswers] = useState({
+    answer1: "",
+    answer2: "",
+    answer3: "",
+  });
+  const [correctAnswers, setCorrectAnswers] = useState({
+    answer1: false,
+    answer2: false,
+    answer3: false,
+  });
   const [nextStageId, setNextStageId] = useState(stageId);
   const [levelUp, setLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(1);
@@ -56,7 +64,10 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const fetchQuiz = async (stageId, language) => {
     try {
-      const res = await fetch(`${API_URL}/quiz/${stageId}?language=${language}`, { credentials: "include" });
+      const res = await fetch(
+        `${API_URL}/quiz/${stageId}?language=${language}`,
+        { credentials: "include" }
+      );
       const data = await res.json();
       setQuiz(data);
       resetState(data.cleared || false);
@@ -253,9 +264,11 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         <LeftContainer>
           <Title style={{ display: "flex", alignItems: "center" }}>
             <img src={devil} alt="Devil" style={{ width: 100, height: 100 }} />{" "}
-            <Explanation style={{ marginLeft: 10 }}>{quiz.explanation}</Explanation>
+            <Explanation style={{ marginLeft: 10 }}>
+              {quiz.explanation}
+            </Explanation>
           </Title>
-          <Question>
+          <Question style={{ overflow: "auto", maxHeight: "200px" }}>
             <CodeBlock text={quiz.question} />
           </Question>
           {hint && (
@@ -269,9 +282,14 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
                 <Input
                   type="text"
                   value={answers[key]}
-                  onChange={(e) => setAnswers({ ...answers, [key]: e.target.value })}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, [key]: e.target.value })
+                  }
                 />
-                <Button onClick={() => handleSubmitAnswer(key)} disabled={correctAnswers[key]}>
+                <Button
+                  onClick={() => handleSubmitAnswer(key)}
+                  disabled={correctAnswers[key]}
+                >
                   {correctAnswers[key] ? "정답" : "제출"}
                 </Button>
               </div>
@@ -281,8 +299,12 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         </LeftContainer>
         <RightContainer>
           <BottomContainer style={{ justifyContent: "space-between" }}>
-            <Player style={{ alignSelf: "flex-end" }}>{renderCharacterImage()}</Player>
-            <Monster style={{ alignSelf: "flex-start" }}>{renderMonsterImage()}</Monster>
+            <Player style={{ alignSelf: "flex-end" }}>
+              {renderCharacterImage()}
+            </Player>
+            <Monster style={{ alignSelf: "flex-start" }}>
+              {renderMonsterImage()}
+            </Monster>
           </BottomContainer>
           <BottomContainer>
             <div>플레이어 생명: {renderLives(playerLives)}</div>
@@ -291,9 +313,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         </RightContainer>
         <Spacer />
       </SideContainer>
-      <LevelUpModal isOpen={levelUp} onClose={() => setLevelUp(false)} newLevel={newLevel} />
+      <LevelUpModal
+        isOpen={levelUp}
+        onClose={() => setLevelUp(false)}
+        newLevel={newLevel}
+      />
       {!levelCleared && (
-        <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+        />
       )}
       <FailureModal
         isOpen={showFailureModal}
