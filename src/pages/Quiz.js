@@ -28,6 +28,8 @@ import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
 import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
 import Dead from "../Knightmove/Dead";
+import devil from "../img/devil.png";
+import coin from "../img/coin.png"; // import coin image
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
@@ -225,6 +227,10 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   };
 
   const renderMonsterImage = () => {
+    if (monsterState === "dead") {
+      return <img src={coin} alt="Coin" />; // Show coin image when monster is dead
+    }
+
     let rotation = 0;
     switch (monsterState) {
       case "hurt":
@@ -232,9 +238,6 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         break;
       case "attack":
         rotation = -30;
-        break;
-      case "dead":
-        rotation = 90;
         break;
       default:
         rotation = 0;
@@ -254,6 +257,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         <Spacer />
         <LeftContainer>
           <Title>
+            <img src={devil} alt="Devil" /> {/* Use devil image for title */}
             스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})
           </Title>
           <Explanation>{quiz.explanation}</Explanation>
