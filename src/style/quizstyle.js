@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import quizimg from "../img/quiz.png";
+import quizimg from "../img/quiz.jpg";
 
 export const Container = styled.div`
   background-image: url(${({ backgroundImage }) => backgroundImage});
@@ -115,7 +115,7 @@ export const BottomContainer = styled.div`
 export const Player = styled.div`
   width: 300px;
   height: 300px;
-  margin-top: 500px;
+  margin-top: 300px;
   order: 1;
   img {
     width: 100%;
