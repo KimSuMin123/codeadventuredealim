@@ -12,7 +12,6 @@ import {
   StatusItem,
   CoinImage,
   StatusText,
-  AdContainer,
   DevilImage,
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";

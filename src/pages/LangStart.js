@@ -57,7 +57,3 @@ function LangStart() {
         )}
       </div>
     </div>
-  );
-}
-
-export default LangStart;
