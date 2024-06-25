@@ -41,7 +41,7 @@ export const RightContainer = styled.div`
 export const Title = styled.h1`
   font-size: 2rem;
   margin-bottom: 20px;
-  margin-left: 20px;
+  margin-left: 10px;
 `;
 
 export const Explanation = styled.p`
@@ -65,14 +65,14 @@ export const Question = styled.div`
 export const Hint = styled.div`
   font-size: 1rem;
   width: 600px;
-  margin-left: 100px;
+  margin-left: 20px;
   margin-bottom: 20px;
 `;
 
 export const Input = styled.input`
   margin-right: 10px;
   padding: 10px;
-  margin-left: 100px;
+  margin-left: 20px;
   width: 490px;
   font-size: 1rem;
 `;
