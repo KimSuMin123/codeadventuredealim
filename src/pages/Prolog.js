@@ -31,6 +31,7 @@ const StartContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #d9b132;
@@ -65,6 +66,22 @@ const Line = styled.div`
   opacity: ${({ fadeOut }) => (fadeOut ? 0 : 1)};
   transition: opacity 1s ease-in-out;
   margin: 5px 0;
+`;
+
+const Button = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
 const Prolog = () => {
@@ -106,6 +123,10 @@ const Prolog = () => {
     }
   }, [showAll]);
 
+  const handleButtonClick = () => {
+    window.location.href = "https://example.com"; // 이동할 URL로 변경
+  };
+
   return (
     <StartContainer>
       <TextContainer>
@@ -117,6 +138,9 @@ const Prolog = () => {
             {line}
           </Line>
         ))}
+        {showAll && (
+          <Button onClick={handleButtonClick}>세상을 구하러가기</Button>
+        )}
       </TextContainer>
     </StartContainer>
   );
