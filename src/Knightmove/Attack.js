@@ -1,15 +1,16 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-import img0 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_000.png";
-import img1 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_001.png";
-import img2 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_002.png";
-import img3 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_003.png";
-import img4 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_004.png";
-import img5 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_005.png";
-import img6 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_006.png";
-import img7 from "../img/Trainee Knight/03-Attack/Effect/__TRAINEE_Attack_007.png";
-import img8 from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
+import img1 from "../img/valla/valla_attack_nw/1.png";
+import img2 from "../img/valla/valla_attack_nw/2.png";
+import img3 from "../img/valla/valla_attack_nw/3.png";
+import img4 from "../img/valla/valla_attack_nw/4.png";
+import img5 from "../img/valla/valla_attack_nw/5.png";
+import img6 from "../img/valla/valla_attack_nw/6.png";
+import img7 from "../img/valla/valla_attack_nw/7.png";
+import img8 from "../img/valla/valla_attack_nw/8.png";
+
+import img0 from "../img/valla/valla_idle_sw/1.png";
 
 const AttackAnimation = keyframes`
   0% { background-image: url(${img0}); }
