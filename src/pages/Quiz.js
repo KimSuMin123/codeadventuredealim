@@ -67,7 +67,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       setQuiz(data);
       resetState(data.cleared || false);
     } catch (error) {
-      console.error("Failed to fetch quiz data:", error);
+      console.error("퀴즈 데이터를 불러오는데 실패했습니다:", error);
     }
   };
 
@@ -110,13 +110,13 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       const data = await res.json();
       handleAnswerResponse(data, answerKey);
     } catch (error) {
-      console.error("Failed to submit answer:", error);
+      console.error("답안을 제출하는데 실패했습니다:", error);
     }
   };
 
   const handleAnswerResponse = (data, answerKey) => {
     if (data.correct) {
-      handleCorrectAnswer(answerKey, data); // Pass data here
+      handleCorrectAnswer(answerKey, data);
     } else {
       handleIncorrectAnswer();
     }
@@ -134,7 +134,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         setTimeout(() => setMonsterState("idle"), 1000);
       } else {
         setMonsterState("dead");
-        handleLevelCompletion(data); // Pass data here
+        handleLevelCompletion(data);
       }
       return updatedLives;
     });
@@ -194,11 +194,11 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         setPlayerLives(3);
       }
     } catch (error) {
-      console.error("Failed to purchase hint:", error);
+      console.error("힌트를 구매하는데 실패했습니다:", error);
     }
   };
 
-  if (!quiz) return <Container>Loading...</Container>;
+  if (!quiz) return <Container>로딩중...</Container>;
 
   const renderLives = (numLives) => (
     <LifeContainer>
@@ -251,7 +251,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         <Spacer />
         <LeftContainer>
           <Title>
-            Stage {nextStageId} ({selectedLanguage.toUpperCase()})
+            스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})
           </Title>
           <Explanation>{quiz.explanation}</Explanation>
           <Question>
@@ -259,7 +259,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
           </Question>
           {hint && (
             <Hint>
-              <p>Hint: {hint}</p>
+              <p>힌트: {hint}</p>
             </Hint>
           )}
           <AnswerContainer>
@@ -276,17 +276,17 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
                   onClick={() => handleSubmitAnswer(key)}
                   disabled={correctAnswers[key]}
                 >
-                  {correctAnswers[key] ? "Correct" : "Submit"}
+                  {correctAnswers[key] ? "정답" : "제출"}
                 </Button>
               </div>
             ))}
           </AnswerContainer>
-          <BackButton onClick={() => setMode("STAGE")}>Back</BackButton>
+          <BackButton onClick={() => setMode("STAGE")}>뒤로가기</BackButton>
         </LeftContainer>
         <RightContainer>
           <BottomContainer>
-            <div>Player Lives: {renderLives(playerLives)}</div>
-            <div>Monster Lives: {renderLives(monsterLives)}</div>
+            <div>플레이어 생명: {renderLives(playerLives)}</div>
+            <div>몬스터 생명: {renderLives(monsterLives)}</div>
           </BottomContainer>
           <BottomContainer>
             <Monster>{renderMonsterImage()}</Monster>
