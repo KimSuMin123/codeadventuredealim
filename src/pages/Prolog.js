@@ -22,7 +22,7 @@ const StartContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #d9b132;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   &:before {
     content: "";
@@ -39,8 +39,8 @@ const StartContainer = styled.div`
 const TextContainer = styled.div`
   position: relative;
   z-index: 1;
-  max-width: 600px;
-  animation: ${fadeInUp} 3s ease-in-out;
+  max-width: 900px;
+  animation: ${fadeInUp} 10s ease-in-out;
   text-align: center;
   h1 {
     margin: 0;
