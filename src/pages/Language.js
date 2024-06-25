@@ -51,7 +51,7 @@ const TextContainer = styled.div`
   position: relative;
   z-index: 1;
   max-width: 1200px;
-  height: 80vh;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -65,7 +65,7 @@ const Line = styled.div`
   opacity: ${({ fadeOut }) => (fadeOut ? 0 : 1)};
   transition: opacity 1s ease-in-out;
   margin: 5px 0;
-  font-size: 2rem; /* 글자 크기 4배로 */
+  font-size: 1.5rem; /* 글자 크기 4배로 */
 `;
 
 const SkipButton = styled.button`
@@ -93,7 +93,8 @@ const Prolog = ({ setMode }) => {
     "여섯 조각으로 부서지고, 전 세계는 순식간에 혼란에 휩싸이게 된다.",
     "평범한 마을에 살던 소녀인 주인공의 마을도 마왕의 습격을 받게 되었고,",
     "마을 사람들은 모두 목숨을 잃고 만다.",
-    "주인공은 죽음의 문턱에서 반마족 성향의 악마인 언냐와 계약을 맺어 간신히 살아난다.",
+    "주인공은 죽음의 문턱에서 반마족 성향의",
+    "악마인 언냐와 계약을 맺어 간신히 살아난다.",
     "언냐는 주인공에게 '널 살려줄 테니, 여섯 명의 마왕을 모두 처치해줘'라는 조건을 제시했고, 주인공은 이를 수락한다.",
     "여섯 조각으로 나뉜 수호석은 각 마왕들이 소유하고 있으며,",
     "주인공은 세상을 다시 안정시키기 위해 이 수호석 조각들을 되찾아야 한다는 것을 깨닫는다.",
@@ -140,8 +141,8 @@ const Prolog = ({ setMode }) => {
             {line}
           </Line>
         ))}
+        <SkipButton onClick={handleSkip}>세상을 구하러 간다</SkipButton>
       </TextContainer>
-      <SkipButton onClick={handleSkip}>스킵</SkipButton>
     </StartContainer>
   );
 };
