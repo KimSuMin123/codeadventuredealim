@@ -5,12 +5,7 @@ import img0 from "../img/valla/valla_idle_sw/1.png";
 
 const HurtAnimation = keyframes`
   0% { background-image: url(${img0}); }
-  16.67% { background-image: url(${img1}); }
-  33.33% { background-image: url(${img2}); }
-  50% { background-image: url(${img3}); }
-  66.67% { background-image: url(${img4}); }
-  83.33% { background-image: url(${img5}); }
-  100% { background-image: url(${img6}); }
+  100% { background-image: url(${img0}); }
 `;
 
 const AnimatedDiv = styled.div`
