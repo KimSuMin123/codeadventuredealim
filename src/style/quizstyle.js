@@ -28,9 +28,8 @@ export const LeftContainer = styled.div`
 `;
 
 export const RightContainer = styled.div`
-  margin-top: 50px;
-  margin-bottom: 70px;
   width: 70%;
+  height: 700px;
   margin-left: 10px;
   display: flex;
   flex-direction: column;
