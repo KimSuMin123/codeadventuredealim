@@ -65,10 +65,13 @@ const Line = styled.div`
   opacity: ${({ fadeOut }) => (fadeOut ? 0 : 1)};
   transition: opacity 1s ease-in-out;
   margin: 5px 0;
+  font-size: 4rem; /* 글자 크기 4배로 */
 `;
 
 const Prolog = () => {
   const [lines, setLines] = useState([]);
+  const [showAll, setShowAll] = useState(false); // 모든 텍스트를 보여주는 상태 추가
+
   const fullText = [
     "평화로운 어느날, 세상의 균형을 유지하던 수호석이 마왕들의 공격으로 인해",
     "여섯 조각으로 부서지고, 전 세계는 순식간에 혼란에 휩싸이게 된다.",
@@ -86,18 +89,23 @@ const Prolog = () => {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLines((prevLines) => {
-        if (prevLines.length < fullText.length) {
-          return [...prevLines, fullText[prevLines.length]];
-        } else {
-          return prevLines.slice(1);
-        }
-      });
-    }, 3000); // 3초 간격으로 새로운 줄 추가
+    if (!showAll) {
+      // 모든 텍스트가 보이지 않는 동안에만 인터벌 실행
+      const interval = setInterval(() => {
+        setLines((prevLines) => {
+          if (prevLines.length < fullText.length) {
+            return [...prevLines, fullText[prevLines.length]];
+          } else {
+            setShowAll(true); // 모든 텍스트가 보이면 상태 업데이트
+            clearInterval(interval); // 인터벌 클리어
+            return prevLines;
+          }
+        });
+      }, 3000); // 3초 간격으로 새로운 줄 추가
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(interval);
+    }
+  }, [showAll]);
 
   return (
     <StartContainer>
