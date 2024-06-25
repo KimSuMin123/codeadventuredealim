@@ -11,6 +11,7 @@ import Manager from "./pages/Manager";
 import MyPage from "./pages/Mypage";
 import Prolog from "./pages/Prolog";
 import Cstart from "./pages/Cstart";
+import LangStart from "./pages/LangStart";
 
 function App() {
   const [mode, setMode] = useState("START");
@@ -70,8 +71,8 @@ function App() {
     content = <Manager setMode={setMode}></Manager>;
   } else if (mode === "PROLOG") {
     content = <Prolog setMode={setMode}></Prolog>;
-  } else if (mode === "CSTART") {
-    content = <Cstart setMode={setMode}></Cstart>;
+  } else if (mode === "LangSTART") {
+    content = <LangStart setMode={setMode}></LangStart>;
   }
   return (
     <>
