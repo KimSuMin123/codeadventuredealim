@@ -69,18 +69,17 @@ const Line = styled.div`
 `;
 
 const Button = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 18px;
-  cursor: pointer;
-  background-color: #007BFF;
-  color: white;
+  width: 220px;
+  padding: 10px;
+  margin: 10px 0;
   border: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
-
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #f39c12;
+  color: white;
   &:hover {
-    background-color: #0056b3;
+    background-color: #e67e22;
   }
 `;
 
@@ -89,18 +88,13 @@ const Prolog = () => {
   const [showAll, setShowAll] = useState(false); // 모든 텍스트를 보여주는 상태 추가
 
   const fullText = [
-    "평화로운 어느날, 세상의 균형을 유지하던 수호석이 마왕들의 공격으로 인해",
-    "여섯 조각으로 부서지고, 전 세계는 순식간에 혼란에 휩싸이게 된다.",
-    "평범한 마을에 살던 소녀인 주인공의 마을도 마왕의 습격을 받게 되었고,",
-    "마을 사람들은 모두 목숨을 잃고 만다.",
+    "평화로운 어느날, 세상의 균형을 유지하던 수호석이 마왕들의 공격으로 인해 여섯 조각으로 부서지고, 전 세계는 순식간에 혼란에 휩싸이게 된다.",
+    "평범한 마을에 살던 소녀인 주인공의 마을도 마왕의 습격을 받게 되었고, 마을 사람들은 모두 목숨을 잃고 만다.",
     "주인공은 죽음의 문턱에서 반마족 성향의 악마인 언냐와 계약을 맺어 간신히 살아난다.",
-    "언냐는 주인공에게 '널 살려줄 테니, 여섯 명의 마왕을 모두 처치해줘'라는 조건을 제시했고, 주인공은 이를 수락한다.",
-    "여섯 조각으로 나뉜 수호석은 각 마왕들이 소유하고 있으며,",
-    "주인공은 세상을 다시 안정시키기 위해 이 수호석 조각들을 되찾아야 한다는 것을 깨닫는다.",
-    "주인공은 부모님과 마을 사람들의 원수를 갚기 위해,",
-    "그리고 세상의 균형을 되찾기 위해 여정을 떠난다.",
-    "언냐와의 계약은 주인공에게 힘을 주었지만,",
-    "여섯 마왕을 물리쳐야하는 사명감이 생긴것이다!!",
+    '언냐는 주인공에게 "널 살려줄 테니, 여섯 명의 마왕을 모두 처치해줘"라는 조건을 제시했고, 주인공은 이를 수락한다.',
+    "여섯 조각으로 나뉜 수호석은 각 마왕들이 소유하고 있으며, 주인공은 세상을 다시 안정시키기 위해 이 수호석 조각들을 되찾아야 한다는 것을 깨닫는다.",
+    "주인공은 부모님과 마을 사람들의 원수를 갚기 위해, 그리고 세상의 균형을 되찾기 위해 여정을 떠난다.",
+    "언냐와의 계약은 주인공에게 힘을 주었지만, 여섯 마왕을 물리쳐야하는 사명감이 생긴것이다!!",
     "주인공은 지금 세계를 구하기위해 떠난다....",
   ];
 
@@ -124,7 +118,7 @@ const Prolog = () => {
   }, [showAll]);
 
   const handleButtonClick = () => {
-    window.location.href = "https://example.com"; // 이동할 URL로 변경
+    window.location.href = "/setmode LANGUAGE"; // 이동할 URL로 변경
   };
 
   return (
