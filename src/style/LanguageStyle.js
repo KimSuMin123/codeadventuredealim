@@ -16,7 +16,7 @@ export const Container = styled.div`
 export const DevilImage = styled.img`
   position: absolute;
   top: 0;
-  left: 250px; /* 적절한 크기로 조정 */
+  left: 300px; /* 적절한 크기로 조정 */
   height: auto;
   z-index: 1;
 `;

@@ -250,9 +250,6 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       <SideContainer>
         <Spacer />
         <LeftContainer>
-          <Title>
-            스테이지 {nextStageId} ({selectedLanguage.toUpperCase()})
-          </Title>
           <Explanation>{quiz.explanation}</Explanation>
           <Question>
             <CodeBlock text={quiz.question} />
