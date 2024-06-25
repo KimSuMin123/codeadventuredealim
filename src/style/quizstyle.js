@@ -39,7 +39,6 @@ export const RightContainer = styled.div`
 export const Title = styled.h1`
   font-size: 2rem;
   margin-bottom: 20px;
-  margin-top: 90px;
   margin-left: 100px;
 `;
 

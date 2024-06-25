@@ -256,11 +256,12 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
       <SideContainer>
         <Spacer />
         <LeftContainer>
-          <Title>
-            <img src={devil} alt="Devil" style={{ width: 75, height: 75 }} />{" "}
-            {/* Set devil image size */}
+          <Title style={{ display: "flex", alignItems: "center" }}>
+            <img src={devil} alt="Devil" style={{ width: 100, height: 100 }} />{" "}
+            <Explanation style={{ marginLeft: 10 }}>
+              {quiz.explanation}
+            </Explanation>
           </Title>
-          <Explanation>{quiz.explanation}</Explanation>
           <Question>
             <CodeBlock text={quiz.question} />
           </Question>
