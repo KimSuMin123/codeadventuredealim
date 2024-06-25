@@ -6,11 +6,9 @@ import img0 from "../img/valla/valla_idle_sw/1.png";
 const HurtAnimation = keyframes`
   0% { 
     background-image: url(${img0});
-    transform: rotate(0deg);
   }
   100% { 
     background-image: url(${img0});
-    transform: rotate(0deg);
   }
 `;
 
