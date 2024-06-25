@@ -24,7 +24,7 @@ import LevelUpModal from "./LevelUpModal";
 import SuccessModal from "./SuccessModal";
 import FailureModal from "./FailureModal";
 import lifeImage from "../img/life.png";
-import UserImage from "../img/Trainee Knight/01-Idle/__TRAINEE_Idle_000.png";
+import UserImage from "../img/valla/valla_idle_sw/1.png";
 import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
 import Dead from "../Knightmove/Dead";
