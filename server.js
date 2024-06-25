@@ -156,20 +156,23 @@ app.get("/quiz/:stageId", (req, res) => {
 });
 
 app.post("/submit-answer", (req, res) => {
-  const { stageId, answer, answerKey, language } = req.body;
+  const { stageId, answers, answerKeys, language } = req.body;
   const quizTable = `${language}quiz`;
   const progressField = `${language}st`;
 
   if (req.session.is_logined) {
     db.query(
-      `SELECT ${answerKey} FROM ${quizTable} WHERE id = ?`,
+      `SELECT ${answerKeys.join(", ")} FROM ${quizTable} WHERE id = ?`,
       [stageId],
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
-          const correctAnswer = results[0][answerKey] === answer;
+          const correctAnswers = answerKeys.map(
+            (key, index) => results[0][key] === answers[index]
+          );
+          const allCorrect = correctAnswers.every((correct) => correct);
 
-          if (correctAnswer) {
+          if (allCorrect) {
             db.query(
               `SELECT ${progressField}, experience, level FROM users WHERE username = ?`,
               [req.session.nickname],
@@ -179,7 +182,7 @@ app.post("/submit-answer", (req, res) => {
                 const currentExperience = results[0].experience;
                 const currentLevel = results[0].level;
                 const newExperience =
-                  currentExperience + (userProgress < stageId ? 50 : 0); // 새로운 스테이지 맞춤 시 경험치 획득
+                  currentExperience + (userProgress < stageId ? 50 : 0); // 경험치 획득
                 let newLevel = currentLevel;
 
                 const requiredExperience = 200 * Math.pow(2, newLevel - 1);
@@ -212,7 +215,7 @@ app.post("/submit-answer", (req, res) => {
                             firstTime: userProgress < stageId,
                             levelUp,
                             newLevel,
-                            correctAnswer,
+                            correctAnswers,
                           });
                         }
                       );
@@ -222,7 +225,7 @@ app.post("/submit-answer", (req, res) => {
                         firstTime: userProgress < stageId,
                         levelUp,
                         newLevel,
-                        correctAnswer,
+                        correctAnswers,
                       });
                     }
                   }
@@ -230,7 +233,7 @@ app.post("/submit-answer", (req, res) => {
               }
             );
           } else {
-            res.json({ correct: false, correctAnswer });
+            res.json({ correct: false, correctAnswers });
           }
         } else {
           res.status(404).json({ error: "Quiz not found" });
