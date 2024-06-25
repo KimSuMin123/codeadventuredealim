@@ -38,7 +38,7 @@ function MyPage(props) {
         <UserInfoItem>HTML 단계: {userInfo.htmlst}</UserInfoItem>
         <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
         <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
-        <img src="https://drive.google.com/file/d/1oE5e7Ie1zW1IQdIlme6PdW5I_L3zNxJu/view?usp=drive_link.png"></img>
+        <img src="https://mblogthumb-phinf.pstatic.net/MjAyMjA3MjdfMjI0/MDAxNjU4ODczMDQwMTc5.rEsO0JVDYyXyT3zkNBjOYPX-uqDBbMBDqBn2mM9z0qEg.gmVbFzcpMd0ta-OT1AaQUqqVv5tgh_zKceK7unMC830g.JPEG.eye_mong85/%EC%9D%B4%EB%AF%B8%EC%A7%80_008.jpg?type=w400"></img>
       </UserInfoContainer>
       <Button onClick={() => props.setMode("LANGUAGE")}>
         메인으로 돌아가기
