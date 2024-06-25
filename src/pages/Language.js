@@ -16,7 +16,7 @@ import {
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";
 import devil from "../img/devil.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; //enen
 
 function Language({ setMode, setSelectedLanguage }) {
   const [userInfo, setUserInfo] = useState({
