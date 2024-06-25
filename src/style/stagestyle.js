@@ -5,7 +5,7 @@ export const Background = styled.div`
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,12 +15,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); /* Semi-transparent white background */
+  background-color: rgba(255, 255, 255, 0.5); /* 반투명 흰색 배경 */
   padding: 20px 220px;
 `;
 
@@ -50,20 +45,13 @@ export const StageButton = styled.button`
   width: 60px; /* Adjust the width to make it a perfect circle */
   height: 60px; /* Adjust the height to make it a perfect circle */
   border: none;
-  border-radius: 50%; /* This makes the button round */
+  border-radius: 30%; /* This makes the button round */
   cursor: pointer;
   color: white;
-  background-color: ${({ completed }) => (completed ? "GOLD" : "transparent")};
-  background-image: ${({ completed }) =>
-    completed
-      ? "none"
-      : "url(https://drive.google.com/file/d/1BHOyhXXTiazuq4gziGLS1_Y6eBExkAGe/view?usp=drive_link)"};
-  background-size: cover;
-  background-position: center;
+  background-color: ${({ completed }) => (completed ? "GOLD" : "SILVER")};
   &:disabled {
     cursor: not-allowed;
     background-color: gray;
-    background-image: none;
   }
 `;
 
