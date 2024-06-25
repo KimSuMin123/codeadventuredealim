@@ -25,7 +25,7 @@ function LangStart() {
         console.error("Error fetching message:", error);
         setError("Error loading messages");
       });
-  }, [lan, history]);
+  }, [lan]);
 
   return (
     <div className="lang-start">
