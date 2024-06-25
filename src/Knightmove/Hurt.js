@@ -10,7 +10,7 @@ const HurtAnimation = keyframes`
   }
   100% { 
     background-image: url(${img0});
-    transform: rotate(-30deg);
+    transform: rotate(0deg);
   }
 `;
 
