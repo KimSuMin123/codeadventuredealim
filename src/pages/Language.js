@@ -12,12 +12,11 @@ import {
   StatusItem,
   CoinImage,
   StatusText,
-  AdContainer,
   DevilImage,
 } from "../style/LanguageStyle";
 import coin from "../img/coin.png";
 import devil from "../img/devil.png";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Language({ setMode, setSelectedLanguage }) {
   const [userInfo, setUserInfo] = useState({
@@ -26,7 +25,7 @@ function Language({ setMode, setSelectedLanguage }) {
     experience: 0,
     nextLevelExp: 200,
   });
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/userinfo")
@@ -53,7 +52,7 @@ function Language({ setMode, setSelectedLanguage }) {
       .then((data) => {
         setSelectedLanguage(language);
         if (data.startPage) {
-          setMode(`${language}START`);
+          history.push(`/langstart/${language}`);
         } else {
           setMode("STAGE");
         }
