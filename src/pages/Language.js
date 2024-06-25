@@ -53,7 +53,7 @@ function Language({ setMode, setSelectedLanguage }) {
       .then((data) => {
         setSelectedLanguage(language);
         if (data.startPage) {
-          history.push(`/langstart/${language}`);
+          setMode(`${language}START`);
         } else {
           setMode("STAGE");
         }

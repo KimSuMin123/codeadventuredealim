@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-function Cstart() {
+function CssStart() {
   const [messages, setMessages] = useState({});
   const [error, setError] = useState(null);
   const { lan } = useParams();
@@ -56,4 +56,4 @@ function Cstart() {
   );
 }
 
-export default Cstart;
+export default CssStart;
