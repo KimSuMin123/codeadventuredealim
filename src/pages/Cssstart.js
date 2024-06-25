@@ -12,7 +12,7 @@ function CssStart() {
       return;
     }
 
-    fetch(`/get_message?lan=C`)
+    fetch(`/get_message?lan=${lan}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -38,19 +38,9 @@ function CssStart() {
       </div>
       <div className="dialogue-box">
         {error && <p>{error}</p>}
-        {messages && Object.keys(messages).length > 0 ? (
-          <>
-            {messages.Text && <p>{messages.Text}</p>}
-            {messages.Text2 && <p>{messages.Text2}</p>}
-            {messages.Text3 && <p>{messages.Text3}</p>}
-            {messages.Text4 && <p>{messages.Text4}</p>}
-            {messages.Text5 && <p>{messages.Text5}</p>}
-            {messages.Text6 && <p>{messages.Text6}</p>}
-            {messages.Text2tablecol && <p>{messages.Text2tablecol}</p>}
-          </>
-        ) : (
-          !error && <p>Loading messages...</p>
-        )}
+        {!error && messages && Object.keys(messages).length > 0
+          ? Object.keys(messages).map((key) => <p key={key}>{messages[key]}</p>)
+          : !error && <p>Loading messages...</p>}
       </div>
     </div>
   );
