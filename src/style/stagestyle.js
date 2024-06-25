@@ -17,6 +17,7 @@ export const Container = styled.div`
   align-items: center;
   background-color: rgba(255, 255, 255, 0.5); /* 반투명 흰색 배경 */
   padding: 20px 220px;
+  height: 100vh;
 `;
 
 export const Title = styled.h2`
