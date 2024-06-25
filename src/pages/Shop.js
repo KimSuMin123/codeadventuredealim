@@ -51,7 +51,6 @@ function Shop({ setMode }) {
       <ProductTable>
         <TableHeader>
           <tr>
-            <th>사진</th>
             <th>이름</th>
             <th>가격</th>
             <th>물품명</th>
@@ -61,9 +60,6 @@ function Shop({ setMode }) {
         <tbody>
           {products.map((product) => (
             <TableRow key={product.id}>
-              <td>
-                <img src={product.productimg} alt={product.productname} />
-              </td>
               <td>{product.productname}</td>
               <td>{product.productprice}</td>
               <td>{product.productamount}</td>
