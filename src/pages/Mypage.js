@@ -38,6 +38,7 @@ function MyPage(props) {
         <UserInfoItem>HTML 단계: {userInfo.htmlst}</UserInfoItem>
         <UserInfoItem>CSS 단계: {userInfo.cssst}</UserInfoItem>
         <UserInfoItem>JS 단계: {userInfo.jsst}</UserInfoItem>
+        <img src="https://postfiles.pstatic.net/MjAyNDA2MjVfMTQw/MDAxNzE5Mjk2MjUzMTEz.ORhdpPv5VpGy9dWYP36xIldViCaoHILcQnYFf3XDFB0g.W-2imgaDPXyMYi9bsTAi9pbTwRHuqwJWxV_leoid4uUg.PNG/volcanomonster18.png?type=w773"></img>
       </UserInfoContainer>
       <Button onClick={() => props.setMode("LANGUAGE")}>
         메인으로 돌아가기
