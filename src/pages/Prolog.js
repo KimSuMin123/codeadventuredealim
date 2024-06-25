@@ -65,7 +65,6 @@ const Line = styled.div`
   opacity: ${({ fadeOut }) => (fadeOut ? 0 : 1)};
   transition: opacity 1s ease-in-out;
   margin: 5px 0;
-  font-size: 2rem; /* 글자 크기 4배로 */
 `;
 
 const Prolog = () => {
