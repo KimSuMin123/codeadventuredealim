@@ -10,12 +10,6 @@ import Shop from "./pages/Shop";
 import Manager from "./pages/Manager";
 import MyPage from "./pages/Mypage";
 import Prolog from "./pages/Prolog";
-import CssStart from "./pages/cssst/CssStart";
-import CStart from "./pages/cst/CStart";
-import JavaStart from "./pages/javast/JavaStart";
-import JsStart from "./pages/jsst/JsStart";
-import PythonStart from "./pages/pythonst/PythonStart";
-import HtmlStart from "./pages/htmlst/HtmrStart";
 
 function App() {
   const [mode, setMode] = useState("START");
@@ -75,18 +69,6 @@ function App() {
     content = <Manager setMode={setMode}></Manager>;
   } else if (mode === "PROLOG") {
     content = <Prolog setMode={setMode}></Prolog>;
-  } else if (mode === "CSTART") {
-    content = <CStart setMode={setMode}></CStart>;
-  } else if (mode === "CSSSTART") {
-    content = <CssStart setMode={setMode}></CssStart>;
-  } else if (mode === "JAVASTART") {
-    content = <JavaStart setMode={setMode}></JavaStart>;
-  } else if (mode === "JSSTART") {
-    content = <JsStart setMode={setMode}></JsStart>;
-  } else if (mode === "PYTHONSTART") {
-    content = <PythonStart setMode={setMode}></PythonStart>;
-  } else if (mode === "HTMLSTART") {
-    content = <HtmlStart setMode={setMode}></HtmlStart>;
   }
   return (
     <>
