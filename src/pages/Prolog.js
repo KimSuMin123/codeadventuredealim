@@ -83,10 +83,9 @@ const Button = styled.button`
   }
 `;
 
-const Prolog = () => {
+const Prolog = ({ setMode }) => {
   const [lines, setLines] = useState([]);
   const [showAll, setShowAll] = useState(false);
-  const [mode, setMode] = useState(null);
 
   const fullText = [
     "어느날 세상의 균형을 유지하던 수호석이 마왕들의 공격에 의해 6개로 부서지고",
