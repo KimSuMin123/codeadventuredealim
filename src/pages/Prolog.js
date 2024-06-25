@@ -1,9 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import background from "../img/background.png"; // 배경 이미지 경로를 확인하세요
+
+const fadeInUp = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const StartContainer = styled.div`
+  background: url(${background}) no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* 어둡게 처리 */
+    z-index: 0;
+  }
+`;
+
+const TextContainer = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  animation: ${fadeInUp} 3s ease-in-out;
+  text-align: center;
+  h1 {
+    margin: 0;
+    line-height: 1.5;
+  }
+`;
 
 const Prolog = () => {
   return (
-    <div>
-      <StartContainer background={background}>
+    <StartContainer>
+      <TextContainer>
         <h1>
           평화로운 어느날, 세상의 균형을 유지하던 수호석이 마왕들의 공격으로
           인해 여섯 조각으로 부서지고, 전 세계는 순식간에 혼란에 휩싸이게 된다.
@@ -23,8 +71,8 @@ const Prolog = () => {
           물리쳐야하는 사명감이 생긴것이다!! 주인공은 지금 세계를 구하기위해
           떠난다....
         </h1>
-      </StartContainer>
-    </div>
+      </TextContainer>
+    </StartContainer>
   );
 };
 
