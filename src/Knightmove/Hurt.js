@@ -15,7 +15,7 @@ const HurtAnimation = keyframes`
 const AnimatedDiv = styled.div`
   width: 300px;
   height: 300px;
-  animation: ${HurtAnimation} 2s steps(7) forwards;
+  animation: ${HurtAnimation} 2s steps(1) forwards;
   background-size: cover;
   img {
     width: 100%;
