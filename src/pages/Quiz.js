@@ -29,20 +29,14 @@ import Hurt from "../Knightmove/Hurt";
 import Attack from "../Knightmove/Attack";
 import Dead from "../Knightmove/Dead";
 import devil from "../img/devil.png";
-import coin from "../img/coin.png"; // import coin image
+import coin from "../img/coin.png";
+
+const API_URL = "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app";
 
 function Quiz({ stageId, setMode, selectedLanguage }) {
   const [quiz, setQuiz] = useState(null);
-  const [answers, setAnswers] = useState({
-    answer1: "",
-    answer2: "",
-    answer3: "",
-  });
-  const [correctAnswers, setCorrectAnswers] = useState({
-    answer1: false,
-    answer2: false,
-    answer3: false,
-  });
+  const [answers, setAnswers] = useState({ answer1: "", answer2: "", answer3: "" });
+  const [correctAnswers, setCorrectAnswers] = useState({ answer1: false, answer2: false, answer3: false });
   const [nextStageId, setNextStageId] = useState(stageId);
   const [levelUp, setLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(1);
@@ -62,9 +56,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const fetchQuiz = async (stageId, language) => {
     try {
-      const res = await fetch(
-        `https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/quiz/${stageId}?language=${language}`
-      );
+      const res = await fetch(`${API_URL}/quiz/${stageId}?language=${language}`);
       const data = await res.json();
       setQuiz(data);
       resetState(data.cleared || false);
@@ -99,19 +91,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handleSubmitAnswer = async (answerKey) => {
     try {
-      const res = await fetch(
-        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/submit-answer",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            stageId: nextStageId,
-            answer: answers[answerKey],
-            answerKey,
-            language: selectedLanguage,
-          }),
-        }
-      );
+      const res = await fetch(`${API_URL}/submit-answer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          answer: answers[answerKey],
+          answerKey,
+          language: selectedLanguage,
+        }),
+      });
       const data = await res.json();
       handleAnswerResponse(data, answerKey);
     } catch (error) {
@@ -129,14 +118,12 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handleCorrectAnswer = (answerKey, data) => {
     setCorrectAnswers((prev) => ({ ...prev, [answerKey]: true }));
-    setCharacterState("attack");
-    setTimeout(() => setCharacterState("idle"), 1000);
+    triggerCharacterState("attack");
 
     setMonsterLives((prevLives) => {
       const updatedLives = prevLives - 1;
       if (updatedLives > 0) {
-        setMonsterState("hurt");
-        setTimeout(() => setMonsterState("idle"), 1000);
+        triggerMonsterState("hurt");
       } else {
         setMonsterState("dead");
         handleLevelCompletion(data);
@@ -159,9 +146,8 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
   };
 
   const handleIncorrectAnswer = () => {
-    setCharacterState("hurt");
-    setMonsterState("attack");
-    setTimeout(() => setCharacterState("idle"), 1000);
+    triggerCharacterState("hurt");
+    triggerMonsterState("attack");
 
     setPlayerLives((prevLives) => {
       const updatedLives = prevLives - 1;
@@ -182,17 +168,14 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const handlePurchaseHint = async () => {
     try {
-      const res = await fetch(
-        "https://port-0-codeadventuredealim-1lxb7tkdw.sel5.cloudtype.app/purchase-hint",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            stageId: nextStageId,
-            language: selectedLanguage,
-          }),
-        }
-      );
+      const res = await fetch(`${API_URL}/purchase-hint`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stageId: nextStageId,
+          language: selectedLanguage,
+        }),
+      });
       const data = await res.json();
       if (data.success) {
         setHint(data.hint);
@@ -213,6 +196,16 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
     </LifeContainer>
   );
 
+  const triggerCharacterState = (state) => {
+    setCharacterState(state);
+    setTimeout(() => setCharacterState("idle"), 1000);
+  };
+
+  const triggerMonsterState = (state) => {
+    setMonsterState(state);
+    setTimeout(() => setMonsterState("idle"), 1000);
+  };
+
   const renderCharacterImage = () => {
     switch (characterState) {
       case "attack":
@@ -228,7 +221,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
 
   const renderMonsterImage = () => {
     if (monsterState === "dead") {
-      return <img src={coin} alt="Coin" />; // Show coin image when monster is dead
+      return <img src={coin} alt="Coin" />;
     }
 
     let rotation = 0;
@@ -258,9 +251,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         <LeftContainer>
           <Title style={{ display: "flex", alignItems: "center" }}>
             <img src={devil} alt="Devil" style={{ width: 100, height: 100 }} />{" "}
-            <Explanation style={{ marginLeft: 10 }}>
-              {quiz.explanation}
-            </Explanation>
+            <Explanation style={{ marginLeft: 10 }}>{quiz.explanation}</Explanation>
           </Title>
           <Question>
             <CodeBlock text={quiz.question} />
@@ -276,14 +267,9 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
                 <Input
                   type="text"
                   value={answers[key]}
-                  onChange={(e) =>
-                    setAnswers({ ...answers, [key]: e.target.value })
-                  }
+                  onChange={(e) => setAnswers({ ...answers, [key]: e.target.value })}
                 />
-                <Button
-                  onClick={() => handleSubmitAnswer(key)}
-                  disabled={correctAnswers[key]}
-                >
+                <Button onClick={() => handleSubmitAnswer(key)} disabled={correctAnswers[key]}>
                   {correctAnswers[key] ? "정답" : "제출"}
                 </Button>
               </div>
@@ -293,12 +279,8 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         </LeftContainer>
         <RightContainer>
           <BottomContainer style={{ justifyContent: "space-between" }}>
-            <Player style={{ alignSelf: "flex-end" }}>
-              {renderCharacterImage()}
-            </Player>
-            <Monster style={{ alignSelf: "flex-start" }}>
-              {renderMonsterImage()}
-            </Monster>
+            <Player style={{ alignSelf: "flex-end" }}>{renderCharacterImage()}</Player>
+            <Monster style={{ alignSelf: "flex-start" }}>{renderMonsterImage()}</Monster>
           </BottomContainer>
           <BottomContainer>
             <div>플레이어 생명: {renderLives(playerLives)}</div>
@@ -307,16 +289,9 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         </RightContainer>
         <Spacer />
       </SideContainer>
-      <LevelUpModal
-        isOpen={levelUp}
-        onClose={() => setLevelUp(false)}
-        newLevel={newLevel}
-      />
+      <LevelUpModal isOpen={levelUp} onClose={() => setLevelUp(false)} newLevel={newLevel} />
       {!levelCleared && (
-        <SuccessModal
-          isOpen={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-        />
+        <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
       )}
       <FailureModal
         isOpen={showFailureModal}
