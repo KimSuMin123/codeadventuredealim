@@ -257,7 +257,7 @@ function Quiz({ stageId, setMode, selectedLanguage }) {
         <Spacer />
         <LeftContainer>
           <Title>
-            <img src={devil} alt="Devil" style={{ width: 30, height: 30 }} />{" "}
+            <img src={devil} alt="Devil" style={{ width: 75, height: 75 }} />{" "}
             {/* Set devil image size */}
           </Title>
           <Explanation>{quiz.explanation}</Explanation>
