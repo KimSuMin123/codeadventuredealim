@@ -69,9 +69,10 @@ function LangStart({ setMode }) {
     if (selectedLanguage) {
       import(`../img/${selectedLanguage}background.png`)
         .then((image) => setBackgroundImage(image.default))
-        .catch((error) =>
-          console.error("Error loading background image:", error)
-        );
+        .catch((error) => {
+          console.error("Error loading background image:", error);
+          setBackgroundImage(""); // or a default background image path
+        });
     }
   }, [selectedLanguage]);
 
@@ -104,9 +105,6 @@ function LangStart({ setMode }) {
         <CharacterImage src={valla} alt="Valla" />
         <CharacterImage src={devil} alt="Devil" />
       </CharacterContainer>
-      <StageButton onClick={() => setMode("LANGUAGE")}>
-        Go to {selectedLanguage} Stage
-      </StageButton>
       <DialogueBox>
         <p>소피아: 여긴 정말 깊고 어두워...</p>
         <p>그레모리: 물속에는 예상치 못한 몬스터가 숨어있을 거야, 조심해.</p>
@@ -115,6 +113,7 @@ function LangStart({ setMode }) {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
+      <StageButton onClick={handleStageNavigation}>Start Stage</StageButton>
     </LangStartContainer>
   );
 }

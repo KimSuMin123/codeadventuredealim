@@ -9,14 +9,17 @@ import {
 function FailureModal({ isOpen, onClose, onPurchaseHint, setMode }) {
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handlePurchaseHint = () => {
-    onPurchaseHint().then((result) => {
+  const handlePurchaseHint = async () => {
+    try {
+      const result = await onPurchaseHint();
       if (result.success) {
         setSuccessMessage("힌트 구매 성공!");
       } else {
         setSuccessMessage(result.message);
       }
-    });
+    } catch (error) {
+      setSuccessMessage("힌트 구매에 실패했습니다.");
+    }
   };
 
   if (!isOpen) return null;
@@ -31,8 +34,7 @@ function FailureModal({ isOpen, onClose, onPurchaseHint, setMode }) {
         <ModalButton onClick={handlePurchaseHint}>
           힌트 구매 (300 코인)
         </ModalButton>
-        <ModalButton onClick={() => setMode("LANGUAGE")}>뒤로가기</ModalButton>
-        <ModalButton onClick={onClose}>닫기</ModalButton>
+        <ModalButton onClick={() => setMode("LANGUAGE")}>닫기</ModalButton>
       </ModalContent>
     </ModalOverlay>
   );
