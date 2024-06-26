@@ -7,6 +7,9 @@ import quizBackground from "../img/quiz.jpg";
 const LangStartContainer = styled.div`
   width: 100%;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background: ${(props) =>
     `url(${props.backgroundImage}) no-repeat center center`};
   background-size: cover;
@@ -15,6 +18,7 @@ const LangStartContainer = styled.div`
 const CharacterContainer = styled.div`
   display: flex;
   justify-content: space-around;
+  margin-top: 70px;
 `;
 
 const CharacterImage = styled.img`
@@ -33,6 +37,8 @@ const DialogueBox = styled.div`
   padding: 20px;
   box-sizing: border-box;
   color: white;
+  position: absolute;
+  bottom: 0;
 `;
 
 function LangStart() {
