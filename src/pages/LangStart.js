@@ -62,7 +62,8 @@ const StageButton = styled.button`
 
 function LangStart({ setMode }) {
   const [backgroundImage, setBackgroundImage] = useState("");
-  const selectedLanguage = localStorage.getItem("selectedLanguage");
+  const selectedLanguage =
+    localStorage.getItem("selectedLanguage") || "default";
 
   useEffect(() => {
     if (selectedLanguage) {
@@ -75,17 +76,25 @@ function LangStart({ setMode }) {
   }, [selectedLanguage]);
 
   const handleStageNavigation = () => {
-    console.log("Selected Language:", selectedLanguage); // Debug log
+    console.log("Selected Language:", selectedLanguage);
     if (selectedLanguage) {
       fetch(
         `https://www.codeadventure.shop/stages?language=${selectedLanguage}`
       )
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((data) => {
-          console.log("Fetched stages:", data); // Debug log to verify the data
+          console.log("Fetched stages:", data);
           setMode(`${selectedLanguage}Stage`);
         })
-        .catch((error) => console.error("Error fetching stages:", error));
+        .catch((error) => {
+          console.error("Error fetching stages:", error);
+          alert("Failed to load stages. Please try again later.");
+        });
     }
   };
 
@@ -106,7 +115,9 @@ function LangStart({ setMode }) {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
-      <ModalButton onClick={handleStageNavigation}>전투하러가기</ModalButton>
+      <ModalButton onClick={() => setMode("LANGUAGE")}>
+        전투하러가기
+      </ModalButton>
     </LangStartContainer>
   );
 }
