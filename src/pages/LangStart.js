@@ -76,8 +76,19 @@ function LangStart({ setMode }) {
 
   const handleStageNavigation = () => {
     const selectedLanguage = localStorage.getItem("selectedLanguage");
-    console.log("Navigating to stage for language:", selectedLanguage); // Debug log
-    setMode(`${selectedLanguage}Stage`);
+    if (selectedLanguage) {
+      fetch(
+        `https://www.codeadventure.shop/stages?language=${selectedLanguage}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched stages:", data); // Debug log to verify the data
+          // Assuming you want to store the stages data in some state or context
+          // setStages(data); // Uncomment if you have a setStages function
+          setMode(`${selectedLanguage}Stage`);
+        })
+        .catch((error) => console.error("Error fetching stages:", error));
+    }
   };
 
   return (
