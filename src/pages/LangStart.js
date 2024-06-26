@@ -62,9 +62,9 @@ const StageButton = styled.button`
 
 function LangStart({ setMode }) {
   const [backgroundImage, setBackgroundImage] = useState("");
+  const selectedLanguage = localStorage.getItem("selectedLanguage");
 
   useEffect(() => {
-    const selectedLanguage = localStorage.getItem("selectedLanguage");
     if (selectedLanguage) {
       import(`../img/${selectedLanguage}background.png`)
         .then((image) => setBackgroundImage(image.default))
@@ -72,10 +72,10 @@ function LangStart({ setMode }) {
           console.error("Error loading background image:", error)
         );
     }
-  }, []);
+  }, [selectedLanguage]);
 
   const handleStageNavigation = () => {
-    const selectedLanguage = localStorage.getItem("selectedLanguage");
+    console.log("Selected Language:", selectedLanguage); // Debug log
     if (selectedLanguage) {
       fetch(
         `https://www.codeadventure.shop/stages?language=${selectedLanguage}`
@@ -83,8 +83,6 @@ function LangStart({ setMode }) {
         .then((response) => response.json())
         .then((data) => {
           console.log("Fetched stages:", data); // Debug log to verify the data
-          // Assuming you want to store the stages data in some state or context
-          // setStages(data); // Uncomment if you have a setStages function
           setMode(`${selectedLanguage}Stage`);
         })
         .catch((error) => console.error("Error fetching stages:", error));
@@ -98,7 +96,7 @@ function LangStart({ setMode }) {
         <CharacterImage src={devil} alt="Devil" />
       </CharacterContainer>
       <StageButton onClick={handleStageNavigation}>
-        Go to {localStorage.getItem("selectedLanguage")} Stage
+        Go to {selectedLanguage} Stage
       </StageButton>
       <DialogueBox>
         <p>소피아: 여긴 정말 깊고 어두워...</p>
@@ -108,7 +106,7 @@ function LangStart({ setMode }) {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
-      <ModalButton onClick={() => setMode("STAGE")}>전투하러가기</ModalButton>
+      <ModalButton onClick={handleStageNavigation}>전투하러가기</ModalButton>
     </LangStartContainer>
   );
 }
