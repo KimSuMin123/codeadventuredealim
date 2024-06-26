@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom"; // Import useHistory from react-router-dom
 import devil from "../img/devil_be.png";
 import valla from "../img/valla/valla_idle_sw/1.png";
 import quizBackground from "../img/quiz.jpg";
@@ -60,9 +59,9 @@ const StageButton = styled.button`
   }
 `;
 
-function LangStart() {
+function LangStart({ setmode }) {
+  // Assuming setmode is passed as a prop
   const [backgroundImage, setBackgroundImage] = useState("");
-  const history = useHistory(); // Use useHistory for navigation
 
   useEffect(() => {
     const selectedLanguage = localStorage.getItem("selectedLanguage");
@@ -77,7 +76,7 @@ function LangStart() {
 
   const handleStageNavigation = () => {
     const selectedLanguage = localStorage.getItem("selectedLanguage");
-    history.push(`/${selectedLanguage}Stage`);
+    setmode(`${selectedLanguage}Stage`);
   };
 
   return (
