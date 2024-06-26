@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import devil from "../img/devil.png";
 import valla from "../img/valla/valla_idle_sw/1.png";
-import quizBackground from "../img/quiz.png";
+import quizBackground from "../img/quiz.jpg";
 
 const CharacterContainer = styled.div`
   display: flex;
@@ -11,15 +11,15 @@ const CharacterContainer = styled.div`
 `;
 
 const CharacterImage = styled.img`
-  width: 200px;
-  height: 300px;
+  width: 250px;
+  height: 400px;
 `;
 
 const DialogueBox = styled.div`
   background: url(${quizBackground}) no-repeat center center;
   background-size: cover;
   width: 100%;
-  height: 200px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
