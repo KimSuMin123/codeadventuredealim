@@ -15,7 +15,6 @@ const LangStartContainer = styled.div`
 const CharacterContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 70px;
 `;
 
 const CharacterImage = styled.img`
@@ -27,7 +26,7 @@ const DialogueBox = styled.div`
   background: url(${quizBackground}) no-repeat center center;
   background-size: cover;
   width: 100%;
-  height: 250px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
