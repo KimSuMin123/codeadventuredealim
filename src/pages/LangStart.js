@@ -3,6 +3,7 @@ import styled from "styled-components";
 import devil from "../img/devil_be.png";
 import valla from "../img/valla/valla_idle_sw/1.png";
 import quizBackground from "../img/quiz.jpg";
+import { ModalButton } from "../style/quizstyle";
 
 const LangStartContainer = styled.div`
   width: 100%;
@@ -13,7 +14,7 @@ const LangStartContainer = styled.div`
   background: ${(props) =>
     `url(${props.backgroundImage}) no-repeat center center`};
   background-size: cover;
-  position: relative; /* Ensure positioning context for children */
+  position: relative;
 `;
 
 const CharacterContainer = styled.div`
@@ -44,7 +45,7 @@ const DialogueBox = styled.div`
 
 const StageButton = styled.button`
   position: absolute;
-  bottom: 320px; /* Adjust as necessary */
+  bottom: 320px;
   left: 50%;
   transform: translateX(-50%);
   padding: 10px 20px;
@@ -60,7 +61,6 @@ const StageButton = styled.button`
 `;
 
 function LangStart({ setmode }) {
-  // Assuming setmode is passed as a prop
   const [backgroundImage, setBackgroundImage] = useState("");
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function LangStart({ setmode }) {
   return (
     <LangStartContainer backgroundImage={backgroundImage}>
       <CharacterContainer>
-        <CharacterImage src={valla} alt="valla" />
+        <CharacterImage src={valla} alt="Valla" />
         <CharacterImage src={devil} alt="Devil" />
       </CharacterContainer>
       <StageButton onClick={handleStageNavigation}>
@@ -96,6 +96,7 @@ function LangStart({ setmode }) {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
+      <ModalButton onClick={() => setmode("STAGE")}>전투하러가기</ModalButton>
     </LangStartContainer>
   );
 }
