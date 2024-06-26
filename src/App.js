@@ -72,7 +72,7 @@ function App() {
     content = <Manager setMode={setMode}></Manager>;
   } else if (mode === "PROLOG") {
     content = <Prolog setMode={setMode}></Prolog>;
-  } else if (mode === "LANGSTARAT") {
+  } else if (mode === "LANGSTART") {
     content = <LangStart setMode={setMode}></LangStart>;
   }
   return (
