@@ -12,7 +12,7 @@ const CharacterContainer = styled.div`
 
 const CharacterImage = styled.img`
   width: 250px;
-  height: 400px;
+  height: 300px;
 `;
 
 const DialogueBox = styled.div`
