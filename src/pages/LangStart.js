@@ -60,7 +60,7 @@ const StageButton = styled.button`
   }
 `;
 
-function LangStart({ setmode }) {
+function LangStart({ setMode }) {
   const [backgroundImage, setBackgroundImage] = useState("");
 
   useEffect(() => {
@@ -76,7 +76,8 @@ function LangStart({ setmode }) {
 
   const handleStageNavigation = () => {
     const selectedLanguage = localStorage.getItem("selectedLanguage");
-    setmode(`${selectedLanguage}Stage`);
+    console.log("Navigating to stage for language:", selectedLanguage); // Debug log
+    setMode(`${selectedLanguage}Stage`);
   };
 
   return (
@@ -96,7 +97,7 @@ function LangStart({ setmode }) {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
-      <ModalButton onClick={() => setmode("STAGE")}>전투하러가기</ModalButton>
+      <ModalButton onClick={() => setMode("STAGE")}>전투하러가기</ModalButton>
     </LangStartContainer>
   );
 }
