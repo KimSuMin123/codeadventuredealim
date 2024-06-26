@@ -104,7 +104,7 @@ function LangStart({ setMode }) {
         <CharacterImage src={valla} alt="Valla" />
         <CharacterImage src={devil} alt="Devil" />
       </CharacterContainer>
-      <StageButton onClick={handleStageNavigation}>
+      <StageButton onClick={() => setMode("LANGUAGE")}>
         Go to {selectedLanguage} Stage
       </StageButton>
       <DialogueBox>
@@ -115,9 +115,6 @@ function LangStart({ setMode }) {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
-      <ModalButton onClick={() => setMode("LANGUAGE")}>
-        전투하러가기
-      </ModalButton>
     </LangStartContainer>
   );
 }
