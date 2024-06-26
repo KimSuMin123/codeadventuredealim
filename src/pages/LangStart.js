@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom"; // Import useHistory from react-router-dom
 import devil from "../img/devil_be.png";
 import valla from "../img/valla/valla_idle_sw/1.png";
 import quizBackground from "../img/quiz.jpg";
@@ -13,6 +14,7 @@ const LangStartContainer = styled.div`
   background: ${(props) =>
     `url(${props.backgroundImage}) no-repeat center center`};
   background-size: cover;
+  position: relative; /* Ensure positioning context for children */
 `;
 
 const CharacterContainer = styled.div`
@@ -36,13 +38,31 @@ const DialogueBox = styled.div`
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
-  color: white;
+  color: black;
   position: absolute;
   bottom: 0;
 `;
 
+const StageButton = styled.button`
+  position: absolute;
+  bottom: 320px; /* Adjust as necessary */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background-color: #45a049;
+  }
+`;
+
 function LangStart() {
   const [backgroundImage, setBackgroundImage] = useState("");
+  const history = useHistory(); // Use useHistory for navigation
 
   useEffect(() => {
     const selectedLanguage = localStorage.getItem("selectedLanguage");
@@ -55,12 +75,20 @@ function LangStart() {
     }
   }, []);
 
+  const handleStageNavigation = () => {
+    const selectedLanguage = localStorage.getItem("selectedLanguage");
+    history.push(`/${selectedLanguage}Stage`);
+  };
+
   return (
     <LangStartContainer backgroundImage={backgroundImage}>
       <CharacterContainer>
         <CharacterImage src={valla} alt="valla" />
         <CharacterImage src={devil} alt="Devil" />
       </CharacterContainer>
+      <StageButton onClick={handleStageNavigation}>
+        Go to {localStorage.getItem("selectedLanguage")} Stage
+      </StageButton>
       <DialogueBox>
         <p>소피아: 여긴 정말 깊고 어두워...</p>
         <p>그레모리: 물속에는 예상치 못한 몬스터가 숨어있을 거야, 조심해.</p>
