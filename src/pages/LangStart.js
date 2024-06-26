@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import devil from "../img/devil.png";
+import devil from "../img/devil_be.png";
 import valla from "../img/valla/valla_idle_sw/1.png";
 import quizBackground from "../img/quiz.jpg";
+
+const LangStartContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  background: ${(props) =>
+    `url(${props.backgroundImage}) no-repeat center center`};
+  background-size: cover;
+`;
 
 const CharacterContainer = styled.div`
   display: flex;
@@ -19,7 +27,7 @@ const DialogueBox = styled.div`
   background: url(${quizBackground}) no-repeat center center;
   background-size: cover;
   width: 100%;
-  height: 300px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,8 +37,21 @@ const DialogueBox = styled.div`
 `;
 
 function LangStart() {
+  const [backgroundImage, setBackgroundImage] = useState("");
+
+  useEffect(() => {
+    const selectedLanguage = localStorage.getItem("selectedLanguage");
+    if (selectedLanguage) {
+      import(`../img/${selectedLanguage}background.png`)
+        .then((image) => setBackgroundImage(image.default))
+        .catch((error) =>
+          console.error("Error loading background image:", error)
+        );
+    }
+  }, []);
+
   return (
-    <div className="lang-start">
+    <LangStartContainer backgroundImage={backgroundImage}>
       <CharacterContainer>
         <CharacterImage src={valla} alt="valla" />
         <CharacterImage src={devil} alt="Devil" />
@@ -43,7 +64,7 @@ function LangStart() {
         <p>그레모리: 저기 무언가 나타났어!</p>
         <p>소피아: 전투 준비!</p>
       </DialogueBox>
-    </div>
+    </LangStartContainer>
   );
 }
 
