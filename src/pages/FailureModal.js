@@ -34,7 +34,7 @@ function FailureModal({ isOpen, onClose, onPurchaseHint, setMode }) {
         <ModalButton onClick={handlePurchaseHint}>
           힌트 구매 (300 코인)
         </ModalButton>
-        <ModalButton onClick={() => setMode("LANGUAGE")}>닫기</ModalButton>
+        <ModalButton onClick={onClose}>닫기</ModalButton>
       </ModalContent>
     </ModalOverlay>
   );
