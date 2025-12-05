@@ -69,6 +69,7 @@ function Language({ setMode, setSelectedLanguage }) {
     document.body.appendChild(script);
   }, []);
 
+  
   return (
     <Container>
       <Content>
