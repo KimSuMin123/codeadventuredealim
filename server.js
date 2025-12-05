@@ -13,7 +13,7 @@ app.use(
 
 const port = 3001;
 
-const db = require("./lib/db"); // 데이터베이스 연결
+// const db = require("./lib/db"); // 데이터베이스 연결
 const sessionOption = require("./lib/sessionOption"); // 세션 옵션
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
