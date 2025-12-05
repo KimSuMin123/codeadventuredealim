@@ -8,6 +8,8 @@
 
 ## 유튜브 링크
 https://youtu.be/nA3KwnHWKcE 
+<img width="1582" height="1255" alt="image" src="https://github.com/user-attachments/assets/40dc7a95-e03b-4b1b-998b-872b597fd86c" />
+
 
 ## 구현한 기능
 
