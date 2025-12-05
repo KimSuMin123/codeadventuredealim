@@ -6,6 +6,7 @@ import {
   ModalButton,
 } from "../style/quizstyle";
 
+
 function FailureModal({ isOpen, onClose, onPurchaseHint, setMode }) {
   const [successMessage, setSuccessMessage] = useState("");
 
