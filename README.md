@@ -6,6 +6,9 @@
 2. npm run build
 3. node server.js
 
+## 유튜브 링크
+https://youtu.be/nA3KwnHWKcE 
+
 ## 구현한 기능
 
 - 시작 페이지
